@@ -7,7 +7,7 @@ public enum ConfigProperty {
     private final String propertyName;
 
     ConfigProperty(String name) {
-        this.propertyName = AppConstants.APP_NAME + '/' + name;
+        this.propertyName = name;
     }
 
     public String getPropertyName() {
