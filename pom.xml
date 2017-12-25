@@ -15,6 +15,8 @@
 	</modules>
 
 	<properties>
+        <path.to.asadmin>/usr/local/payara-4.1.2.173/bin/asadmin</path.to.asadmin>
+
 		<javaee.api.version>7.0</javaee.api.version>
         <slf4j.version>1.7.25</slf4j.version>
 
@@ -26,6 +28,7 @@
 		<maven.ejb.plugin.version>3.0.0</maven.ejb.plugin.version>
 		<maven.surefire.plugin.version>2.20.1</maven.surefire.plugin.version>
 		<maven.war.plugin.version>3.2.0</maven.war.plugin.version>
+        <exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
 
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -115,7 +118,12 @@
 					<artifactId>maven-ejb-plugin</artifactId>
 					<version>${maven.ejb.plugin.version}</version>
 				</plugin>
-			</plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec.maven.plugin.version}</version>
+                </plugin>
+            </plugins>
 		</pluginManagement>
 	</build>
 
