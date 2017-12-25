@@ -24,7 +24,7 @@ public class ConfigService {
     private final EnumMap<ConfigProperty, String> propertyMap = new EnumMap(ConfigProperty.class);
 
     @Inject
-    EnvironmentServicesProvider environmentServicesProvider;
+    private Context namingContext;
 
     @PostConstruct
     void initConfigProperties() {
@@ -38,7 +38,6 @@ public class ConfigService {
 
     private void readConfigProperties() {
         boolean missingProperty = false;
-        Context namingContext = environmentServicesProvider.getNamingContext();
         for (ConfigProperty configProperty : ConfigProperty.values()) {
             try {
                 propertyMap.put(configProperty, (String) namingContext.lookup(configProperty.getPropertyName()));
