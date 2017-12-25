@@ -29,11 +29,16 @@
 		<maven.surefire.plugin.version>2.20.1</maven.surefire.plugin.version>
 		<maven.war.plugin.version>3.2.0</maven.war.plugin.version>
         <exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
+        <maven.jacoco.plugin.version>0.7.6.201602180812</maven.jacoco.plugin.version>
 
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.language>java</sonar.language>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 	</properties>
 
 	<dependencyManagement>
@@ -91,6 +96,24 @@
 	</dependencyManagement>
 
 	<build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${maven.jacoco.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <append>true</append>
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 		<pluginManagement>
 			<plugins>
 				<plugin>
