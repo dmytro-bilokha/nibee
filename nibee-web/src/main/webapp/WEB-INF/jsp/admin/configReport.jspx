@@ -1,0 +1,36 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    version="2.1">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+table {
+    border-collapse: collapse;
+}
+table, td, th {
+    border: 1px solid black;
+}
+</style>
+</head>
+    <body>
+        <table>
+        <caption>Application config properties</caption>
+        <tr>
+            <th>Property Name</th>
+            <th>Property Enum</th>
+            <th>Value</th>
+        </tr>
+        <c:forEach items="${configReport.elements}" var="reportElement">
+        <tr>
+            <td><c:out value="${reportElement.propertyName}"/></td>
+            <td><c:out value="${reportElement.enumName}"/></td>
+            <td><c:out value="${reportElement.value}"/></td>
+        </tr>
+        </c:forEach>
+        </table>
+    </body>
+</html>
+</jsp:root>

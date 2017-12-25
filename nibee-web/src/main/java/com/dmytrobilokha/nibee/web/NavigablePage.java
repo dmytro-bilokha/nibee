@@ -7,7 +7,9 @@ import java.io.IOException;
 
 public enum NavigablePage {
 
-    INFO("info.jspx");
+    INFO("info.jspx")
+    , CONFIG_REPORT("admin/configReport.jspx")
+    ;
 
     private final String location;
 

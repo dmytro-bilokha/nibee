@@ -1,4 +1,6 @@
-package com.dmytrobilokha.nibee.ejb;
+package com.dmytrobilokha.nibee.ejb.config;
+
+import com.dmytrobilokha.nibee.ejb.AppConstants;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
