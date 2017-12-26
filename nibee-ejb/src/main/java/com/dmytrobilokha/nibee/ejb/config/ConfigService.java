@@ -34,7 +34,7 @@ public class ConfigService {
         readConfigProperties();
     }
 
-    @Schedule(minute = "*/1", hour = "*", persistent = false)
+    @Schedule(minute = "*/5", hour = "*", persistent = false)
     void updateConfigProperties() {
         readConfigProperties();
     }
