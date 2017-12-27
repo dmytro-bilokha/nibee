@@ -25,9 +25,16 @@ public class ConfigService {
     private static final String PROPERTIES_JNDI_NAME = AppConstants.APP_NAME + "/properties";
 
     private final EnumMap<ConfigProperty, String> propertyMap = new EnumMap(ConfigProperty.class);
+    private Context namingContext;
+
+    public ConfigService() {
+        //Required by EJB spec
+    }
 
     @Inject
-    private Context namingContext;
+    public ConfigService(Context namingContext) {
+        this.namingContext = namingContext;
+    }
 
     @PostConstruct
     void initConfigProperties() {
