@@ -15,10 +15,14 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/admin/configreport")
 public class ConfigReportServlet extends HttpServlet {
 
+    private final ConfigService configService;
+    private final ConfigReport configReport;
+
     @Inject
-    private ConfigService configService;
-    @Inject
-    private ConfigReport configReport;
+    public ConfigReportServlet(ConfigService configService, ConfigReport configReport) {
+        this.configService = configService;
+        this.configReport = configReport;
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
