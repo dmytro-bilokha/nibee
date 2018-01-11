@@ -9,6 +9,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+        <module>nibee-dao</module>
 		<module>nibee-ejb</module>
 		<module>nibee-web</module>
 		<module>nibee-ear</module>
@@ -16,6 +17,9 @@
 
 	<properties>
         <path.to.asadmin>/usr/local/payara-4.1.2.173/bin/asadmin</path.to.asadmin>
+
+		<mybatis.version>3.4.5</mybatis.version>
+        <mybatis-cdi.version>1.0.2</mybatis-cdi.version>
 
 		<javaee.api.version>7.0</javaee.api.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -48,6 +52,13 @@
 
 			<dependency>
 				<groupId>com.dmytrobilokha</groupId>
+				<artifactId>nibee-dao</artifactId>
+				<version>${project.version}</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<groupId>com.dmytrobilokha</groupId>
 				<artifactId>nibee-ejb</artifactId>
 				<version>${project.version}</version>
 				<type>ejb</type>
@@ -61,6 +72,18 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-cdi</artifactId>
+                <version>${mybatis-cdi.version}</version>
+            </dependency>
+
+            <dependency>
 				<groupId>javax</groupId>
 				<artifactId>javaee-api</artifactId>
 				<version>${javaee.api.version}</version>

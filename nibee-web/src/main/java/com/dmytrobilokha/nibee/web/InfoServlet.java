@@ -1,7 +1,9 @@
 package com.dmytrobilokha.nibee.web;
 
+import com.dmytrobilokha.nibee.ejb.PostService;
 import com.dmytrobilokha.nibee.ejb.config.ConfigProperty;
 import com.dmytrobilokha.nibee.ejb.config.ConfigService;
+import com.dmytrobilokha.nibee.ejb.post.PostServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +22,13 @@ public class InfoServlet extends HttpServlet {
 
     @Inject
     private ConfigService configService;
+    @Inject
+    private PostService postService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOGGER.info("InfoServlet doGet called");
+        LOGGER.info("List of posts: {}", postService.getNames());
         req.setAttribute("propertyName", ConfigProperty.POSTS_ROOT.getPropertyName());
         req.setAttribute("propertyEnum", ConfigProperty.POSTS_ROOT.name());
         req.setAttribute("propertyValue", configService.getAsString(ConfigProperty.POSTS_ROOT));

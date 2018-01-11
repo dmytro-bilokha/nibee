@@ -1,0 +1,26 @@
+CREATE TABLE post
+( id BIGINT NOT NULL AUTO_INCREMENT
+, name VARCHAR(120) NOT NULL
+, path VARCHAR(512) NOT NULL
+, created_on DATETIME DEFAULT CURRENT_TIMESTAMP
+, modified_on DATETIME DEFAULT NULL
+, CONSTRAINT post_pk PRIMARY KEY (id)
+, CONSTRAINT post_path_uq UNIQUE (path)
+, CONSTRAINT post_name_uq UNIQUE INDEX post_name_idx (name)
+);
+
+CREATE TABLE tag
+( id BIGINT NOT NULL AUTO_INCREMENT
+, name VARCHAR(64) NOT NULL
+);
+
+ALTER TABLE tag ADD CONSTRAINT tag_pk PRIMARY KEY (id);
+ALTER TABLE tag ADD CONSTRAINT tag_name_uq UNIQUE INDEX tag_name_idx (name);
+
+CREATE TABLE post_tag
+( post_id BIGINT NOT NULL
+, tag_id BIGINT NOT NULL
+);
+
+ALTER TABLE post_tag ADD CONSTRAINT post_tag_pk PRIMARY KEY (post_id, tag_id);
+
