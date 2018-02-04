@@ -8,8 +8,7 @@
     <environments default="development">
         <environment id="development">
             <transactionManager type="MANAGED">
-                <property name="closeConnection" value="false" />
-        </transactionManager>
+            </transactionManager>
             <dataSource type="JNDI">
                 <property name="data_source" value="jdbc/nibeeDataSource" />
             </dataSource>
