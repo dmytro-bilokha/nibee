@@ -19,12 +19,8 @@ public class InfoServlet extends HttpServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InfoServlet.class);
 
-    private ConfigService configService;
-    private PostService postService;
-
-    public InfoServlet() {
-        //No-args constructor to keep CDI framework happy
-    }
+    private final ConfigService configService;
+    private final PostService postService;
 
     @Inject
     public InfoServlet(ConfigService configService, PostService postService) {
