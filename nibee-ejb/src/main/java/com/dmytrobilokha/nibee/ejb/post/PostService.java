@@ -9,11 +9,15 @@ import java.util.List;
 @Stateless
 public class PostService {
 
-    @Inject
     private PostRepository postRepository;
 
     public PostService() {
         //EJB spec required constructor
+    }
+
+    @Inject
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
     public List<String> getNames() {
