@@ -1,9 +1,8 @@
 package com.dmytrobilokha.nibee.web;
 
-import com.dmytrobilokha.nibee.ejb.PostService;
+import com.dmytrobilokha.nibee.ejb.post.PostService;
 import com.dmytrobilokha.nibee.ejb.config.ConfigProperty;
 import com.dmytrobilokha.nibee.ejb.config.ConfigService;
-import com.dmytrobilokha.nibee.ejb.post.PostServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

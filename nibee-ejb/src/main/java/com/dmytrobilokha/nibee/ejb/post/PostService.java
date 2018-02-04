@@ -1,19 +1,18 @@
 package com.dmytrobilokha.nibee.ejb.post;
 
 import com.dmytrobilokha.nibee.dao.post.PostRepository;
-import com.dmytrobilokha.nibee.ejb.PostService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 
 @Stateless
-public class PostServiceImpl implements PostService {
+public class PostService {
 
     @Inject
     private PostRepository postRepository;
 
-    public PostServiceImpl() {
+    public PostService() {
         //EJB spec required constructor
     }
 
