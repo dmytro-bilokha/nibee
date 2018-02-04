@@ -1,5 +1,6 @@
 package com.dmytrobilokha.nibee.ejb.post;
 
+import com.dmytrobilokha.nibee.dao.post.PostRepository;
 import com.dmytrobilokha.nibee.ejb.PostService;
 
 import javax.ejb.Stateless;

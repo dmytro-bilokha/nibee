@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.ejb.mybatis;
+package com.dmytrobilokha.nibee.dao.mybatis;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;

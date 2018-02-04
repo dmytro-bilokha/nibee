@@ -17,7 +17,7 @@
     </environments>
 
     <mappers>
-        <mapper class="com.dmytrobilokha.nibee.ejb.post.PostRepository" />
+        <mapper class="com.dmytrobilokha.nibee.dao.post.PostRepository" />
     </mappers>
 
 </configuration>
