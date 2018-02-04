@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.ejb.post;
 
-import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.cdi.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

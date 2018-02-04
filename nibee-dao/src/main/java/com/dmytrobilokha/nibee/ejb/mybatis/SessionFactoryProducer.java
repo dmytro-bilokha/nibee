@@ -15,13 +15,13 @@ import java.io.Reader;
 @ApplicationScoped
 public class SessionFactoryProducer {
 
-    private static final String MYBATIS_CONFIG_XML = "mybatis/mybatis-config.xml";
+    private static final String MYBATIS_CONFIG_XML = "mybatis.xml";
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionFactoryProducer.class);
 
-    @Produces
     @ApplicationScoped
+    @Produces
     @SessionFactoryProvider
-    public SqlSessionFactory produce() {
+    public SqlSessionFactory produce() throws Exception {
         LOGGER.info("produce() called");
         try(Reader reader = Resources.getResourceAsReader(MYBATIS_CONFIG_XML)) {
             return new SqlSessionFactoryBuilder().build(reader);

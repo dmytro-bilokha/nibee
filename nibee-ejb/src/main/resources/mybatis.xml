@@ -11,7 +11,7 @@
                 <property name="closeConnection" value="false" />
         </transactionManager>
             <dataSource type="JNDI">
-                <property name="data_source" value="jdbc/nibee" />
+                <property name="data_source" value="jdbc/nibeeDataSource" />
             </dataSource>
         </environment>
     </environments>
