@@ -1,5 +1,6 @@
 package com.dmytrobilokha.nibee.ejb;
 
+import javax.ejb.EJBContext;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
@@ -17,6 +18,16 @@ public class EnvironmentServicesProvider {
             return new InitialContext();
         } catch (NamingException ex) {
             throw new IllegalStateException("Failed to instantiate InitialContext", ex);
+        }
+    }
+
+    @Produces
+    @Dependent
+    public EJBContext getEJBContext() {
+        try {
+            return (EJBContext) getNamingContext().lookup("java:comp/EJBContext");
+        } catch (NamingException ex) {
+            throw new IllegalStateException("Failed to lookup EJBContext");
         }
     }
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dmytrobilokha.nibee.dao.post.PostRepository">
+
+    <update id="changeFirstName" parameterType="java.lang.String" flushCache="true">
+        UPDATE post SET name=#{name} where id=1
+    </update>
+
+    <select id="getNames" resultType="java.lang.String">
+        SELECT name FROM post
+    </select>
+
+</mapper>
+

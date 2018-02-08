@@ -16,7 +16,7 @@
     </environments>
 
     <mappers>
-        <mapper class="com.dmytrobilokha.nibee.dao.post.PostRepository" />
+        <mapper resource="PostRepository.xml" />
     </mappers>
 
 </configuration>
