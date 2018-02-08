@@ -2,6 +2,7 @@ package com.dmytrobilokha.nibee.ejb.post;
 
 import com.dmytrobilokha.nibee.dao.post.PostRepository;
 
+import javax.annotation.Resource;
 import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -18,13 +19,23 @@ public class PostService {
     }
 
     @Inject
-    public PostService(PostRepository postRepository, EJBContext ejbContext) {
+    public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
-        this.ejbContext = ejbContext;
     }
 
     public List<String> getNames() {
         return postRepository.getNames();
     }
 
+    public void changeFirstName(String name) {
+        postRepository.changeFirstName(name);
+        if (name.startsWith("F")) {
+            ejbContext.setRollbackOnly();
+        }
+    }
+
+    @Resource
+    public void setEjbContext(EJBContext ejbContext) {
+        this.ejbContext = ejbContext;
+    }
 }

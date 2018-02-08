@@ -6,7 +6,7 @@
     version="2.1">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
-        <c:out value="${requestScope.propertyName} or ${requestScope.propertyEnum} is ${requestScope.propertyValue}" />
+        <p>Post names: <c:out value="${requestScope.names}" /></p>
     </body>
 </html>
 </jsp:root>

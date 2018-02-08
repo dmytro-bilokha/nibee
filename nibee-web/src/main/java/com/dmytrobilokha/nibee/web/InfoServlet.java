@@ -31,8 +31,12 @@ public class InfoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         LOGGER.info("InfoServlet doGet called");
-        LOGGER.info("List of posts: {}", postService.getNames());
-        req.setAttribute("propertyName", ConfigProperty.POSTS_ROOT.getPropertyName());
+        String name = req.getParameter("name");
+        if (name != null && !name.isEmpty()) {
+            LOGGER.info("In request got name={}", name);
+            postService.changeFirstName(name);
+        }
+        req.setAttribute("names", postService.getNames().toString());
         req.setAttribute("propertyEnum", ConfigProperty.POSTS_ROOT.name());
         req.setAttribute("propertyValue", configService.getAsString(ConfigProperty.POSTS_ROOT));
         NavigablePage.INFO.forwardTo(req, resp);
