@@ -21,6 +21,8 @@
 		<mybatis.version>3.4.4</mybatis.version>
         <mybatis-cdi.version>1.0.0</mybatis-cdi.version>
 
+        <flyway-version>5.0.7</flyway-version>
+
 		<javaee.api.version>7.0</javaee.api.version>
         <slf4j.version>1.7.25</slf4j.version>
 
@@ -81,6 +83,12 @@
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-cdi</artifactId>
                 <version>${mybatis-cdi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway-version}</version>
             </dependency>
 
             <dependency>

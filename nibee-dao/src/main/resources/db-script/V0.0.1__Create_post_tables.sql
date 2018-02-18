@@ -12,15 +12,13 @@ CREATE TABLE post
 CREATE TABLE tag
 ( id BIGINT NOT NULL AUTO_INCREMENT
 , name VARCHAR(64) NOT NULL
+, CONSTRAINT tag_pk PRIMARY KEY (id)
+, CONSTRAINT tag_name_uq UNIQUE INDEX tag_name_idx (name)
 );
-
-ALTER TABLE tag ADD CONSTRAINT tag_pk PRIMARY KEY (id);
-ALTER TABLE tag ADD CONSTRAINT tag_name_uq UNIQUE INDEX tag_name_idx (name);
 
 CREATE TABLE post_tag
 ( post_id BIGINT NOT NULL
 , tag_id BIGINT NOT NULL
+, CONSTRAINT post_tag_pk PRIMARY KEY (post_id, tag_id)
 );
-
-ALTER TABLE post_tag ADD CONSTRAINT post_tag_pk PRIMARY KEY (post_id, tag_id);
 
