@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.ejb.post;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class PostServiceIT {
 

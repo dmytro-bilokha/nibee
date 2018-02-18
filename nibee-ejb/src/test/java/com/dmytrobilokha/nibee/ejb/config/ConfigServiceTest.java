@@ -1,20 +1,17 @@
 package com.dmytrobilokha.nibee.ejb.config;
 
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 import javax.ejb.EJBException;
 import javax.naming.Context;
 import javax.naming.NamingException;
 
-import java.util.Arrays;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertEquals;
 
 public class ConfigServiceTest {
 
@@ -25,7 +22,7 @@ public class ConfigServiceTest {
 
     private Properties properties;
 
-    @BeforeEach
+    @Before
     public void init() throws NamingException {
         this.properties = new Properties();
         this.mockNamingContext = Mockito.mock(Context.class);
@@ -39,23 +36,21 @@ public class ConfigServiceTest {
             properties.put(configProperty.getPropertyName(), configProperty.name() + "-MOCK_VALUE");
         }
         configService.initConfigProperties();
-        assertAll(
-                Arrays.stream(ConfigProperty.values())
-                .map(cp ->
-                        (() -> assertEquals(cp.name() + "-MOCK_VALUE", configService.getAsString(cp))))
-        );
+        for (ConfigProperty configProperty : ConfigProperty.values()) {
+            assertEquals(configProperty.name() + "-MOCK_VALUE", configService.getAsString(configProperty));
+        }
     }
 
-    @Test
+    @Test(expected = EJBException.class)
     public void checkThrowsExceptionOnEmptyProperties() {
-        assertThrows(EJBException.class, () -> configService.initConfigProperties());
+        configService.initConfigProperties();
     }
 
-    @Test
+    @Test(expected = EJBException.class)
     public void checkThrowsEJBExceptionOnLookupFailure() throws NamingException {
         Mockito.reset(mockNamingContext);
         Mockito.when(mockNamingContext.lookup(PROPERTIES_JNDI_NAME)).thenThrow(new NamingException());
-        assertThrows(EJBException.class, () -> configService.initConfigProperties());
+        configService.initConfigProperties();
     }
 
 }
