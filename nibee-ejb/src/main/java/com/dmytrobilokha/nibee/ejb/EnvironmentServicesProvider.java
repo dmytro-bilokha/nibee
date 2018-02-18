@@ -12,7 +12,7 @@ public class EnvironmentServicesProvider {
 
     @Produces
     @Dependent
-    public Context getNamingContext() {
+    Context getNamingContext() {
         try {
             return new InitialContext();
         } catch (NamingException ex) {

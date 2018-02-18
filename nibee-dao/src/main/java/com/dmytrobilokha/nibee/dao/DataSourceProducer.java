@@ -14,7 +14,7 @@ public class DataSourceProducer {
 
     @Dependent
     @Produces
-    public DataSource produce() {
+    DataSource produce() {
         try {
             InitialContext context = new InitialContext();
             DataSource dataSource = (DataSource) context.lookup(DATASOURCE_NAME);

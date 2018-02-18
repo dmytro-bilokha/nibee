@@ -14,28 +14,32 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.sql.DataSource;
+import java.util.Arrays;
 
 @ApplicationScoped
 public class SessionFactoryProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionFactoryProducer.class);
+    private static final String[] MAPPER_PACKAGES = new String[]{"com.dmytrobilokha.nibee.dao.post"};
 
     private final DataSource dataSource;
 
     @Inject
-    public SessionFactoryProducer(DataSource dataSource) {
+    SessionFactoryProducer(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @ApplicationScoped
     @Produces
     @SessionFactoryProvider
-    public SqlSessionFactory produce() {
-        LOGGER.info("Producing MyBatis SqlSessionFactory");
+    SqlSessionFactory produce() {
+        LOGGER.info("Producing MyBatis SqlSessionFactory with mapper packages {}", Arrays.toString(MAPPER_PACKAGES));
         TransactionFactory transactionFactory = new ManagedTransactionFactory();
         Environment environment = new Environment("main", transactionFactory, dataSource);
         Configuration configuration = new Configuration(environment);
-        configuration.addMappers("com.dmytrobilokha.nibee.dao.post");
+        for (String mapperPackage : MAPPER_PACKAGES) {
+            configuration.addMappers(mapperPackage);
+        }
         return new SqlSessionFactoryBuilder().build(configuration);
     }
 
