@@ -13,7 +13,6 @@
         <module>nibee-ejb</module>
         <module>nibee-web</module>
         <module>nibee-ear</module>
-        <module>nibee-it</module>
     </modules>
 
     <properties>
@@ -29,13 +28,11 @@
 
         <junit.version>4.12</junit.version>
         <mockito.version>2.13.0</mockito.version>
-        <arquillian.version>1.3.0.Final</arquillian.version>
         <h2.version>1.4.196</h2.version>
 
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
         <maven.ear.plugin.version>2.10.1</maven.ear.plugin.version>
         <maven.ejb.plugin.version>3.0.0</maven.ejb.plugin.version>
-        <!-- Surefire/Failsafe plugin of version 2.20 is not compatible with JUnit 5 -->
         <maven.surefire.plugin.version>2.19.1</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>2.19.1</maven.failsafe.plugin.version>
         <maven.war.plugin.version>3.2.0</maven.war.plugin.version>
@@ -61,81 +58,62 @@
                 <version>${project.version}</version>
                 <type>jar</type>
             </dependency>
-
             <dependency>
                 <groupId>com.dmytrobilokha</groupId>
                 <artifactId>nibee-ejb</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
-
             <dependency>
                 <groupId>com.dmytrobilokha</groupId>
                 <artifactId>nibee-web</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
             </dependency>
-
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-cdi</artifactId>
                 <version>${mybatis-cdi.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
                 <version>${flyway-version}</version>
             </dependency>
-
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>${javaee.api.version}</version>
                 <scope>provided</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-
             <!-- SLF4J API will use java.util.logging as backend, because Glassfish/Payara works with it -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>${arquillian.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
