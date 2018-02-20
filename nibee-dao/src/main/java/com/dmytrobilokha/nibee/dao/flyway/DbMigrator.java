@@ -15,12 +15,12 @@ public class DbMigrator {
     private final DataSource dataSource;
 
     @Inject
-    DbMigrator(DataSource dataSource) {
+    public DbMigrator(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @PostConstruct
-    void migrateDb() {
+    public void migrateDb() {
         if (dataSource == null) {
             throw new IllegalStateException("Unable to migrate DB, because injected dataSource is null");
         }

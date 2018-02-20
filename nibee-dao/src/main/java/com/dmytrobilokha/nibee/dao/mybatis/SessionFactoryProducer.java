@@ -25,14 +25,14 @@ public class SessionFactoryProducer {
     private final DataSource dataSource;
 
     @Inject
-    SessionFactoryProducer(DataSource dataSource) {
+    public SessionFactoryProducer(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @ApplicationScoped
     @Produces
     @SessionFactoryProvider
-    SqlSessionFactory produce() {
+    public SqlSessionFactory produce() {
         LOGGER.info("Producing MyBatis SqlSessionFactory with mapper packages {}", Arrays.toString(MAPPER_PACKAGES));
         TransactionFactory transactionFactory = new ManagedTransactionFactory();
         Environment environment = new Environment("main", transactionFactory, dataSource);
