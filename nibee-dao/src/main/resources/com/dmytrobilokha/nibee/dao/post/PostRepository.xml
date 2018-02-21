@@ -4,12 +4,22 @@
 
 <mapper namespace="com.dmytrobilokha.nibee.dao.post.PostRepository">
 
+    <resultMap id="post" type="com.dmytrobilokha.nibee.dao.post.Post">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+    </resultMap>
+
     <update id="changeFirstName" parameterType="java.lang.String" flushCache="true">
         UPDATE post SET name=#{name} where id=1
     </update>
 
     <select id="getNames" resultType="java.lang.String">
         SELECT name FROM post
+    </select>
+
+    <select id="findPostByName" resultMap="post">
+        SELECT id, name, path FROM post
     </select>
 
 </mapper>

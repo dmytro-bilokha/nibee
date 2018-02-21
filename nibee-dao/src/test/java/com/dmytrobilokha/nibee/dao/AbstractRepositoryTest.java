@@ -6,7 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -20,12 +22,13 @@ public abstract class AbstractRepositoryTest {
     private static final String DB_SCRIPT_BASE = "datasets/";
     private static final Pattern STATEMENT_DELIMITER = Pattern.compile(";\\h*\\r?\\n");
 
-    private final DataSource dataSource;
-    private final SqlSessionFactory sqlSessionFactory;
+    private static DataSource dataSource;
+    private static SqlSessionFactory sqlSessionFactory;
 
     private SqlSession sqlSession;
 
-    protected AbstractRepositoryTest() {
+    @BeforeClass
+    public static void initDb() {
         JdbcDataSource jdbcDataSource = new JdbcDataSource();
         dataSource = jdbcDataSource;
         jdbcDataSource.setUrl("jdbc:h2:mem:nibee;MODE=MYSQL;DB_CLOSE_DELAY=-1");
@@ -36,9 +39,9 @@ public abstract class AbstractRepositoryTest {
         dbMigrator.migrateDb();
     }
 
-    protected AbstractRepositoryTest(String... scriptNames) {
-        this();
-        executeSqlScripts(scriptNames);
+    @AfterClass
+    public static void shutdownDb() {
+        executeSqlStatement("SHUTDOWN");
     }
 
     @Before
@@ -57,7 +60,7 @@ public abstract class AbstractRepositoryTest {
         return sqlSession.getMapper(mapperClass);
     }
 
-    protected void executeSqlStatement(String statementString) {
+    protected static void executeSqlStatement(String statementString) {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();) {
             statement.execute(statementString);
@@ -66,7 +69,7 @@ public abstract class AbstractRepositoryTest {
         }
     }
 
-    private void executeSqlScripts(String[] scriptNames) {
+    protected static void executeSqlScripts(String... scriptNames) {
         Connection connection = null;
         Statement statement = null;
         Scanner scanner = null;
@@ -76,7 +79,7 @@ public abstract class AbstractRepositoryTest {
             connection.setAutoCommit(false);
             for (String scriptName : scriptNames) {
                 scanner = new Scanner(
-                        this.getClass().getClassLoader().getResourceAsStream(DB_SCRIPT_BASE + scriptName)
+                        AbstractRepositoryTest.class.getClassLoader().getResourceAsStream(DB_SCRIPT_BASE + scriptName)
                 ).useDelimiter(STATEMENT_DELIMITER);
                 while (scanner.hasNext()) {
                     String sqlStatementString = scanner.next();
@@ -93,7 +96,7 @@ public abstract class AbstractRepositoryTest {
         }
     }
 
-    private void silentlyClose(AutoCloseable... openResources) {
+    private static void silentlyClose(AutoCloseable... openResources) {
         for (AutoCloseable resource : openResources) {
             if (resource != null) {
                 try {
