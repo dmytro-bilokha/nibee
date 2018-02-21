@@ -18,8 +18,8 @@
     <properties>
         <path.to.asadmin>/usr/local/payara-4.1.2.173/bin/asadmin</path.to.asadmin>
 
-        <mybatis.version>3.4.4</mybatis.version>
-        <mybatis-cdi.version>1.0.0</mybatis-cdi.version>
+        <mybatis.version>3.4.5</mybatis.version>
+        <mybatis-cdi.version>1.0.2</mybatis-cdi.version>
 
         <flyway-version>5.0.7</flyway-version>
 

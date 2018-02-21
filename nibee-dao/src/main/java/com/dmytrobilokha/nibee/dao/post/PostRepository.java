@@ -10,6 +10,6 @@ public interface PostRepository {
     List<String> getNames();
     void changeFirstName(String name);
 
-    List<Post> findPostByName();
+    List<Post> findPostByName(String name);
 
 }

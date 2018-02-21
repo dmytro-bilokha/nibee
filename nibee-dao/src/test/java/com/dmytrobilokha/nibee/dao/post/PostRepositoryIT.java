@@ -34,8 +34,9 @@ public class PostRepositoryIT extends AbstractRepositoryTest {
 
     @Test
     public void checkFindsPostByName() {
-        List<Post> posts = postRepository.findPostByName();
-        assertEquals(2, posts.size());
+        List<Post> posts = postRepository.findPostByName("alala");
+        assertEquals(1, posts.size());
+        assertEquals("alala", posts.get(0).getName());
     }
 
 }
