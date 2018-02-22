@@ -6,9 +6,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PostRepositoryIT extends AbstractRepositoryTest {
@@ -26,18 +28,39 @@ public class PostRepositoryIT extends AbstractRepositoryTest {
     }
 
     @Test
-    public void checkFetchesNames() {
-        List<String> names = postRepository.getNames();
-        assertEquals(2, names.size());
-        assertTrue(names.contains("alala"));
-        assertTrue(names.contains("lalala"));
+    public void checkFindsPostByName() {
+        List<Post> posts = postRepository.findPostByName("post-about-rest");
+        assertEquals(1, posts.size());
+        assertEquals("post-about-rest", posts.get(0).getName());
     }
 
     @Test
-    public void checkFindsPostByName() {
-        List<Post> posts = postRepository.findPostByName("alala");
-        assertEquals(1, posts.size());
-        assertEquals("alala", posts.get(0).getName());
+    public void checkDoesntFindPost() {
+        List<Post> posts = postRepository.findPostByName("SomeNotExistingInDbNameHere");
+        assertTrue(posts.isEmpty());
+    }
+
+    @Test
+    public void checkFindsPostByTagId() {
+        final long id = 1L;
+        List<Post> posts = postRepository.findPostByTagId(id);
+        assertEveryPostHasTagWithId(posts, id);
+    }
+
+    private void assertEveryPostHasTagWithId(Collection<Post> posts, long id) {
+        assertFalse("Posts list should not be empty", posts.isEmpty());
+        for (Post post : posts) {
+            boolean containsId = post.getTags()
+                    .stream()
+                    .anyMatch(t -> Long.valueOf(id).equals(t.getId()));
+            assertTrue(post + " should has tag with id=" + id, containsId);
+        }
+    }
+
+    @Test
+    public void checkDoesntFindPostByTagId() {
+        List<Post> posts = postRepository.findPostByTagId(12345678111L);
+        assertTrue(posts.isEmpty());
     }
 
 }

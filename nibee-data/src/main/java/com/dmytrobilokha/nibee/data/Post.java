@@ -1,6 +1,7 @@
 package com.dmytrobilokha.nibee.data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Post {
 
@@ -9,6 +10,7 @@ public class Post {
     private String path;
     private LocalDateTime createdOn;
     private LocalDateTime modifiedOn;
+    private List<Tag> tags;
 
     public Long getId() {
         return id;
@@ -48,5 +50,13 @@ public class Post {
 
     public void setModifiedOn(LocalDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

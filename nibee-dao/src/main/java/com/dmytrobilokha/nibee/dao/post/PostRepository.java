@@ -12,5 +12,6 @@ public interface PostRepository {
     void changeFirstName(String name);
 
     List<Post> findPostByName(String name);
+    List<Post> findPostByTagId(long tagId);
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dmytrobilokha.nibee.dao.post.PostRepository">
 
@@ -10,6 +10,12 @@
         <result property="path" column="path"/>
         <result property="createdOn" column="created_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
         <result property="modifiedOn" column="modified_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
+        <collection property="tags" resultMap="tag"/>
+    </resultMap>
+
+    <resultMap id="tag" type="com.dmytrobilokha.nibee.data.Tag">
+        <id property="id" column="tag_id"/>
+        <result property="name" column="tag_name"/>
     </resultMap>
 
     <update id="changeFirstName" parameterType="java.lang.String" flushCache="true">
@@ -21,7 +27,23 @@
     </select>
 
     <select id="findPostByName" resultMap="post" parameterType="java.lang.String">
-        SELECT id, name, path, created_on, modified_on FROM post WHERE name=#{name}
+        SELECT
+            p.id, p.name, p.path, p.created_on, p.modified_on, t.id as tag_id, t.name as tag_name
+        FROM post p
+        LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
+        INNER JOIN tag t ON pt.tag_id=t.id
+        WHERE p.name=#{name}
+    </select>
+
+    <select id="findPostByTagId" resultMap="post" parameterType="_long">
+        SELECT
+            p.id, p.name, p.path, p.created_on, p.modified_on, t.id as tag_id, t.name as tag_name
+        FROM post p
+        LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
+        INNER JOIN tag t ON pt.tag_id=t.id
+        WHERE p.id IN (
+            SELECT post_id FROM post_tag WHERE tag_id=#{tagId}
+        )
     </select>
 
 </mapper>
