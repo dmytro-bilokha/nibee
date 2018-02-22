@@ -14,8 +14,10 @@
     </resultMap>
 
     <resultMap id="tag" type="com.dmytrobilokha.nibee.data.Tag">
-        <id property="id" column="tag_id"/>
-        <result property="name" column="tag_name"/>
+        <constructor>
+            <idArg column="tag_id" javaType="java.lang.Long"/>
+            <arg column="tag_name" javaType="java.lang.String"/>
+        </constructor>
     </resultMap>
 
     <update id="changeFirstName" parameterType="java.lang.String" flushCache="true">
