@@ -4,7 +4,7 @@
 
 <mapper namespace="com.dmytrobilokha.nibee.dao.post.PostRepository">
 
-    <resultMap id="post" type="com.dmytrobilokha.nibee.dao.post.Post">
+    <resultMap id="post" type="com.dmytrobilokha.nibee.data.Post">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="path" column="path"/>

@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.dao.post;
+package com.dmytrobilokha.nibee.data;
 
 import java.time.LocalDateTime;
 

@@ -13,6 +13,7 @@
         <module>nibee-ejb</module>
         <module>nibee-web</module>
         <module>nibee-ear</module>
+        <module>nibee-data</module>
     </modules>
 
     <properties>
@@ -52,6 +53,12 @@
     <dependencyManagement>
         <dependencies>
 
+            <dependency>
+                <groupId>com.dmytrobilokha</groupId>
+                <artifactId>nibee-data</artifactId>
+                <version>${project.version}</version>
+                <type>jar</type>
+            </dependency>
             <dependency>
                 <groupId>com.dmytrobilokha</groupId>
                 <artifactId>nibee-dao</artifactId>

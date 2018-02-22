@@ -1,6 +1,7 @@
 package com.dmytrobilokha.nibee.dao.post;
 
 import com.dmytrobilokha.nibee.dao.AbstractRepositoryTest;
+import com.dmytrobilokha.nibee.data.Post;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

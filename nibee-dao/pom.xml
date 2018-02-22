@@ -17,6 +17,10 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.dmytrobilokha</groupId>
+            <artifactId>nibee-data</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
         </dependency>
