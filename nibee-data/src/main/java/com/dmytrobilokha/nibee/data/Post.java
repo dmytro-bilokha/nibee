@@ -1,7 +1,7 @@
 package com.dmytrobilokha.nibee.data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Post {
@@ -35,9 +35,9 @@ public class Post {
 
     public List<Tag> getTags() {
         if (tagList == null) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
-        return new ArrayList<>(tagList);
+        return Collections.unmodifiableList(tagList);
     }
 
 }
