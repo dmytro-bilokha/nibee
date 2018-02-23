@@ -16,47 +16,24 @@ public class Post {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPath() {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public LocalDateTime getCreatedOn() {
         return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
     }
 
     public LocalDateTime getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(LocalDateTime modifiedOn) {
-        this.modifiedOn = modifiedOn;
-    }
-
     public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
 }
