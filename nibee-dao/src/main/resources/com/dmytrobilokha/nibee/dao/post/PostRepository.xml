@@ -10,7 +10,7 @@
         <result property="path" column="path"/>
         <result property="createdOn" column="created_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
         <result property="modifiedOn" column="modified_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
-        <collection property="tags" resultMap="tag"/>
+        <collection property="tagList" resultMap="tag"/>
     </resultMap>
 
     <resultMap id="tag" type="com.dmytrobilokha.nibee.data.Tag">

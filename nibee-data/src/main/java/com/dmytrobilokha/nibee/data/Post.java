@@ -1,6 +1,7 @@
 package com.dmytrobilokha.nibee.data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
@@ -10,7 +11,7 @@ public class Post {
     private String path;
     private LocalDateTime createdOn;
     private LocalDateTime modifiedOn;
-    private List<Tag> tags;
+    private List<Tag> tagList;
 
     public Long getId() {
         return id;
@@ -33,7 +34,10 @@ public class Post {
     }
 
     public List<Tag> getTags() {
-        return tags;
+        if (tagList == null) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(tagList);
     }
 
 }
