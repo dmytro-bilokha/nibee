@@ -35,6 +35,13 @@ public class PostRepositoryIT extends AbstractRepositoryTest {
     }
 
     @Test
+    public void checkFindsPostWithoutTagByName() {
+        List<Post> posts = postRepository.findPostByName("resources");
+        assertEquals(1, posts.size());
+        assertEquals("resources", posts.get(0).getName());
+    }
+
+    @Test
     public void checkDoesntFindPost() {
         List<Post> posts = postRepository.findPostByName("SomeNotExistingInDbNameHere");
         assertTrue(posts.isEmpty());

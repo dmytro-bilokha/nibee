@@ -26,6 +26,11 @@
             <artifactId>nibee-ejb</artifactId>
             <type>ejb</type>
         </dependency>
+        <dependency>
+            <groupId>com.dmytrobilokha</groupId>
+            <artifactId>nibee-data</artifactId>
+            <type>jar</type>
+        </dependency>
 
     </dependencies>
 

@@ -1,18 +1,21 @@
 package com.dmytrobilokha.nibee.ejb.post;
 
 import com.dmytrobilokha.nibee.dao.post.PostRepository;
+import com.dmytrobilokha.nibee.data.Post;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
-import javax.ejb.EJBContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class PostService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostService.class);
+
     private PostRepository postRepository;
-    private EJBContext ejbContext;
 
     public PostService() {
         //EJB spec required constructor
@@ -23,19 +26,19 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public List<String> getNames() {
-        return postRepository.getNames();
-    }
-
-    public void changeFirstName(String name) {
-        postRepository.changeFirstName(name);
-        if (name.startsWith("F")) {
-            ejbContext.setRollbackOnly();
+    public Optional<Post> findPostByName(String name) {
+        List<Post> posts = postRepository.findPostByName(name);
+        if (posts.isEmpty()) {
+            return Optional.empty();
         }
+        if (posts.size() > 1) {
+            LOGGER.warn("For name={} found more than one Post: {} this should never happen", name, posts);
+        }
+        return Optional.of(posts.get(0));
     }
 
-    @Resource
-    public void setEjbContext(EJBContext ejbContext) {
-        this.ejbContext = ejbContext;
+    public List<Post> findPostByTagId(long id) {
+        return postRepository.findPostByTagId(id);
     }
+
 }

@@ -33,7 +33,7 @@
             p.id, p.name, p.path, p.created_on, p.modified_on, t.id as tag_id, t.name as tag_name
         FROM post p
         LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
-        INNER JOIN tag t ON pt.tag_id=t.id
+        LEFT OUTER JOIN tag t ON pt.tag_id=t.id
         WHERE p.name=#{name}
     </select>
 

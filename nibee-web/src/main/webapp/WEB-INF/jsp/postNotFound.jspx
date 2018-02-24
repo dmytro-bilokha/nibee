@@ -6,7 +6,7 @@
     version="2.1">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
-        <p>Post names: <c:out value="${requestScope.names}" /></p>
+        <p>Post <c:out value="${requestScope.name}"/> not found</p>
     </body>
 </html>
 </jsp:root>
