@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.ejb;
+package com.dmytrobilokha.nibee.service;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;

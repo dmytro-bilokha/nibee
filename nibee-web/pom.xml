@@ -18,8 +18,13 @@
 
       <dependency>
          <groupId>com.dmytrobilokha</groupId>
-         <artifactId>nibee-ejb</artifactId>
+         <artifactId>nibee-service</artifactId>
          <type>ejb</type>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.dmytrobilokha</groupId>
+         <artifactId>nibee-data</artifactId>
          <scope>provided</scope>
       </dependency>
 

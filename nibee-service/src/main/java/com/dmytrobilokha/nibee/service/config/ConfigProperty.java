@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.ejb.config;
+package com.dmytrobilokha.nibee.service.config;
 
 public enum ConfigProperty {
     POSTS_ROOT("posts.root")

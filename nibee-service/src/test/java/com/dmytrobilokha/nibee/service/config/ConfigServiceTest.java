@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.ejb.config;
+package com.dmytrobilokha.nibee.service.config;
 
 
 import org.junit.Before;

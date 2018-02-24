@@ -1,10 +1,10 @@
 package com.dmytrobilokha.nibee.web;
 
 import com.dmytrobilokha.nibee.data.Post;
-import com.dmytrobilokha.nibee.ejb.config.ConfigProperty;
-import com.dmytrobilokha.nibee.ejb.file.FileService;
-import com.dmytrobilokha.nibee.ejb.post.PostService;
-import com.dmytrobilokha.nibee.ejb.config.ConfigService;
+import com.dmytrobilokha.nibee.service.config.ConfigProperty;
+import com.dmytrobilokha.nibee.service.file.FileService;
+import com.dmytrobilokha.nibee.service.post.PostService;
+import com.dmytrobilokha.nibee.service.config.ConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

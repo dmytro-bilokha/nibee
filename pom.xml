@@ -10,7 +10,7 @@
 
     <modules>
         <module>nibee-dao</module>
-        <module>nibee-ejb</module>
+        <module>nibee-service</module>
         <module>nibee-web</module>
         <module>nibee-ear</module>
         <module>nibee-data</module>
@@ -67,7 +67,7 @@
             </dependency>
             <dependency>
                 <groupId>com.dmytrobilokha</groupId>
-                <artifactId>nibee-ejb</artifactId>
+                <artifactId>nibee-service</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>

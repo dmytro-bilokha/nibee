@@ -23,8 +23,13 @@
         </dependency>
         <dependency>
             <groupId>com.dmytrobilokha</groupId>
-            <artifactId>nibee-ejb</artifactId>
+            <artifactId>nibee-service</artifactId>
             <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.dmytrobilokha</groupId>
+            <artifactId>nibee-dao</artifactId>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.dmytrobilokha</groupId>
@@ -53,8 +58,16 @@
                         </webModule>
                         <ejbModule>
                             <groupId>com.dmytrobilokha</groupId>
-                            <artifactId>nibee-ejb</artifactId>
+                            <artifactId>nibee-service</artifactId>
                         </ejbModule>
+                        <jarModule>
+                            <groupId>com.dmytrobilokha</groupId>
+                            <artifactId>nibee-dao</artifactId>
+                        </jarModule>
+                        <jarModule>
+                            <groupId>com.dmytrobilokha</groupId>
+                            <artifactId>nibee-data</artifactId>
+                        </jarModule>
                     </modules>
                 </configuration>
             </plugin>

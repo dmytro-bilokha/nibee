@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.ejb.post;
+package com.dmytrobilokha.nibee.service.post;
 
 import com.dmytrobilokha.nibee.dao.post.PostRepository;
 import com.dmytrobilokha.nibee.data.Post;

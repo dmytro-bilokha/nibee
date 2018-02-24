@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.ejb;
+package com.dmytrobilokha.nibee.service;
 
 public final class AppConstants {
 

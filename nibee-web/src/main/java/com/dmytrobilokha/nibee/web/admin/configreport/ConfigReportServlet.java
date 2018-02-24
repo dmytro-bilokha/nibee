@@ -1,7 +1,7 @@
 package com.dmytrobilokha.nibee.web.admin.configreport;
 
-import com.dmytrobilokha.nibee.ejb.config.ConfigProperty;
-import com.dmytrobilokha.nibee.ejb.config.ConfigService;
+import com.dmytrobilokha.nibee.service.config.ConfigProperty;
+import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.web.NavigablePage;
 
 import javax.inject.Inject;

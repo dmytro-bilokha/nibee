@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.ejb.file;
+package com.dmytrobilokha.nibee.service.file;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;
