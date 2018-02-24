@@ -20,6 +20,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -28,6 +31,34 @@ public class InfoServlet extends HttpServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InfoServlet.class);
     private static final Pattern SANITIZE_PATTERN = Pattern.compile("(^/+)|(/+$)|(/{2,})|(\\.{2,})|([^0-9a-zA-Z\\./-])");
+    private static final Map<String, String> CONTENT_TYPE_MAP;
+
+    static {
+        Map<String, String> contentTypeMap = new HashMap<>();
+        contentTypeMap.put("txt", "text/plain");
+        contentTypeMap.put("pdf", "application/pdf");
+        contentTypeMap.put("7z", "application/x-7z-compressed");
+        contentTypeMap.put("gif", "image/gif");
+        contentTypeMap.put("jp2", "image/jp2");
+        contentTypeMap.put("jpg2", "image/jp2");
+        contentTypeMap.put("jpg", "image/jpeg");
+        contentTypeMap.put("jpe", "image/jpeg");
+        contentTypeMap.put("jpeg", "image/jpeg");
+        contentTypeMap.put("pcx", "image/pcx");
+        contentTypeMap.put("png", "image/png");
+        contentTypeMap.put("svg", "image/svg+xml");
+        contentTypeMap.put("svgz", "image/svg+xml");
+        contentTypeMap.put("tif", "image/tiff");
+        contentTypeMap.put("tiff", "image/tiff");
+        contentTypeMap.put("gz", "application/gzip");
+        contentTypeMap.put("zip", "application/zip");
+        contentTypeMap.put("tgz", "application/x-gtar-compressed");
+        contentTypeMap.put("tar", "application/x-tar");
+        contentTypeMap.put("odp", "application/vnd.oasis.opendocument.presentation");
+        contentTypeMap.put("ods", "application/vnd.oasis.opendocument.spreadsheet");
+        contentTypeMap.put("odt", "application/vnd.oasis.opendocument.text");
+        CONTENT_TYPE_MAP = Collections.unmodifiableMap(contentTypeMap);
+    }
 
     private final ConfigService configService;
     private final PostService postService;
@@ -74,7 +105,8 @@ public class InfoServlet extends HttpServlet {
     private void servePostResource(HttpServletRequest req, HttpServletResponse resp, Post post, String postResource) {
         Path resourcePath = Paths.get(configService.getAsString(ConfigProperty.POSTS_ROOT) + '/'
                 + post.getPath() + '/' + postResource);
-        if (!Files.isReadable(resourcePath)) {
+        String contentType = getContentType(resourcePath);
+        if (contentType.isEmpty() || !Files.isReadable(resourcePath) || !Files.isRegularFile(resourcePath)) {
             //TODO send 404 here and show the url
             NavigablePage.POST_NOT_FOUND.forwardTo(req, resp);
             return;
@@ -82,7 +114,9 @@ public class InfoServlet extends HttpServlet {
         //TODO setContentType and setContentLength here
         byte[] buffer = new byte[8 * 1024];
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+        resp.setContentType(contentType);
         try (SeekableByteChannel channel = Files.newByteChannel(resourcePath, StandardOpenOption.READ)) {
+            resp.setContentLengthLong(Files.size(resourcePath));
             OutputStream out = resp.getOutputStream();
             for (int length = 0; (length = channel.read(byteBuffer)) != -1;) {
                 out.write(buffer, 0, length);
@@ -92,6 +126,23 @@ public class InfoServlet extends HttpServlet {
             LOGGER.error("Failed to server resource {} from post {}", resourcePath, post);
             //TODO send 500 here
         }
+    }
+
+    private String getContentType(Path resourcePath) {
+        Path filePath = resourcePath.getFileName();
+        if (filePath == null) {
+            return "";
+        }
+        String fileName = filePath.toString();
+        if (fileName.length() < 3) {
+            return "";
+        }
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex < 1 || lastDotIndex >= fileName.length()-1) {
+            return "";
+        }
+        String fileExtension = fileName.substring(lastDotIndex + 1);
+        return CONTENT_TYPE_MAP.getOrDefault(fileExtension, "");
     }
 
 }
