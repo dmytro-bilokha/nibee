@@ -27,8 +27,7 @@ import java.util.regex.Pattern;
 public class InfoServlet extends HttpServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InfoServlet.class);
-    private static final Pattern SANITIZE_PATTERN = Pattern.compile("(^/+)|(/+$)|(\\.{2,})|([^0-9a-zA-Z\\./-])");
-    private static final Pattern MULTI_SLASH_PATTERN = Pattern.compile("/{2,}");
+    private static final Pattern SANITIZE_PATTERN = Pattern.compile("(^/+)|(/+$)|(/{2,})|(\\.{2,})|([^0-9a-zA-Z\\./-])");
 
     private final ConfigService configService;
     private final PostService postService;
@@ -69,8 +68,7 @@ public class InfoServlet extends HttpServlet {
     private String getSanitizedServletPath(HttpServletRequest req) {
         String servletPath = req.getServletPath();
         String pathWithoutUnwantedChars = SANITIZE_PATTERN.matcher(servletPath).replaceAll("");
-        String pathWithSingleSlashesOnly = MULTI_SLASH_PATTERN.matcher(pathWithoutUnwantedChars).replaceAll("/");
-        return pathWithSingleSlashesOnly.toLowerCase();
+        return pathWithoutUnwantedChars.toLowerCase();
     }
 
     private void servePostResource(HttpServletRequest req, HttpServletResponse resp, Post post, String postResource) {
