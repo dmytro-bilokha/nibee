@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 public class InfoServlet extends HttpServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InfoServlet.class);
-    private static final Pattern SANITIZE_PATTERN = Pattern.compile("(^/+)|(/+$)|([^0-9a-zA-Z/-])");
+    private static final Pattern SANITIZE_PATTERN = Pattern.compile("(^/+)|(/+$)|(\\.{2,})|([^0-9a-zA-Z\\./-])");
     private static final Pattern MULTI_SLASH_PATTERN = Pattern.compile("/{2,}");
 
     private final ConfigService configService;
