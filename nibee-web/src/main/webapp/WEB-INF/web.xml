@@ -9,4 +9,12 @@
         <location>/WEB-INF/jsp/error/404.jspx</location>
     </error-page>
 
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jspx</url-pattern>
+            <scripting-invalid>true</scripting-invalid>
+            <is-xml>true</is-xml>
+        </jsp-property-group>
+    </jsp-config>
+
 </web-app>
