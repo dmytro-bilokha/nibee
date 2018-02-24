@@ -6,7 +6,7 @@
     version="2.1">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
-        <p>Post <c:out value="${requestScope.name}"/> not found</p>
+        <p>Sorry, the requested page does not exist or no longer available.</p>
     </body>
 </html>
 </jsp:root>
