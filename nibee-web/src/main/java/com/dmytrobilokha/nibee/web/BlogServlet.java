@@ -20,16 +20,16 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @WebServlet(urlPatterns = "/")
-public class InfoServlet extends HttpServlet {
+public class BlogServlet extends HttpServlet {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InfoServlet.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlogServlet.class);
     private static final Pattern SANITIZE_PATTERN = Pattern.compile("(^/+)|(/+$)|(/{2,})|(\\.{2,})|([^0-9a-zA-Z\\./-])");
     private final ConfigService configService;
     private final PostService postService;
     private final FileService fileService;
 
     @Inject
-    public InfoServlet(ConfigService configService, PostService postService, FileService fileService) {
+    public BlogServlet(ConfigService configService, PostService postService, FileService fileService) {
         this.configService = configService;
         this.postService = postService;
         this.fileService = fileService;
