@@ -1,10 +1,11 @@
 package com.dmytrobilokha.nibee.web.blog;
 
 import com.dmytrobilokha.nibee.data.Tag;
+import com.dmytrobilokha.nibee.web.AbstractModel;
 
 import java.util.Collection;
 
-public class PostModel {
+public class PostModel extends AbstractModel {
 
     private final String entryFileUrl;
     private final Collection<Tag> tags;

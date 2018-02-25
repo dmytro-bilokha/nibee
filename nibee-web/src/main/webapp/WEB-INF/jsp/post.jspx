@@ -6,7 +6,7 @@
     version="2.1">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
-        <c:import url="${requestScope.postModel.entryFileUrl}"/>
+        <c:import url="${postModel.entryFileUrl}"/>
     </body>
 </html>
 </jsp:root>

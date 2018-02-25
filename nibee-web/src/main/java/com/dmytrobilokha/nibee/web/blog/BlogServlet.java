@@ -85,7 +85,7 @@ public class BlogServlet extends HttpServlet {
             return;
         }
         PostModel postModel = new PostModel("file://localhost" + postEntryPath.toString(), post.getTags());
-        req.setAttribute("postModel", postModel);
+        postModel.putInRequest(req);
         NavigablePage.POST.forwardTo(req, resp);
     }
 
