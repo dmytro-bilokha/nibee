@@ -84,9 +84,22 @@ public class BlogServlet extends HttpServlet {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
             return;
         }
+        if (!req.getRequestURI().endsWith("/")) {
+            //We need URL to end with slash, so browser will request images with right location
+            respondWithRedirect(resp, req.getRequestURI() + '/');
+            return;
+        }
         PostModel postModel = new PostModel("file://localhost" + postEntryPath.toString(), post.getTags());
         postModel.putInRequest(req);
         NavigablePage.POST.forwardTo(req, resp);
+    }
+
+    private void respondWithRedirect(HttpServletResponse resp, String location) {
+        try {
+            resp.sendRedirect(location);
+        } catch (IOException ex) {
+            LOGGER.error("Got exception when tried to send redirect to {}", location, ex);
+        }
     }
 
     private Path getPostFilePath(Post post, String postFile) {
