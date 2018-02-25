@@ -1,10 +1,11 @@
-package com.dmytrobilokha.nibee.web;
+package com.dmytrobilokha.nibee.web.blog;
 
 import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.service.config.ConfigProperty;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
+import com.dmytrobilokha.nibee.web.NavigablePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,8 @@ public class BlogServlet extends HttpServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BlogServlet.class);
     private static final Pattern SANITIZE_PATTERN = Pattern.compile("(^/+)|(/+$)|(/{2,})|(\\.{2,})|([^0-9a-zA-Z\\./-])");
+    private static final String POST_ENTRY_FILE = "_post_.html";
+
     private final ConfigService configService;
     private final PostService postService;
     private final FileService fileService;
@@ -51,8 +54,7 @@ public class BlogServlet extends HttpServlet {
         }
         Post post = postOptional.get();
         if (postNameResourceArray.length == 1) {
-            req.setAttribute("post", post);
-            NavigablePage.POST.forwardTo(req, resp);
+            servePost(req, resp, post);
             return;
         }
         if (postNameResourceArray.length == 2 && !postNameResourceArray[1].isEmpty()) {
@@ -76,9 +78,24 @@ public class BlogServlet extends HttpServlet {
         return pathWithoutUnwantedChars.toLowerCase();
     }
 
+    private void servePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        Path postEntryPath = getPostFilePath(post, POST_ENTRY_FILE);
+        if (!fileService.isFileRegularAndReadable(postEntryPath)) {
+            respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        PostModel postModel = new PostModel("file://localhost" + postEntryPath.toString(), post.getTags());
+        req.setAttribute("postModel", postModel);
+        NavigablePage.POST.forwardTo(req, resp);
+    }
+
+    private Path getPostFilePath(Post post, String postFile) {
+        return Paths.get(configService.getAsString(ConfigProperty.POSTS_ROOT) + '/'
+                + post.getPath() + '/' + postFile);
+    }
+
     private void servePostResource(HttpServletResponse resp, Post post, String postResource) {
-        Path resourcePath = Paths.get(configService.getAsString(ConfigProperty.POSTS_ROOT) + '/'
-                + post.getPath() + '/' + postResource);
+        Path resourcePath = getPostFilePath(post, postResource);
         String contentType = fileService.getFileContentType(resourcePath);
         if (contentType.isEmpty() || !fileService.isFileRegularAndReadable(resourcePath)) {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);

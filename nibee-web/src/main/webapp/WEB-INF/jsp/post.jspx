@@ -6,8 +6,7 @@
     version="2.1">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <body>
-            <p>Post name: <c:out value="${requestScope.post.name}"/></p>
-            <p>Post path: <c:out value="${requestScope.post.path}"/></p>
+        <c:import url="${requestScope.postModel.entryFileUrl}"/>
     </body>
 </html>
 </jsp:root>
