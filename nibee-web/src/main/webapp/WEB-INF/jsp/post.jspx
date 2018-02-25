@@ -5,6 +5,9 @@
     xmlns="http://www.w3.org/1999/xhtml"
     version="2.1">
 <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <base href="${postModel.contentBase}" target="_blank"/>
+    </head>
     <body>
         <c:import url="${postModel.entryFileUrl}"/>
     </body>
