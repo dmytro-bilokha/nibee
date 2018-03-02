@@ -13,9 +13,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class PostRepositoryIT extends AbstractRepositoryTest {
+public class PostDaoIT extends AbstractRepositoryTest {
 
-    private PostRepository postRepository;
+    private PostDao postDao;
 
     @BeforeClass
     public static void loadData() {
@@ -24,33 +24,33 @@ public class PostRepositoryIT extends AbstractRepositoryTest {
 
     @Before
     public void initPostRepository() {
-        postRepository = getMapper(PostRepository.class);
+        postDao = getMapper(PostDao.class);
     }
 
     @Test
     public void checkFindsPostByName() {
-        List<Post> posts = postRepository.findPostByName("post-about-rest");
+        List<Post> posts = postDao.findPostByName("post-about-rest");
         assertEquals(1, posts.size());
         assertEquals("post-about-rest", posts.get(0).getName());
     }
 
     @Test
     public void checkFindsPostWithoutTagByName() {
-        List<Post> posts = postRepository.findPostByName("resources");
+        List<Post> posts = postDao.findPostByName("resources");
         assertEquals(1, posts.size());
         assertEquals("resources", posts.get(0).getName());
     }
 
     @Test
     public void checkDoesntFindPost() {
-        List<Post> posts = postRepository.findPostByName("SomeNotExistingInDbNameHere");
+        List<Post> posts = postDao.findPostByName("SomeNotExistingInDbNameHere");
         assertTrue(posts.isEmpty());
     }
 
     @Test
     public void checkFindsPostByTagId() {
         final long id = 1L;
-        List<Post> posts = postRepository.findPostByTagId(id);
+        List<Post> posts = postDao.findPostByTagId(id);
         assertEveryPostHasTagWithId(posts, id);
     }
 
@@ -66,7 +66,7 @@ public class PostRepositoryIT extends AbstractRepositoryTest {
 
     @Test
     public void checkDoesntFindPostByTagId() {
-        List<Post> posts = postRepository.findPostByTagId(12345678111L);
+        List<Post> posts = postDao.findPostByTagId(12345678111L);
         assertTrue(posts.isEmpty());
     }
 

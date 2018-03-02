@@ -6,7 +6,7 @@ import org.mybatis.cdi.Mapper;
 import java.util.List;
 
 @Mapper
-public interface PostRepository {
+public interface PostDao {
 
     List<Post> findPostByName(String name);
     List<Post> findPostByTagId(long tagId);

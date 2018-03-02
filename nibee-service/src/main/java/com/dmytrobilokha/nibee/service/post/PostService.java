@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.service.post;
 
-import com.dmytrobilokha.nibee.dao.post.PostRepository;
+import com.dmytrobilokha.nibee.dao.post.PostDao;
 import com.dmytrobilokha.nibee.data.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,19 +15,19 @@ public class PostService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostService.class);
 
-    private PostRepository postRepository;
+    private PostDao postDao;
 
     public PostService() {
         //EJB spec required constructor
     }
 
     @Inject
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
+    public PostService(PostDao postDao) {
+        this.postDao = postDao;
     }
 
     public Optional<Post> findPostByName(String name) {
-        List<Post> posts = postRepository.findPostByName(name);
+        List<Post> posts = postDao.findPostByName(name);
         if (posts.isEmpty()) {
             return Optional.empty();
         }
@@ -38,7 +38,7 @@ public class PostService {
     }
 
     public List<Post> findPostByTagId(long id) {
-        return postRepository.findPostByTagId(id);
+        return postDao.findPostByTagId(id);
     }
 
 }
