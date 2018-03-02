@@ -32,7 +32,7 @@ public class PostService {
             return Optional.empty();
         }
         if (posts.size() > 1) {
-            LOGGER.warn("For name={} found more than one Post: {} this should never happen", name, posts);
+            LOGGER.warn("For name='{}' found more than one Post: {} this should never happen", name, posts);
         }
         return Optional.of(posts.get(0));
     }
