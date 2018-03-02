@@ -17,7 +17,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public abstract class AbstractRepositoryTest {
+public abstract class AbstractDaoTest {
 
     private static final String DB_SCRIPT_BASE = "datasets/";
     private static final Pattern STATEMENT_DELIMITER = Pattern.compile(";\\h*\\r?\\n");
@@ -79,7 +79,7 @@ public abstract class AbstractRepositoryTest {
             connection.setAutoCommit(false);
             for (String scriptName : scriptNames) {
                 scanner = new Scanner(
-                        AbstractRepositoryTest.class.getClassLoader().getResourceAsStream(DB_SCRIPT_BASE + scriptName)
+                        AbstractDaoTest.class.getClassLoader().getResourceAsStream(DB_SCRIPT_BASE + scriptName)
                 ).useDelimiter(STATEMENT_DELIMITER);
                 while (scanner.hasNext()) {
                     String sqlStatementString = scanner.next();
