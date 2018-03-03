@@ -1,9 +1,11 @@
 package com.dmytrobilokha.nibee.data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Post {
 
@@ -13,6 +15,16 @@ public class Post {
     private LocalDateTime createdOn;
     private LocalDateTime modifiedOn;
     private List<Tag> tagList;
+
+    Post() {
+        //This constructor is required for MyBatis
+    }
+
+    public Post(String name, String path, Set<Tag> tagSet) {
+        this.name = name;
+        this.path = path;
+        this.tagList = new ArrayList<>(tagSet);
+    }
 
     public Long getId() {
         return id;
