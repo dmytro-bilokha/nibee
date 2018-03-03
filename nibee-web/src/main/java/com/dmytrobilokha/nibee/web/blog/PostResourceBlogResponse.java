@@ -16,8 +16,8 @@ class PostResourceBlogResponse extends BlogResponse {
     private final ConfigService configService;
     private final PostService postService;
     private final FileService fileService;
-    private final String postName;
-    private final String postResource;
+    final String postName;
+    final String postResource;
 
     PostResourceBlogResponse(ConfigService configService, PostService postService, FileService fileService
             , String postName, String postResource) {

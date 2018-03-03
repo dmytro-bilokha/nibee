@@ -18,7 +18,7 @@ class PostEntryBlogResponse extends BlogResponse {
     private final ConfigService configService;
     private final PostService postService;
     private final FileService fileService;
-    private final String postName;
+    final String postName;
 
     PostEntryBlogResponse(ConfigService configService, PostService postService, FileService fileService, String postName) {
         this.configService = configService;

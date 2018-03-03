@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
 @Dependent
 public class BlogResponseFactory {
 
-    private static final Pattern SANITIZE_PATTERN = Pattern.compile("(^/+)|(/+$)|(/{2,})|(\\.{2,})|([^0-9a-zA-Z\\./-])");
+    private static final Pattern REMOVE_SLASHES_PATTERN = Pattern.compile("(^/+)|(/+$)");
+    private static final Pattern CHECK_PATTERN = Pattern.compile("(/{2,})|(\\.{2,})|([^0-9a-zA-Z\\./-])");
 
     private final ConfigService configService;
     private final PostService postService;
@@ -27,6 +28,9 @@ public class BlogResponseFactory {
 
     BlogResponse createResponse(HttpServletRequest req) {
         String requestedPath = getSanitizedServletPath(req);
+        if (requestedPath == null) {
+            return new NotFoundBlogResponse();
+        }
         String[] postNameResourceArray = requestedPath.split("/", 2);
         if (postNameResourceArray.length == 0 || postNameResourceArray[0].isEmpty()) {
             return new WelcomeBlogResponse();
@@ -44,8 +48,11 @@ public class BlogResponseFactory {
 
     private String getSanitizedServletPath(HttpServletRequest req) {
         String servletPath = req.getServletPath();
-        String pathWithoutUnwantedChars = SANITIZE_PATTERN.matcher(servletPath).replaceAll("");
-        return pathWithoutUnwantedChars.toLowerCase();
+        String sanitizedPath = REMOVE_SLASHES_PATTERN.matcher(servletPath).replaceAll("");
+        if (CHECK_PATTERN.matcher(sanitizedPath).find()) {
+            return null;
+        }
+        return sanitizedPath.toLowerCase();
     }
 
 }
