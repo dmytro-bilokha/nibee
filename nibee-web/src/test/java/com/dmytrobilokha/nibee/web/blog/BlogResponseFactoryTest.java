@@ -64,7 +64,7 @@ public class BlogResponseFactoryTest {
     @Before
     public void init() {
         mockConfigService = Mockito.mock(ConfigService.class);
-        //mockPostService = Mockito.mock(PostService.class);
+        mockPostService = Mockito.mock(PostService.class);
         mockFileService = Mockito.mock(FileService.class);
         mockRequest = Mockito.mock(HttpServletRequest.class);
         Mockito.when(mockRequest.getServletPath()).thenReturn(servletPath);

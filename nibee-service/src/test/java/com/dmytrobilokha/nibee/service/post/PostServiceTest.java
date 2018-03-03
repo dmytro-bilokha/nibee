@@ -25,7 +25,7 @@ public class PostServiceTest {
         mockDaoOutput = new ArrayList<>();
         Mockito.when(postDaoMock.findPostByName(Mockito.anyString())).thenReturn(mockDaoOutput);
         Mockito.when(postDaoMock.findPostByTagId(Mockito.anyLong())).thenReturn(mockDaoOutput);
-        postService = new PostService(postDaoMock);
+        postService = new PostServiceImpl(postDaoMock);
     }
 
     @Test
