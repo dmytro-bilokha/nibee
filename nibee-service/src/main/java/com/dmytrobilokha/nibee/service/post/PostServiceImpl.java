@@ -39,6 +39,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Optional<String> findPostPathByName(String name) {
+        List<String> paths = postDao.findPostPathByName(name);
+        if (paths.isEmpty()) {
+            return Optional.empty();
+        }
+        if (paths.size() > 1) {
+            LOGGER.warn("For name='{}' found more than one post path: {} this should never happen", name, paths);
+        }
+        return Optional.of(paths.get(0));
+    }
+
+    @Override
     public List<Post> findPostByTagId(long id) {
         return postDao.findPostByTagId(id);
     }

@@ -24,8 +24,8 @@
         UPDATE post SET name=#{name} where id=1
     </update>
 
-    <select id="getNames" resultType="java.lang.String">
-        SELECT name FROM post
+    <select id="findPostPathByName" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT path FROM post WHERE name=#{name}
     </select>
 
     <select id="findPostByName" resultMap="post" parameterType="java.lang.String">

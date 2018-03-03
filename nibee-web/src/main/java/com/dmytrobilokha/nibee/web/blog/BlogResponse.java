@@ -1,6 +1,5 @@
 package com.dmytrobilokha.nibee.web.blog;
 
-import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.service.config.ConfigProperty;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import org.slf4j.Logger;
@@ -18,9 +17,9 @@ abstract class BlogResponse {
 
     abstract void respond(HttpServletRequest req, HttpServletResponse resp);
 
-    Path getPostFilePath(ConfigService configService, Post post, String postFile) {
+    Path getPostFilePath(ConfigService configService, String postBase, String postFile) {
         return Paths.get(configService.getAsString(ConfigProperty.POSTS_ROOT) + '/'
-                + post.getPath() + '/' + postFile);
+                + postBase + '/' + postFile);
     }
 
     void respondWithError(HttpServletResponse resp, int errorCode) {

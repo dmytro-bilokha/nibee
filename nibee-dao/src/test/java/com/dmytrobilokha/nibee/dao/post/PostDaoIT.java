@@ -70,4 +70,11 @@ public class PostDaoIT extends AbstractDaoTest {
         assertTrue(posts.isEmpty());
     }
 
+    @Test
+    public void checkFindsPathByPostName() {
+        List<String> postPaths = postDao.findPostPathByName("post-about-rest");
+        assertEquals(1, postPaths.size());
+        assertEquals("2018/01/REST", postPaths.get(0));
+    }
+
 }

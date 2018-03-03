@@ -1,7 +1,6 @@
 package com.dmytrobilokha.nibee.web.blog;
 
 
-import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.service.config.ConfigProperty;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.Optional;
 
 public class PostResourceBlogResponseTest {
@@ -37,7 +35,7 @@ public class PostResourceBlogResponseTest {
         mockConfigService = Mockito.mock(ConfigService.class);
         Mockito.when(mockConfigService.getAsString(ConfigProperty.POSTS_ROOT)).thenReturn("/home/nibee");
         mockPostService = Mockito.mock(PostService.class);
-        Mockito.when(mockPostService.findPostByName(Mockito.anyString())).thenReturn(Optional.empty());
+        Mockito.when(mockPostService.findPostPathByName(Mockito.anyString())).thenReturn(Optional.empty());
         mockFileService = Mockito.mock(FileService.class);
         Mockito.when(mockFileService.isFileRegularAndReadable(Mockito.any())).thenReturn(false);
         Mockito.when(mockFileService.getFileContentType(Mockito.any())).thenReturn("");
@@ -60,8 +58,7 @@ public class PostResourceBlogResponseTest {
 
     @Test
     public void testSends404WhenFileIsNotReadable() throws IOException {
-        Post post = new Post(POST_NAME, "path", Collections.emptySet());
-        Mockito.when(mockPostService.findPostByName(Mockito.anyString())).thenReturn(Optional.of(post));
+        Mockito.when(mockPostService.findPostPathByName(Mockito.anyString())).thenReturn(Optional.of("path"));
         Mockito.when(mockFileService.getFileContentType(Mockito.any())).thenReturn(RESOURCE_CONTENT);
         blogResponse.respond(mockRequest, mockResponse);
         Mockito.verify(mockResponse).sendError(404);
@@ -69,8 +66,7 @@ public class PostResourceBlogResponseTest {
 
     @Test
     public void testSends404WhenNoContentType() throws IOException {
-        Post post = new Post(POST_NAME, "path", Collections.emptySet());
-        Mockito.when(mockPostService.findPostByName(Mockito.anyString())).thenReturn(Optional.of(post));
+        Mockito.when(mockPostService.findPostPathByName(Mockito.anyString())).thenReturn(Optional.of("path"));
         Mockito.when(mockFileService.isFileRegularAndReadable(Mockito.any())).thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
         Mockito.verify(mockResponse).sendError(404);
@@ -78,9 +74,8 @@ public class PostResourceBlogResponseTest {
 
     @Test
     public void testStreamsResourceFile() throws IOException {
-        Post post = new Post(POST_NAME, "path", Collections.emptySet());
         Path resourcePath = Paths.get("/home/nibee/path/" + POST_RESOURCE);
-        Mockito.when(mockPostService.findPostByName(POST_NAME)).thenReturn(Optional.of(post));
+        Mockito.when(mockPostService.findPostPathByName(POST_NAME)).thenReturn(Optional.of("path"));
         Mockito.when(mockFileService.getFileContentType(resourcePath)).thenReturn(RESOURCE_CONTENT);
         Mockito.when(mockFileService.isFileRegularAndReadable(resourcePath)).thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);

@@ -9,6 +9,8 @@ public interface PostService {
 
     Optional<Post> findPostByName(String name);
 
+    Optional<String> findPostPathByName(String name);
+
     List<Post> findPostByTagId(long id);
 
 }

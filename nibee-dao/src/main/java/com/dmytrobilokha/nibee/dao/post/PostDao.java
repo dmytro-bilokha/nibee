@@ -9,6 +9,9 @@ import java.util.List;
 public interface PostDao {
 
     List<Post> findPostByName(String name);
+
+    List<String> findPostPathByName(String name);
+
     List<Post> findPostByTagId(long tagId);
 
 }

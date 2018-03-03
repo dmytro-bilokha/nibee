@@ -1,6 +1,5 @@
 package com.dmytrobilokha.nibee.web.blog;
 
-import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
@@ -30,17 +29,17 @@ class PostResourceBlogResponse extends BlogResponse {
 
     @Override
     void respond(HttpServletRequest req, HttpServletResponse resp) {
-        Optional<Post> postOptional = postService.findPostByName(postName);
-        if (!postOptional.isPresent()) {
+        Optional<String> pathOptional = postService.findPostPathByName(postName);
+        if (!pathOptional.isPresent()) {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        Post post = postOptional.get();
-        servePostResource(resp, post);
+        String postBase = pathOptional.get();
+        servePostResource(resp, postBase);
     }
 
-    private void servePostResource(HttpServletResponse resp, Post post) {
-        Path resourcePath = getPostFilePath(configService, post, postResource);
+    private void servePostResource(HttpServletResponse resp, String postBase) {
+        Path resourcePath = getPostFilePath(configService, postBase, postResource);
         String contentType = fileService.getFileContentType(resourcePath);
         if (contentType.isEmpty() || !fileService.isFileRegularAndReadable(resourcePath)) {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
@@ -51,7 +50,7 @@ class PostResourceBlogResponse extends BlogResponse {
             resp.setContentLengthLong(fileService.getFileSize(resourcePath));
             fileService.dumpFileToStream(resourcePath, resp.getOutputStream());
         } catch (IOException ex ){
-            logger.error("Failed to serve resource '{}' from post {}", resourcePath, post, ex);
+            logger.error("Failed to serve resource '{}' from post {}", resourcePath, postBase, ex);
             respondWithError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }

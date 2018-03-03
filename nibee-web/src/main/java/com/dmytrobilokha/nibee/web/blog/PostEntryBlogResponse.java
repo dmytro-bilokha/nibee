@@ -39,7 +39,7 @@ class PostEntryBlogResponse extends BlogResponse {
     }
 
     private void servePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
-        Path postEntryPath = getPostFilePath(configService, post, POST_ENTRY_FILE);
+        Path postEntryPath = getPostFilePath(configService, post.getPath(), POST_ENTRY_FILE);
         if (!fileService.isFileRegularAndReadable(postEntryPath)) {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
             return;
