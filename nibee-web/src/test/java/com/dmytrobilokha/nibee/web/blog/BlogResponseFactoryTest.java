@@ -50,6 +50,7 @@ public class BlogResponseFactoryTest {
                 , {"/POSTNAMe/postRESource", PostResourceBlogResponse.class, "postname", "postresource"}
                 , {"//postname/postresource//", PostResourceBlogResponse.class, "postname", "postresource"}
                 , {"/postname/postresource/css/img.jpg", PostResourceBlogResponse.class, "postname", "postresource/css/img.jpg"}
+                , {"/postname/postresource/css/img.jpg/", PostResourceBlogResponse.class, "postname", "postresource/css/img.jpg"}
         });
     }
 
