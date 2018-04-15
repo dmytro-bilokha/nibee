@@ -19,9 +19,16 @@ public class FileService {
 
     static {
         Map<String, String> contentTypeMap = new HashMap<>();
+        contentTypeMap.put("css", "text/css");
+        contentTypeMap.put("js", "application/javascript");
         contentTypeMap.put("txt", "text/plain");
-        contentTypeMap.put("pdf", "application/pdf");
-        contentTypeMap.put("7z", "application/x-7z-compressed");
+        contentTypeMap.put("md", "text/markdown");
+        contentTypeMap.put("eot", "application/vnd.ms-fontobject");
+        contentTypeMap.put("otf", "application/font-sfnt");
+        contentTypeMap.put("ttf", "application/font-sfnt");
+        contentTypeMap.put("woff", "application/font-woff");
+        contentTypeMap.put("woff2", "application/font-woff");
+        contentTypeMap.put("ico", "image/vnd.microsoft.icon");
         contentTypeMap.put("gif", "image/gif");
         contentTypeMap.put("jp2", "image/jp2");
         contentTypeMap.put("jpg2", "image/jp2");
@@ -34,10 +41,12 @@ public class FileService {
         contentTypeMap.put("svgz", "image/svg+xml");
         contentTypeMap.put("tif", "image/tiff");
         contentTypeMap.put("tiff", "image/tiff");
+        contentTypeMap.put("7z", "application/x-7z-compressed");
         contentTypeMap.put("gz", "application/gzip");
         contentTypeMap.put("zip", "application/zip");
         contentTypeMap.put("tgz", "application/x-gtar-compressed");
         contentTypeMap.put("tar", "application/x-tar");
+        contentTypeMap.put("pdf", "application/pdf");
         contentTypeMap.put("odp", "application/vnd.oasis.opendocument.presentation");
         contentTypeMap.put("ods", "application/vnd.oasis.opendocument.spreadsheet");
         contentTypeMap.put("odt", "application/vnd.oasis.opendocument.text");
