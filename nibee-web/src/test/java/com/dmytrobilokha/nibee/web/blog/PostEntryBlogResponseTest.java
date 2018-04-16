@@ -68,7 +68,7 @@ public class PostEntryBlogResponseTest {
         Mockito.when(mockPostService.findPostByName(POST_NAME)).thenReturn(Optional.of(post));
         Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html"))).thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
-        Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/jsp/post.jspx");
+        Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/jsp/postPage.jspx");
     }
 
     @Test

@@ -8,7 +8,7 @@ import java.io.IOException;
 public enum NavigablePage {
 
     WELCOME("welcome.jspx")
-    , POST("post.jspx")
+    , POST("postPage.jspx")
     , POST_NOT_FOUND("postNotFound.jspx")
     , CONFIG_REPORT("admin/configReport.jspx")
     ;

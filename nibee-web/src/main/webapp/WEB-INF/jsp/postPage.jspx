@@ -1,0 +1,13 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
+    version="2.1">
+
+    <cnt:page title="Welcome page is under development" contentBase="${postModel.contentBase}">
+        <c:import url="${postModel.entryFileUrl}"/>
+    </cnt:page>
+
+</jsp:root>
