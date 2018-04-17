@@ -7,6 +7,13 @@
     version="2.1">
 
     <cnt:page title="Welcome page is under development" contentBase="${postModel.contentBase}">
+		<h1 id="firstHeader">H1: Welcome Page Is Under Development. Coming Soon</h1>
+		<p id="dates">
+		Created: ${postModel.createdOn}
+		<c:if test="${not empty postModel.modifiedOn}">
+		, Updated: ${postModel.modifiedOn}
+		</c:if>
+		</p>
         <c:import url="${postModel.entryFileUrl}"/>
     </cnt:page>
 

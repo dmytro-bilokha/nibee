@@ -45,8 +45,7 @@ class PostEntryBlogResponse extends BlogResponse {
             return;
         }
         String contentBase = req.getRequestURI().endsWith("/") ? req.getRequestURI() : (req.getRequestURI() + '/');
-        PostModel postModel = new PostModel("file://localhost" + postEntryPath.toString()
-                , contentBase, post.getTags());
+        PostModel postModel = new PostModel("file://localhost" + postEntryPath.toString(), contentBase, post);
         postModel.putInRequest(req);
         NavigablePage.POST.forwardTo(req, resp);
     }

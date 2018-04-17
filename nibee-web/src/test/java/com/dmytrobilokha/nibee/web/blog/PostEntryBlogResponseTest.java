@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class PostEntryBlogResponseTest {
 
     @Test
     public void testSends404WhenFileIsNotReadable() throws IOException {
-        Post post = new Post(POST_NAME, "path", Collections.emptySet());
+        Post post = createPost();
         Mockito.when(mockPostService.findPostByName(Mockito.anyString())).thenReturn(Optional.of(post));
         blogResponse.respond(mockRequest, mockResponse);
         Mockito.verify(mockResponse).sendError(404);
@@ -64,7 +65,7 @@ public class PostEntryBlogResponseTest {
 
     @Test
     public void testForwardsToJsp() {
-        Post post = new Post(POST_NAME, "path", Collections.emptySet());
+        Post post = createPost();
         Mockito.when(mockPostService.findPostByName(POST_NAME)).thenReturn(Optional.of(post));
         Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html"))).thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
@@ -73,7 +74,7 @@ public class PostEntryBlogResponseTest {
 
     @Test
     public void testSetsModelAttribute() {
-        Post post = new Post(POST_NAME, "path", Collections.emptySet());
+        Post post = createPost();
         Mockito.when(mockPostService.findPostByName(POST_NAME)).thenReturn(Optional.of(post));
         Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html"))).thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
@@ -84,6 +85,10 @@ public class PostEntryBlogResponseTest {
         PostModel postModel = models.get(0);
         assertEquals("file://localhost/home/nibee/path/_post_.html", postModel.getEntryFileUrl());
         assertEquals("/blog/" + POST_NAME + '/', postModel.getContentBase());
+    }
+
+    private Post createPost() {
+        return new Post(POST_NAME, "path", Collections.emptySet(), LocalDateTime.of(2018, 4, 17, 6, 30));
     }
 
 }

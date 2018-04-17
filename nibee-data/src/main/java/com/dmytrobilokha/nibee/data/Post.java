@@ -20,10 +20,11 @@ public class Post {
         //This constructor is required for MyBatis
     }
 
-    public Post(String name, String path, Set<Tag> tagSet) {
+    public Post(String name, String path, Set<Tag> tagSet, LocalDateTime createdOn) {
         this.name = name;
         this.path = path;
         this.tagList = new ArrayList<>(tagSet);
+        this.createdOn = createdOn;
     }
 
     public Long getId() {
