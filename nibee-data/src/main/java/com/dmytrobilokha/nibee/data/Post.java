@@ -11,6 +11,7 @@ public class Post {
 
     private Long id;
     private String name;
+    private String title;
     private String path;
     private LocalDateTime createdOn;
     private LocalDateTime modifiedOn;
@@ -33,6 +34,10 @@ public class Post {
 
     public String getName() {
         return name;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getPath() {
@@ -61,6 +66,7 @@ public class Post {
         Post post = (Post) o;
         return Objects.equals(id, post.id) &&
                 Objects.equals(name, post.name) &&
+                Objects.equals(title, post.title) &&
                 Objects.equals(path, post.path);
     }
 
@@ -74,6 +80,7 @@ public class Post {
         return "Post{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", path='" + path + '\'' +
                 ", createdOn=" + createdOn +
                 ", modifiedOn=" + modifiedOn +

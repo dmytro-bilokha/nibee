@@ -15,6 +15,7 @@ public class PostModel extends AbstractModel {
 
     private final String entryFileUrl;
     private final String contentBase;
+    private final String title;
     private final Collection<Tag> tags;
     private final String createdOn;
     private final String modifiedOn;
@@ -22,6 +23,7 @@ public class PostModel extends AbstractModel {
     PostModel(String entryFileUrl, String contentBase, Post post) {
         this.entryFileUrl = entryFileUrl;
         this.contentBase = contentBase;
+        this.title = post.getTitle();
         this.tags = post.getTags();
         this.createdOn = DATE_TIME_FORMATTER.format(post.getCreatedOn());
         if (post.getModifiedOn() == null) {
@@ -41,6 +43,10 @@ public class PostModel extends AbstractModel {
 
     public String getContentBase() {
         return contentBase;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public Collection<Tag> getTags() {
