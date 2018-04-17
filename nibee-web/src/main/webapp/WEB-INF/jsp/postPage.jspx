@@ -15,6 +15,22 @@
 		</c:if>
 		</p>
         <c:import url="${postModel.entryFileUrl}"/>
+        <c:if test="${postModel.postSharable}">
+		<p class="shareicons">
+			<a class="sharelink" href="https://en.wikipedia.org/" title="Share on Reddit"><i class="fab fa-reddit"></i></a>
+			<a class="sharelink" href="https://en.wikipedia.org/"><i class="fab fa-twitter-square"></i></a>
+			<a class="sharelink" href="https://en.wikipedia.org/"><i class="fab fa-linkedin"></i></a>
+			<a class="sharelink" href="https://en.wikipedia.org/"><i class="fab fa-google-plus"></i></a>
+			<a class="sharelink" href="https://en.wikipedia.org/"><i class="fab fa-facebook-square"></i></a>
+		</p>
+		</c:if>
+        <c:if test="${not empty postModel.tags}">
+		<p class="postTags">
+		    <c:forEach items="${postModel.tags}" var="tag">
+			<a class="taglink" href="https://en.wikipedia.org/">${tag.name}</a>
+			</c:forEach>
+		</p>
+		</c:if>
     </cnt:page>
 
 </jsp:root>
