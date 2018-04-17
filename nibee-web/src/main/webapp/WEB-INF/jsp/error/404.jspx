@@ -3,10 +3,10 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <body>
+
+    <cnt:page title="Page Not Found">
         <p>Sorry, the requested page does not exist or no longer available.</p>
-    </body>
-</html>
+    </cnt:page>
 </jsp:root>
