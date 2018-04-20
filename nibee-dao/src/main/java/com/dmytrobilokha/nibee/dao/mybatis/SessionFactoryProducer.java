@@ -20,7 +20,10 @@ import java.util.Arrays;
 public class SessionFactoryProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionFactoryProducer.class);
-    private static final String[] MAPPER_PACKAGES = new String[]{"com.dmytrobilokha.nibee.dao.post"};
+    private static final String[] MAPPER_PACKAGES = new String[]{
+            "com.dmytrobilokha.nibee.dao.post"
+            , "com.dmytrobilokha.nibee.dao.tag"
+    };
 
     private final DataSource dataSource;
 

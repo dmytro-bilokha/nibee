@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dmytrobilokha.nibee.dao.tag.TagDao">
+
+    <resultMap id="tag" type="com.dmytrobilokha.nibee.data.Tag">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Long"/>
+            <arg column="name" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <select id="getAll" resultMap="tag">
+            SELECT t.id, t.name
+            FROM tag t
+            ORDER BY t.name ASC
+    </select>
+
+</mapper>
