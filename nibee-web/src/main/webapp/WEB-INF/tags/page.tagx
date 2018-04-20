@@ -35,7 +35,8 @@
 		<p id="blogTitle">Dmytro Bilokha's Blog</p>
 		    <p class="navhead">Navigate</p>
 		    <nav>
-			<a class="navlink" href="https://en.wikipedia.org/">home</a>
+            <c:url value="/" var="home" scope="request"/>
+			<a class="navlink" href="${home}">home</a>
 			<a class="navlink" href="https://en.wikipedia.org/">about</a>
 		    </nav>
 		    <p class="navhead">Subscribe</p>
@@ -44,9 +45,12 @@
 		    </p>
 		    <p class="navhead">Browse</p>
 		    <p class="browseTags">
-		    <a class="taglink" href="https://en.wikipedia.org/">Java</a>
-		    <a class="taglink" href="https://en.wikipedia.org/">HTML</a>
-		    <a class="taglink" href="https://en.wikipedia.org/">CSS</a>
+		    <c:forEach items="${tagListHolder.tags}" var="tag">
+                <c:url value="/" var="tagHome" scope="request">
+                    <c:param name="tagId" value="${tag.id}"/>
+                </c:url>
+		    <a class="taglink" href="${tagHome}">${tag.name}</a>
+		    </c:forEach>
 		    </p>
 		</div>
 	    </div>
