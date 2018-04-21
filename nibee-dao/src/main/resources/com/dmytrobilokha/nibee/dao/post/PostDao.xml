@@ -55,7 +55,7 @@
         , t.id as tag_id, t.name as tag_name
         FROM post p
         LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
-        LEFT OUTER JOIN tag t ON pt.tag_id=t.id
+        INNER JOIN tag t ON pt.tag_id=t.id
     </sql>
 
     <select id="findPostAfter" resultMap="post">
@@ -66,7 +66,7 @@
         <if test="tagId != null">
             AND p.id IN (SELECT post_id FROM post_tag WHERE tag_id=#{tagId})
         </if>
-        ORDER BY COALESCE(p.modified_on, p.created_on) DESC, p.id DESC
+        ORDER BY COALESCE(p.modified_on, p.created_on) DESC, p.id DESC, tag_name ASC
         LIMIT #{limit}
     </select>
 
@@ -81,7 +81,7 @@
             </if>
             ORDER BY COALESCE(p.modified_on, p.created_on), p.id
             LIMIT #{limit}
-        ) ORDER BY COALESCE(modified_on, created_on) DESC, id DESC
+        ) ORDER BY COALESCE(modified_on, created_on) DESC, id DESC, tag_name ASC
     </select>
 
 </mapper>

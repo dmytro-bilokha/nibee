@@ -2,6 +2,7 @@ package com.dmytrobilokha.nibee.dao.post;
 
 import com.dmytrobilokha.nibee.dao.AbstractDaoTest;
 import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.Tag;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -132,7 +133,7 @@ public class PostDaoIT extends AbstractDaoTest {
     }
 
     @Test
-    public void checkDoesntLoseTagWheFiltering() {
+    public void checkDoesntLoseTagWhenFiltering() {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> postsFiltered = postDao.findPostAfter(dateTime, 1L, 1000);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
@@ -141,6 +142,28 @@ public class PostDaoIT extends AbstractDaoTest {
         for(Post post : postsFiltered) {
             assertEquals(postTagsSizeMap.get(post.getId()).intValue(), post.getTags().size());
         }
+    }
+
+    @Test
+    public void checkReturnsPostAfterWithTagsOrdered() {
+        LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
+        List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
+        assertTagsOrderedByName(posts);
+    }
+
+    private void assertTagsOrderedByName(Collection<Post> posts) {
+        for (Post post : posts) {
+            List<Tag> postTags = post.getTags();
+            List<Tag> tagsOrdered = new ArrayList<>(postTags);
+            Collections.sort(tagsOrdered, this::compareTags);
+            for (int i = 0 ; i < tagsOrdered.size(); i++) {
+                assertTrue(tagsOrdered.get(i) == postTags.get(i));
+            }
+        }
+    }
+
+    private int compareTags(Tag tag1, Tag tag2) {
+       return tag1.getName().compareTo(tag2.getName());
     }
 
     @Test
@@ -180,6 +203,14 @@ public class PostDaoIT extends AbstractDaoTest {
         List<Post> limitedPosts = postDao.findPostBefore(dateTime, null, 1);
         assertEquals(1, limitedPosts.size());
     }
+
+    @Test
+    public void checkReturnsPostBeforeWithTagsOrdered() {
+        LocalDateTime dateTime = LocalDateTime.of(2080, 3, 3, 0, 1);
+        List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
+        assertTagsOrderedByName(posts);
+    }
+
     private int comparePostDateTime(Post post, LocalDateTime dateTime) {
         LocalDateTime postDateTime = post.getLastTouch();
         return postDateTime.compareTo(dateTime);

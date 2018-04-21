@@ -13,6 +13,7 @@ INSERT INTO tag (id, name) VALUES
 
 INSERT INTO post_tag (post_id, tag_id) VALUES
   (1, 1)
+, (1, 3)
 , (2, 1)
 , (1, 2)
 , (2, 3)
