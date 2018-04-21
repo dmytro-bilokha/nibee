@@ -52,6 +52,10 @@ public class Post {
         return modifiedOn;
     }
 
+    public LocalDateTime getLastTouch() {
+        return modifiedOn == null ? createdOn : modifiedOn;
+    }
+
     public List<Tag> getTags() {
         if (tagList == null) {
             return Collections.emptyList();

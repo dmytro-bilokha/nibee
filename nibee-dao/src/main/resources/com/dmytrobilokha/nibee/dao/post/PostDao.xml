@@ -49,5 +49,40 @@
         )
     </select>
 
+    <sql id="selectPostWithTags">
+        SELECT
+        p.id, p.name, p.title, p.path, p.created_on, p.modified_on
+        , t.id as tag_id, t.name as tag_name
+        FROM post p
+        LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
+        LEFT OUTER JOIN tag t ON pt.tag_id=t.id
+    </sql>
+
+    <select id="findPostAfter" resultMap="post">
+        <include refid="selectPostWithTags"/>
+        <![CDATA[
+        WHERE COALESCE(p.modified_on, p.created_on) > #{dateTime}
+        ]]>
+        <if test="tagId != null">
+            AND p.id IN (SELECT post_id FROM post_tag WHERE tag_id=#{tagId})
+        </if>
+        ORDER BY COALESCE(p.modified_on, p.created_on) DESC, p.id DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="findPostBefore" resultMap="post">
+        SELECT * FROM (
+            <include refid="selectPostWithTags"/>
+            <![CDATA[
+            WHERE COALESCE(p.modified_on, p.created_on) < #{dateTime}
+            ]]>
+            <if test="tagId != null">
+                AND p.id IN (SELECT post_id FROM post_tag WHERE tag_id=#{tagId})
+            </if>
+            ORDER BY COALESCE(p.modified_on, p.created_on), p.id
+            LIMIT #{limit}
+        ) ORDER BY COALESCE(modified_on, created_on) DESC, id DESC
+    </select>
+
 </mapper>
 
