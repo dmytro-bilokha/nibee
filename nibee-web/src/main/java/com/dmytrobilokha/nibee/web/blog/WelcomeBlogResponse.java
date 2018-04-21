@@ -9,7 +9,7 @@ class WelcomeBlogResponse extends BlogResponse {
 
     @Override
     void respond(HttpServletRequest req, HttpServletResponse resp) {
-        NavigablePage.WELCOME.forwardTo(req, resp);
+        NavigablePage.HOME.forwardTo(req, resp);
     }
 
 }

@@ -7,16 +7,16 @@ import java.io.IOException;
 
 public enum NavigablePage {
 
-    WELCOME("welcome.jspx")
-    , POST("postPage.jspx")
-    , POST_NOT_FOUND("postNotFound.jspx")
-    , CONFIG_REPORT("admin/configReport.jspx")
+    WELCOME("/WEB-INF/jsp/welcome.jspx")
+    , HOME("/WEB-INF/home")
+    , POST("/WEB-INF/jsp/postPage.jspx")
+    , CONFIG_REPORT("/WEB-INF/jsp/admin/configReport.jspx")
     ;
 
     private final String location;
 
-    NavigablePage(String relativeLocation) {
-        this.location = "/WEB-INF/jsp/" + relativeLocation;
+    NavigablePage(String location) {
+        this.location = location;
     }
 
     public void forwardTo(HttpServletRequest request, HttpServletResponse response) {
