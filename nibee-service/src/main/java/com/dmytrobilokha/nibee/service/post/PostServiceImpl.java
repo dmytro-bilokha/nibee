@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> findPostByTagId(long id) {
         return postDao.findPostByTagId(id);
+    }
+
+    @Override
+    public List<Post> findPostAfter(LocalDateTime dateTime, Long tagId, int limit) {
+        return postDao.findPostAfter(dateTime, tagId, limit);
+    }
+
+    @Override
+    public List<Post> findPostBefore(LocalDateTime dateTime, Long tagId, int limit) {
+        return postDao.findPostBefore(dateTime, tagId, limit);
     }
 
 }
