@@ -55,33 +55,46 @@
         , t.id as tag_id, t.name as tag_name
         FROM post p
         LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
-        INNER JOIN tag t ON pt.tag_id=t.id
+        LEFT OUTER JOIN tag t ON pt.tag_id=t.id
     </sql>
 
     <select id="findPostAfter" resultMap="post">
         <include refid="selectPostWithTags"/>
-        <![CDATA[
-        WHERE COALESCE(p.modified_on, p.created_on) > #{dateTime}
-        ]]>
+        INNER JOIN (
+          SELECT id FROM post
+          WHERE COALESCE(modified_on, created_on) &gt; #{dateTime}
+          AND id IN (
+              SELECT pt2.post_id FROM post_tag pt2
+              <if test="tagId != null">
+                WHERE pt2.tag_id=#{tagId}
+              </if>
+          )
+          ORDER BY COALESCE(modified_on, created_on) ASC, id ASC
+          LIMIT #{limit}
+        ) p2 ON p2.id=p.id
+        WHERE tag_id IS NOT NULL
         <if test="tagId != null">
-            AND p.id IN (SELECT post_id FROM post_tag WHERE tag_id=#{tagId})
+            AND p.id IN (SELECT pt2.post_id FROM post_tag pt2 WHERE pt2.tag_id=#{tagId})
         </if>
         ORDER BY COALESCE(p.modified_on, p.created_on) DESC, p.id DESC, tag_name ASC
-        LIMIT #{limit}
     </select>
 
     <select id="findPostBefore" resultMap="post">
-        SELECT * FROM (
-            <include refid="selectPostWithTags"/>
-            <![CDATA[
-            WHERE COALESCE(p.modified_on, p.created_on) < #{dateTime}
-            ]]>
-            <if test="tagId != null">
-                AND p.id IN (SELECT post_id FROM post_tag WHERE tag_id=#{tagId})
-            </if>
-            ORDER BY COALESCE(p.modified_on, p.created_on), p.id
+        <include refid="selectPostWithTags"/>
+        INNER JOIN (
+            SELECT id FROM post
+            WHERE COALESCE(modified_on, created_on) &lt; #{dateTime}
+            AND id IN (
+                SELECT pt2.post_id FROM post_tag pt2
+                <if test="tagId != null">
+                    WHERE pt2.tag_id=#{tagId}
+                </if>
+            )
+            ORDER BY COALESCE(modified_on, created_on) DESC, id DESC
             LIMIT #{limit}
-        ) ORDER BY COALESCE(modified_on, created_on) DESC, id DESC, tag_name ASC
+        ) p2 ON p2.id=p.id
+        WHERE tag_id IS NOT NULL
+        ORDER BY COALESCE(p.modified_on, p.created_on) DESC, p.id DESC, tag_name ASC
     </select>
 
 </mapper>

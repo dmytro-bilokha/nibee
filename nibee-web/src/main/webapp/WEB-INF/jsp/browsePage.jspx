@@ -1,0 +1,39 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
+    version="2.1">
+
+    <cnt:page title="Dmytro Bilokha's Blog - Posts List">
+        <c:forEach items="${browsePostsModel.headlines}" var="postHeadline">
+		<h1>${postHeadline.title}</h1>
+		<p class="postDates">
+		Created: ${postHeadline.createdOn}<c:if test="${not empty postHeadline.modifiedOn}">, Updated: ${postHeadline.modifiedOn}</c:if>
+		</p>
+        <c:if test="${not empty postHeadline.tags}">
+		<p class="postTags">
+		    <c:forEach items="${postHeadline.tags}" var="tag">
+			<a class="taglink" href="https://en.wikipedia.org/">${tag.name}</a>
+			</c:forEach>
+		</p>
+		</c:if>
+		</c:forEach>
+		<div class="backForwardButtons">
+		    <c:if test="${browsePostsModel.backPossible}">
+                <c:url value="/" var="backUrl" scope="request">
+                    <c:param name="after" value="${browsePostsModel.backParam}"/>
+                </c:url>
+		        <a class="backForwardLink" href="${backUrl}"><i class="fas fa-angle-left"></i></a>
+		    </c:if>
+		    <c:if test="${browsePostsModel.forwardPossible}">
+                <c:url value="/" var="forwardUrl" scope="request">
+                    <c:param name="before" value="${browsePostsModel.forwardParam}"/>
+                </c:url>
+		        <a class="backForwardLink" href="${forwardUrl}"><i class="fas fa-angle-right"></i></a>
+		    </c:if>
+		</div>
+    </cnt:page>
+
+</jsp:root>

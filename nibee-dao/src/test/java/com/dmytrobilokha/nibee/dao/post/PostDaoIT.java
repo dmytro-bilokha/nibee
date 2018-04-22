@@ -105,6 +105,10 @@ public class PostDaoIT extends AbstractDaoTest {
     public void checkOrdersPostAfter() {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
+        assertPostsOrdered(posts);
+    }
+
+    private void assertPostsOrdered(List<Post> posts) {
         List<Post> orderedPosts = new ArrayList<>(posts);
         Collections.sort(orderedPosts, this::comparePostsDateTime);
         for (int i = 0; i < posts.size(); i++) {
@@ -116,9 +120,10 @@ public class PostDaoIT extends AbstractDaoTest {
     public void checkLimitsPostAfter() {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
-        assertTrue(posts.size() > 1);
-        List<Post> limitedPosts = postDao.findPostAfter(dateTime, null, 1);
-        assertEquals(1, limitedPosts.size());
+        assertTrue(posts.size() > 2);
+        int limit = posts.size() - 1;
+        List<Post> limitedPosts = postDao.findPostAfter(dateTime, null, limit);
+        assertEquals(limit, limitedPosts.size());
     }
 
     @Test
@@ -126,9 +131,13 @@ public class PostDaoIT extends AbstractDaoTest {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, 1L, 1000);
         assertFalse(posts.isEmpty());
+        assertAllPostsHaveTagId(posts, 1L);
+    }
+
+    private void assertAllPostsHaveTagId(Collection<Post> posts, Long tagId) {
         for(Post post : posts) {
             assertTrue(post.getTags().stream()
-                    .anyMatch(tag -> tag.getId() == 1L));
+                    .anyMatch(tag -> tagId.equals(tag.getId())));
         }
     }
 
@@ -188,11 +197,7 @@ public class PostDaoIT extends AbstractDaoTest {
     public void checkOrdersPostBefore() {
         LocalDateTime dateTime = LocalDateTime.of(2060, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
-        List<Post> orderedPosts = new ArrayList<>(posts);
-        Collections.sort(orderedPosts, this::comparePostsDateTime);
-        for (int i = 0; i < posts.size(); i++) {
-            assertTrue(orderedPosts.get(i) == posts.get(i));
-        }
+        assertPostsOrdered(posts);
     }
 
     @Test
@@ -202,6 +207,16 @@ public class PostDaoIT extends AbstractDaoTest {
         assertTrue(posts.size() > 1);
         List<Post> limitedPosts = postDao.findPostBefore(dateTime, null, 1);
         assertEquals(1, limitedPosts.size());
+    }
+
+    @Test
+    public void checkLimitsPostBefore2() {
+        LocalDateTime dateTime = LocalDateTime.of(2060, 3, 3, 0, 1);
+        List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
+        assertTrue(posts.size() > 2);
+        int limit = posts.size() - 1;
+        List<Post> limitedPosts = postDao.findPostBefore(dateTime, null, limit);
+        assertEquals(limit, limitedPosts.size());
     }
 
     @Test

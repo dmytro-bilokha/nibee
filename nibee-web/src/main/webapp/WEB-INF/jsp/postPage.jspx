@@ -8,7 +8,7 @@
 
     <cnt:page title="${postModel.title}" contentBase="${postModel.contentBase}">
 		<h1 id="firstHeader">${postModel.title}</h1>
-		<p id="dates">
+		<p class="postDates">
 		Created: ${postModel.createdOn}<c:if test="${not empty postModel.modifiedOn}">, Updated: ${postModel.modifiedOn}</c:if>
 		</p>
         <c:import url="${postModel.entryFileUrl}"/>
