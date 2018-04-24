@@ -38,6 +38,9 @@ public class BrowsePostsModel extends AbstractModel {
     }
 
     static Optional<LocalDateTime> parseDateTimeParam(String dateTimeString) {
+        if (dateTimeString == null || dateTimeString.isEmpty()) {
+            return Optional.empty();
+        }
         try {
             return Optional.of(LocalDateTime.parse(dateTimeString, DATE_TIME_FORMATTER));
         } catch (DateTimeParseException ex) {
