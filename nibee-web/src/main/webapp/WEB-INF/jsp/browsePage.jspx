@@ -15,24 +15,28 @@
         <c:if test="${not empty postHeadline.tags}">
 		<p class="postTags">
 		    <c:forEach items="${postHeadline.tags}" var="tag">
-			<a class="taglink" href="https://en.wikipedia.org/">${tag.name}</a>
+			<a class="tagLink" href="https://en.wikipedia.org/">${tag.name}</a>
 			</c:forEach>
 		</p>
 		</c:if>
 		</c:forEach>
 		<div class="backForwardButtons">
+		    <div>
 		    <c:if test="${browsePostsModel.backPossible}">
                 <c:url value="/" var="backUrl" scope="request">
                     <c:param name="after" value="${browsePostsModel.backParam}"/>
                 </c:url>
-		        <a class="backForwardLink" href="${backUrl}"><i class="fas fa-angle-left"></i></a>
+		        <a class="iconLink" href="${backUrl}"><i class="fas fa-angle-left"></i></a>
 		    </c:if>
+		    </div>
+		    <div>
 		    <c:if test="${browsePostsModel.forwardPossible}">
                 <c:url value="/" var="forwardUrl" scope="request">
                     <c:param name="before" value="${browsePostsModel.forwardParam}"/>
                 </c:url>
-		        <a class="backForwardLink" href="${forwardUrl}"><i class="fas fa-angle-right"></i></a>
+		        <a class="iconLink" href="${forwardUrl}"><i class="fas fa-angle-right"></i></a>
 		    </c:if>
+		    </div>
 		</div>
     </cnt:page>
 
