@@ -22,20 +22,30 @@
 		</c:forEach>
 		<div class="backForwardButtons">
 		    <div>
-		    <c:if test="${browsePostsModel.backPossible}">
+		    <c:choose>
+		    <c:when test="${browsePostsModel.backPossible}">
                 <c:url value="/" var="backUrl" scope="request">
                     <c:param name="after" value="${browsePostsModel.backParam}"/>
                 </c:url>
-		        <a class="iconLink" href="${backUrl}"><i class="fas fa-angle-left"></i></a>
-		    </c:if>
+		        <a class="iconLink" href="${backUrl}"><i class="fas fa-chevron-left"></i></a>
+		    </c:when>
+		    <c:otherwise>
+                <i class="fas fa-chevron-left"></i>
+		    </c:otherwise>
+		    </c:choose>
 		    </div>
 		    <div>
-		    <c:if test="${browsePostsModel.forwardPossible}">
+		    <c:choose>
+		    <c:when test="${browsePostsModel.forwardPossible}">
                 <c:url value="/" var="forwardUrl" scope="request">
                     <c:param name="before" value="${browsePostsModel.forwardParam}"/>
                 </c:url>
-		        <a class="iconLink" href="${forwardUrl}"><i class="fas fa-angle-right"></i></a>
-		    </c:if>
+		        <a class="iconLink" href="${forwardUrl}"><i class="fas fa-chevron-right"></i></a>
+		    </c:when>
+		    <c:otherwise>
+                <i class="fas fa-chevron-right"></i>
+		    </c:otherwise>
+		    </c:choose>
 		    </div>
 		</div>
     </cnt:page>
