@@ -8,44 +8,48 @@
 
     <cnt:page title="Dmytro Bilokha's Blog - Posts List">
         <c:forEach items="${browsePostsModel.headlines}" var="postHeadline">
-		<h1>${postHeadline.title}</h1>
-		<p class="postDates">
-		Created: ${postHeadline.createdOn}<c:if test="${not empty postHeadline.modifiedOn}">, Updated: ${postHeadline.modifiedOn}</c:if>
-		</p>
-        <c:if test="${not empty postHeadline.tags}">
-		<p class="postTags">
-		    <c:forEach items="${postHeadline.tags}" var="tag">
-			<a class="tagLink" href="https://en.wikipedia.org/">${tag.name}</a>
-			</c:forEach>
-		</p>
-		</c:if>
+            <div class="headliner">
+                <c:url value="/${postHeadline.name}/" var="postUrl" scope="request"/>
+                <a class="postLink" href="${postUrl}">${postHeadline.title}</a>
+                <p class="postDates">
+                    Created: ${postHeadline.createdOn}<c:if test="${not empty postHeadline.modifiedOn}">, Updated: ${postHeadline.modifiedOn}</c:if>
+                </p>
+                <p class="postTags">
+                    <c:forEach items="${postHeadline.tags}" var="tag">
+                        <c:url value="/" var="tagHome" scope="request">
+                            <c:param name="tagId" value="${tag.id}"/>
+                        </c:url>
+                        <a class="tagLink" href="${tagHome}">${tag.name}</a>
+                    </c:forEach>
+                </p>
+            </div>
 		</c:forEach>
 		<div class="backForwardButtons">
 		    <div>
-		    <c:choose>
-		    <c:when test="${browsePostsModel.backPossible}">
-                <c:url value="/" var="backUrl" scope="request">
-                    <c:param name="after" value="${browsePostsModel.backParam}"/>
-                </c:url>
-		        <a class="iconLink" href="${backUrl}"><i class="fas fa-chevron-left"></i></a>
-		    </c:when>
-		    <c:otherwise>
-                <i class="fas fa-chevron-left"></i>
-		    </c:otherwise>
-		    </c:choose>
+                <c:choose>
+                    <c:when test="${browsePostsModel.backPossible}">
+                        <c:url value="/" var="backUrl" scope="request">
+                            <c:param name="after" value="${browsePostsModel.backParam}"/>
+                        </c:url>
+                        <a class="iconLink" href="${backUrl}"><i class="fas fa-chevron-left"></i></a>
+                    </c:when>
+                    <c:otherwise>
+                        <i class="fas fa-chevron-left"></i>
+                    </c:otherwise>
+                </c:choose>
 		    </div>
 		    <div>
-		    <c:choose>
-		    <c:when test="${browsePostsModel.forwardPossible}">
-                <c:url value="/" var="forwardUrl" scope="request">
-                    <c:param name="before" value="${browsePostsModel.forwardParam}"/>
-                </c:url>
-		        <a class="iconLink" href="${forwardUrl}"><i class="fas fa-chevron-right"></i></a>
-		    </c:when>
-		    <c:otherwise>
-                <i class="fas fa-chevron-right"></i>
-		    </c:otherwise>
-		    </c:choose>
+                <c:choose>
+                    <c:when test="${browsePostsModel.forwardPossible}">
+                        <c:url value="/" var="forwardUrl" scope="request">
+                            <c:param name="before" value="${browsePostsModel.forwardParam}"/>
+                        </c:url>
+                        <a class="iconLink" href="${forwardUrl}"><i class="fas fa-chevron-right"></i></a>
+                    </c:when>
+                    <c:otherwise>
+                        <i class="fas fa-chevron-right"></i>
+                    </c:otherwise>
+                </c:choose>
 		    </div>
 		</div>
     </cnt:page>
