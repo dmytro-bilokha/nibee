@@ -14,8 +14,8 @@ public interface PostService {
 
     List<Post> findPostByTagId(long id);
 
-    List<Post> findPostAfter(LocalDateTime dateTime, Long tagId, int limit);
+    List<Post> findPostAfter(LocalDateTime dateTime, Optional<Long> tagId, int limit);
 
-    List<Post> findPostBefore(LocalDateTime dateTime, Long tagId, int limit);
+    List<Post> findPostBefore(LocalDateTime dateTime, Optional<Long> tagId, int limit);
 
 }

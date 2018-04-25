@@ -29,18 +29,27 @@ public class HomeServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String beforeParam = req.getParameter("before");
+        String afterParam = req.getParameter("after");
+        String tagIdParam = req.getParameter("tagId");
         Optional<LocalDateTime> beforeValue = BrowsePostsModel.parseDateTimeParam(beforeParam);
+        Optional<LocalDateTime> afterValue = BrowsePostsModel.parseDateTimeParam(afterParam);
+        Optional<Long> tagIdValue = BrowsePostsModel.parseLongParam(tagIdParam);
         List<Post> posts;
         boolean backPossible;
         boolean forwardPossible;
         if (beforeValue.isPresent()) {
-            posts = postService.findPostBefore(beforeValue.get(), null, HEADLINERS_PER_PAGE + 1);
+            posts = postService.findPostBefore(beforeValue.get(), tagIdValue, HEADLINERS_PER_PAGE + 1);
             backPossible = true;
+            forwardPossible = posts.size() > HEADLINERS_PER_PAGE;
+        } else if(afterValue.isPresent()) {
+            posts = postService.findPostAfter(afterValue.get(), tagIdValue, HEADLINERS_PER_PAGE + 1);
+            backPossible = posts.size() > HEADLINERS_PER_PAGE;
+            forwardPossible = true;
         } else {
-            posts = postService.findPostBefore(THE_END_OF_TIME, null, HEADLINERS_PER_PAGE + 1);
+            posts = postService.findPostBefore(THE_END_OF_TIME, tagIdValue, HEADLINERS_PER_PAGE + 1);
             backPossible = false;
+            forwardPossible = posts.size() > HEADLINERS_PER_PAGE;
         }
-        forwardPossible = posts.size() > HEADLINERS_PER_PAGE;
         if (posts.size() > HEADLINERS_PER_PAGE) {
             posts = posts.subList(0, HEADLINERS_PER_PAGE);
         }

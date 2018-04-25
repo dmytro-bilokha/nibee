@@ -57,13 +57,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findPostAfter(LocalDateTime dateTime, Long tagId, int limit) {
-        return postDao.findPostAfter(dateTime, tagId, limit);
+    public List<Post> findPostAfter(LocalDateTime dateTime, Optional<Long> tagId, int limit) {
+        return postDao.findPostAfter(dateTime, tagId.orElse(null), limit);
     }
 
     @Override
-    public List<Post> findPostBefore(LocalDateTime dateTime, Long tagId, int limit) {
-        return postDao.findPostBefore(dateTime, tagId, limit);
+    public List<Post> findPostBefore(LocalDateTime dateTime, Optional<Long> tagId, int limit) {
+        return postDao.findPostBefore(dateTime, tagId.orElse(null), limit);
     }
 
 }

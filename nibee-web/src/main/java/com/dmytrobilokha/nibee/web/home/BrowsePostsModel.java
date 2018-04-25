@@ -48,6 +48,17 @@ public class BrowsePostsModel extends AbstractModel {
         }
     }
 
+    static Optional<Long> parseLongParam(String longValueString) {
+        if (longValueString == null || longValueString.isEmpty()) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.of(Long.valueOf(longValueString, 10));
+        } catch (NumberFormatException ex) {
+            return Optional.empty(); //TODO: throw custom exception here
+        }
+    }
+
     private String extractTouchParam(boolean possible, Post post) {
         if (!possible) {
             return "";
