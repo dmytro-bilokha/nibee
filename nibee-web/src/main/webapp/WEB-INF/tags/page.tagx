@@ -18,11 +18,11 @@
         <c:url value="/resources/favicon/favicon-32x32.png" var="favicon32" scope="request"/>
         <link rel="icon" type="image/png" sizes="32x32" href="${fn:escapeXml(favicon32)}"/>
         <c:url value="/resources/favicon/favicon-16x16.png" var="favicon16" scope="request"/>
-        <link rel="icon" type="image/png" sizes="16x16" href="${fn:escapeXml(favicon16}"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="${fn:escapeXml(favicon16)}"/>
         <c:url value="/resources/favicon/favicon.ico" var="favicon" scope="request"/>
-        <link rel="shortcut icon" href="${fn:escapeXml(favicon}"/>
+        <link rel="shortcut icon" href="${fn:escapeXml(favicon)}"/>
         <c:url value="/resources/css/style.css" var="cssStyle" scope="request"/>
-        <link rel="stylesheet" href="${fn:escapeXml(cssStyle}"/>
+        <link rel="stylesheet" href="${fn:escapeXml(cssStyle)}"/>
         <c:url value="/resources/fonts/fontawesome-free-5.0.9/web-fonts-with-css/css/fontawesome-all.css" var="cssFont"
         scope="request"/>
         <link rel="stylesheet" href="${fn:escapeXml(cssFont)}"/>
