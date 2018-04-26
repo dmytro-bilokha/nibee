@@ -24,7 +24,10 @@
         <c:if test="${not empty postModel.tags}">
 		<p class="postTags">
 		    <c:forEach items="${postModel.tags}" var="tag">
-			<a class="taglink" href="https://en.wikipedia.org/">${tag.name}</a>
+                <c:url value="/" var="tagHome" scope="request">
+                    <c:param name="tagId" value="${tag.id}"/>
+                </c:url>
+                <a class="tagLink" href="${fn:escapeXml(tagHome)}">${tag.name}</a>
 			</c:forEach>
 		</p>
 		</c:if>

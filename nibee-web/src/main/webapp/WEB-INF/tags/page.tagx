@@ -12,56 +12,59 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <c:if test="${not empty contentBase}">
-        <base href="${contentBase}" target="_blank"/>
-    </c:if>
-    <c:url value="/resources/favicon/favicon-32x32.png" var="favicon32" scope="request"/>
-	<link rel="icon" type="image/png" sizes="32x32" href="${favicon32}"/>
-    <c:url value="/resources/favicon/favicon-16x16.png" var="favicon16" scope="request"/>
-	<link rel="icon" type="image/png" sizes="16x16" href="${favicon16}"/>
-    <c:url value="/resources/favicon/favicon.ico" var="favicon" scope="request"/>
-	<link rel="shortcut icon" href="${favicon}"/>
-    <c:url value="/resources/css/style.css" var="cssStyle" scope="request"/>
-	<link rel="stylesheet" href="${cssStyle}"/>
-    <c:url value="/resources/fonts/fontawesome-free-5.0.9/web-fonts-with-css/css/fontawesome-all.css" var="cssFont"
-    scope="request"/>
-	<link rel="stylesheet" href="${cssFont}"/>
-	<title><c:out value="${title}"/></title>
+        <c:if test="${not empty contentBase}">
+            <base href="${contentBase}" target="_blank"/>
+        </c:if>
+        <c:url value="/resources/favicon/favicon-32x32.png" var="favicon32" scope="request"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="${fn:escapeXml(favicon32)}"/>
+        <c:url value="/resources/favicon/favicon-16x16.png" var="favicon16" scope="request"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="${fn:escapeXml(favicon16}"/>
+        <c:url value="/resources/favicon/favicon.ico" var="favicon" scope="request"/>
+        <link rel="shortcut icon" href="${fn:escapeXml(favicon}"/>
+        <c:url value="/resources/css/style.css" var="cssStyle" scope="request"/>
+        <link rel="stylesheet" href="${fn:escapeXml(cssStyle}"/>
+        <c:url value="/resources/fonts/fontawesome-free-5.0.9/web-fonts-with-css/css/fontawesome-all.css" var="cssFont"
+        scope="request"/>
+        <link rel="stylesheet" href="${fn:escapeXml(cssFont)}"/>
+        <title><c:out value="${title}"/></title>
     </head>
     <body>
-	<div id="wrapper">
-	    <div id="navigationWrapper">
-		<div id="navigation">
-		<p id="blogTitle">Dmytro Bilokha's Blog</p>
-		    <p class="navhead">Navigate</p>
-		    <nav>
-            <c:url value="/" var="home" scope="request"/>
-			<a class="navlink" href="${home}">home</a>
-			<a class="navlink" href="https://en.wikipedia.org/">about</a>
-		    </nav>
-		    <p class="navhead">Subscribe</p>
-		    <p class="navicons">
-		    <a class="iconLink" href="https://en.wikipedia.org/" title="Follow me on Twitter" rel="nofollow"><i class="fab fa-twitter-square"></i></a>
-		    </p>
-		    <p class="navhead">Browse</p>
-		    <p class="browseTags">
-		    <c:forEach items="${tagListHolder.tags}" var="tag">
-                <c:url value="/" var="tagHome" scope="request">
-                    <c:param name="tagId" value="${tag.id}"/>
-                </c:url>
-		    <a class="tagLink" href="${tagHome}">${tag.name}</a>
-		    </c:forEach>
-		    </p>
-		</div>
-	    </div>
-	    <div id="main">
-	    <jsp:doBody/>
-		<footer>
-                <c:url value="/license/" var="license" scope="request"/>
-		    <p id="copyright">© Dmytro Bilokha 2018, <a href="${license}" rel="license" title="License info">License</a></p>
-		</footer>
-	    </div>
-	</div>
+        <div id="wrapper">
+            <div id="navigationWrapper">
+                <div id="navigation">
+                    <p id="blogTitle">Dmytro Bilokha's Blog</p>
+                    <p class="navhead">Navigate</p>
+                    <nav>
+                        <c:url value="/" var="home" scope="request"/>
+                        <a class="navlink" href="${fn:escapeXml(home)}">home</a>
+                        <a class="navlink" href="https://en.wikipedia.org/">about</a>
+                    </nav>
+                    <p class="navhead">Subscribe</p>
+                    <p class="navicons">
+                        <a class="iconLink" href="https://en.wikipedia.org/" title="Follow me on Twitter" rel="nofollow">
+                            <i class="fab fa-twitter-square"></i>
+                        </a>
+                    </p>
+                    <p class="navhead">Browse</p>
+                    <p class="browseTags">
+                        <c:forEach items="${tagListHolder.tags}" var="tag">
+                            <c:url value="/" var="tagHome" scope="request">
+                                <c:param name="tagId" value="${tag.id}"/>
+                            </c:url>
+                            <a class="tagLink" href="${fn:escapeXml(tagHome)}">${tag.name}</a>
+                        </c:forEach>
+                    </p>
+                </div>
+            </div>
+            <div id="main">
+                <jsp:doBody/>
+                <footer>
+                    <c:url value="/license/" var="license" scope="request"/>
+                    <p id="copyright">© Dmytro Bilokha 2018, <a href="${fn:escapeXml(license)}"
+                        rel="license" title="License info">License</a></p>
+                </footer>
+            </div>
+        </div>
     </body>
 </html>
 </jsp:root>
