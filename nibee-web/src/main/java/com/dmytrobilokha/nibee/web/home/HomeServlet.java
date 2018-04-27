@@ -3,12 +3,16 @@ package com.dmytrobilokha.nibee.web.home;
 import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.web.NavigablePage;
+import com.dmytrobilokha.nibee.web.param.InvalidParamException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +20,7 @@ import java.util.Optional;
 @WebServlet(urlPatterns = "/WEB-INF/home")
 public class HomeServlet extends HttpServlet{
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HomeServlet.class);
     private static final LocalDateTime THE_END_OF_TIME = LocalDateTime.of(3000, 1, 1, 0, 1);
     private static final int HEADLINERS_PER_PAGE = 2;
 
@@ -28,34 +33,80 @@ public class HomeServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        String beforeParam = req.getParameter("before");
-        String afterParam = req.getParameter("after");
-        String tagIdParam = req.getParameter("tagId");
-        Optional<LocalDateTime> beforeValue = BrowsePostsModel.parseDateTimeParam(beforeParam);
-        Optional<LocalDateTime> afterValue = BrowsePostsModel.parseDateTimeParam(afterParam);
-        Optional<Long> tagIdValue = BrowsePostsModel.parseLongParam(tagIdParam);
-        List<Post> posts;
-        boolean backPossible;
-        boolean forwardPossible;
+        Optional<LocalDateTime> beforeValue;
+        Optional<LocalDateTime> afterValue;
+        Optional<Long> tagIdValue;
+        try {
+            beforeValue = BrowsePostsModel.extractBeforeParam(req);
+            afterValue = BrowsePostsModel.extractAfterParam(req);
+            tagIdValue = BrowsePostsModel.extractTagIdParam(req);
+        } catch (InvalidParamException ex) {
+            sendBadRequestError(req, resp, ex);
+            return;
+        }
+        BrowsePostsModel model;
         if (beforeValue.isPresent()) {
-            posts = postService.findPostBefore(beforeValue.get(), tagIdValue, HEADLINERS_PER_PAGE + 1);
-            backPossible = true;
-            forwardPossible = posts.size() > HEADLINERS_PER_PAGE;
+            model = buildModelWithBefore(beforeValue.get(), tagIdValue);
         } else if(afterValue.isPresent()) {
-            posts = postService.findPostAfter(afterValue.get(), tagIdValue, HEADLINERS_PER_PAGE + 1);
-            backPossible = posts.size() > HEADLINERS_PER_PAGE;
-            forwardPossible = true;
+            model = buildModelWithAfter(afterValue.get(), tagIdValue);
         } else {
-            posts = postService.findPostBefore(THE_END_OF_TIME, tagIdValue, HEADLINERS_PER_PAGE + 1);
-            backPossible = false;
-            forwardPossible = posts.size() > HEADLINERS_PER_PAGE;
+            model = buildModelForFirstPage(tagIdValue);
         }
-        if (posts.size() > HEADLINERS_PER_PAGE) {
-            posts = posts.subList(0, HEADLINERS_PER_PAGE);
+        if (model == null) {
+            NavigablePage.NO_POSTS.forwardTo(req, resp);
+            return;
         }
-        BrowsePostsModel model = new BrowsePostsModel(posts, backPossible, forwardPossible);
         model.putInRequest(req);
         NavigablePage.BROWSE_POSTS.forwardTo(req, resp);
+    }
+
+    private BrowsePostsModel buildModelForFirstPage(Optional<Long> tagIdValue) {
+        List<Post> posts = postService.findPostBefore(THE_END_OF_TIME, tagIdValue, HEADLINERS_PER_PAGE + 1);
+        if (posts.isEmpty()) {
+            return null;
+        }
+        BrowsePostsModel.NavigationType navigationType = BrowsePostsModel.NavigationType.NO;
+        if (posts.size() > HEADLINERS_PER_PAGE) {
+            navigationType = BrowsePostsModel.NavigationType.FORWARD;
+            posts = posts.subList(0, HEADLINERS_PER_PAGE);
+        }
+        return new BrowsePostsModel(posts, navigationType);
+    }
+
+    private BrowsePostsModel buildModelWithBefore(LocalDateTime beforeDateTime, Optional<Long> tagIdValue) {
+        List<Post> posts = postService.findPostBefore(beforeDateTime, tagIdValue, HEADLINERS_PER_PAGE + 1);
+        if (posts.isEmpty()) {
+            return null;
+        }
+        BrowsePostsModel.NavigationType navigationType = BrowsePostsModel.NavigationType.BACK;
+        if (posts.size() > HEADLINERS_PER_PAGE) {
+            navigationType = BrowsePostsModel.NavigationType.BACK_AND_FORWARD;
+            posts = posts.subList(0, HEADLINERS_PER_PAGE);
+        }
+        return new BrowsePostsModel(posts, navigationType);
+    }
+
+    private BrowsePostsModel buildModelWithAfter(LocalDateTime afterDateTime, Optional<Long> tagIdValue) {
+        List<Post> posts = postService.findPostAfter(afterDateTime, tagIdValue, HEADLINERS_PER_PAGE + 1);
+        if (posts.isEmpty()) {
+            return null;
+        }
+        BrowsePostsModel.NavigationType navigationType = BrowsePostsModel.NavigationType.FORWARD;
+        if (posts.size() > HEADLINERS_PER_PAGE) {
+            navigationType = BrowsePostsModel.NavigationType.BACK_AND_FORWARD;
+            posts = posts.subList(1, posts.size());
+        }
+        return new BrowsePostsModel(posts, navigationType);
+    }
+
+    private void sendBadRequestError(HttpServletRequest req, HttpServletResponse resp
+            , InvalidParamException invalidParamException) {
+        invalidParamException.putInRequest(req);
+        try {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        } catch (IOException ex) {
+            LOGGER.error("Got exception when tried to send 400 Bad Request error", ex);
+        }
     }
 
 }

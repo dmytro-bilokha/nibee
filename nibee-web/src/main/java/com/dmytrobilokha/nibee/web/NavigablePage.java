@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public enum NavigablePage {
 
-    WELCOME("/WEB-INF/jsp/welcome.jspx")
+    NO_POSTS("/WEB-INF/jsp/noPostsPage.jspx")
     , HOME("/WEB-INF/home")
     , BROWSE_POSTS("/WEB-INF/jsp/browsePage.jspx")
     , POST("/WEB-INF/jsp/postPage.jspx")

@@ -3,10 +3,12 @@ package com.dmytrobilokha.nibee.web.home;
 import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.web.AbstractModel;
 import com.dmytrobilokha.nibee.web.HeadlinePostModel;
+import com.dmytrobilokha.nibee.web.param.InvalidParamException;
+import com.dmytrobilokha.nibee.web.param.ParamParser;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -19,61 +21,41 @@ public class BrowsePostsModel extends AbstractModel {
             .ofPattern("uu-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
 
     private final List<HeadlinePostModel> headlines;
-    private final boolean backPossible;
+    private final NavigationType navigationType;
     private final String backParam;
-    private final boolean forwardPossible;
     private final String forwardParam;
 
-    BrowsePostsModel(List<Post> posts, boolean backPossible, boolean forwardPossible) {
-        validate(posts, backPossible, forwardPossible);
-        this.backPossible = backPossible;
-        this.forwardPossible = forwardPossible;
+    BrowsePostsModel(List<Post> posts, NavigationType navigationType) {
+        validate(posts, navigationType);
+        this.navigationType = navigationType;
         this.headlines = Collections.unmodifiableList(
                 posts.stream()
                 .map(HeadlinePostModel::new)
                 .collect(Collectors.toList())
         );
-        this.backParam = extractTouchParam(backPossible, posts.get(0));
-        this.forwardParam = extractTouchParam(forwardPossible, posts.get(posts.size() - 1));
+        this.backParam = navigationType.back ? convertLastTouch(posts.get(0)) : "";
+        this.forwardParam = navigationType.forward ? convertLastTouch(posts.get(posts.size() - 1)) : "";
     }
 
-    static Optional<LocalDateTime> parseDateTimeParam(String dateTimeString) {
-        if (dateTimeString == null || dateTimeString.isEmpty()) {
-            return Optional.empty();
-        }
-        try {
-            return Optional.of(LocalDateTime.parse(dateTimeString, DATE_TIME_FORMATTER));
-        } catch (DateTimeParseException ex) {
-            return Optional.empty();
-        }
+    static Optional<LocalDateTime> extractBeforeParam(HttpServletRequest request) throws InvalidParamException {
+        return ParamParser.parseDateTime(request, "before", DATE_TIME_FORMATTER);
     }
 
-    static Optional<Long> parseLongParam(String longValueString) {
-        if (longValueString == null || longValueString.isEmpty()) {
-            return Optional.empty();
-        }
-        try {
-            return Optional.of(Long.valueOf(longValueString, 10));
-        } catch (NumberFormatException ex) {
-            return Optional.empty(); //TODO: throw custom exception here
-        }
+    static Optional<LocalDateTime> extractAfterParam(HttpServletRequest request) throws InvalidParamException {
+        return ParamParser.parseDateTime(request, "after", DATE_TIME_FORMATTER);
     }
 
-    private String extractTouchParam(boolean possible, Post post) {
-        if (!possible) {
-            return "";
-        }
-        return convertLastTouch(post);
+    static Optional<Long> extractTagIdParam(HttpServletRequest request) throws InvalidParamException {
+        return ParamParser.parseLong(request, "tagId");
     }
 
-    private void validate(List<Post> posts, boolean backPossible, boolean forwardPossible) {
-        if (backPossible && forwardPossible && posts.size() < 2) {
+    private void validate(List<Post> posts, NavigationType navigationType) {
+        if (posts.isEmpty()) {
+            throw new IllegalStateException("Unable to have navigation possible for empty posts list");
+        }
+        if (navigationType == NavigationType.BACK_AND_FORWARD && posts.size() < 2) {
             throw new IllegalStateException("Unable to have both back and forward possible for posts list with"
                     + " size less than two: " + posts);
-        }
-        if ((backPossible || forwardPossible) && posts.isEmpty()) {
-            throw new IllegalStateException("Unable to have " + (backPossible ? "back" : "forward")
-                    + " possible for empty posts list");
         }
     }
 
@@ -86,7 +68,7 @@ public class BrowsePostsModel extends AbstractModel {
     }
 
     public boolean isBackPossible() {
-        return backPossible;
+        return navigationType.back;
     }
 
     public String getBackParam() {
@@ -94,11 +76,22 @@ public class BrowsePostsModel extends AbstractModel {
     }
 
     public boolean isForwardPossible() {
-        return forwardPossible;
+        return navigationType.forward;
     }
 
     public String getForwardParam() {
         return forwardParam;
     }
 
+    public enum NavigationType {
+        NO(false, false), BACK(true, false), FORWARD(false, true), BACK_AND_FORWARD(true, true);
+
+        private final boolean back;
+        private final boolean forward;
+
+        NavigationType(boolean back, boolean forward) {
+            this.back = back;
+            this.forward = forward;
+        }
+    }
 }

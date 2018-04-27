@@ -3,10 +3,10 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <body>
-        <p>You are welcome!</p>
-    </body>
-</html>
+
+    <cnt:page title="Found No Posts">
+        <p>No posts matching your criteria were found. Try with another parameters.</p>
+    </cnt:page>
 </jsp:root>
