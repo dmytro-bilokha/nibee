@@ -37,9 +37,9 @@
                     <p class="navhead">Navigate</p>
                     <nav>
                         <c:url value="/" var="home" scope="request"/>
-                        <a class="navlink" href="${fn:escapeXml(home)}">home</a>
+                        <a class="navlink" href="${fn:escapeXml(home)}" target="_self">home</a>
                         <c:url value="/about" var="about" scope="request"/>
-                        <a class="navlink" href="${fn:escapeXml(about)}">about</a>
+                        <a class="navlink" href="${fn:escapeXml(about)}" target="_self">about</a>
                     </nav>
                     <p class="navhead">Subscribe</p>
                     <p class="navicons">
@@ -57,7 +57,7 @@
                 <footer>
                     <c:url value="/license/" var="license" scope="request"/>
                     <p id="copyright">© Dmytro Bilokha 2018, <a href="${fn:escapeXml(license)}"
-                        rel="license" title="License info">License</a></p>
+                        rel="license" title="License info" target="_self">License</a></p>
                 </footer>
             </div>
         </div>
