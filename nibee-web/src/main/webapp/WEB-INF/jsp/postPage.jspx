@@ -12,11 +12,61 @@
         <c:import url="${postModel.entryFileUrl}"/>
         <c:if test="${postModel.postSharable}">
             <p class="shareicons">
-                <a class="iconLink" href="https://en.wikipedia.org/" title="Share on Reddit"><i class="fab fa-reddit"></i></a>
-                <a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-twitter-square"></i></a>
-                <a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-linkedin"></i></a>
-                <a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-google-plus"></i></a>
-                <a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-facebook-square"></i></a>
+                <c:set var="pageUrl" scope="request">
+                    <c:out value="${pageContext.request.scheme}://${pageContext.request.serverName}"/>
+                    <c:if test="${pageContext.request.serverPort != '80'}">
+                        <c:out value=":${pageContext.request.serverPort}"/>
+                    </c:if>
+                    <c:out value="${requestScope['javax.servlet.forward.request_uri']}"/>
+                </c:set>
+
+                <c:url value="http://www.reddit.com/submit" var="shareReddit" scope="request">
+                    <c:param name="url" value="${pageUrl}"/>
+                    <c:param name="title" value="${postModel.title}"/>
+                </c:url>
+                <a class="iconLink" href="${fn:escapeXml(shareReddit)}" title="Share on Reddit"
+                                target="_blank" rel="nofollow">
+                    <i class="fab fa-reddit"></i>
+                </a>
+                <c:url value="https://twitter.com/share" var="shareTwitter" scope="request">
+                    <c:param name="url" value="${pageUrl}"/>
+                    <c:param name="text" value="${postModel.title}"/>
+                </c:url>
+                <a class="iconLink" href="${fn:escapeXml(shareTwitter)}" title="Share on Twitter"
+                                target="_blank" rel="nofollow">
+                    <i class="fab fa-twitter-square"></i>
+                </a>
+                <c:url value="https://www.linkedin.com/shareArticle" var="shareLinkedin" scope="request">
+                    <c:param name="mini" value="true"/>
+                    <c:param name="url" value="${pageUrl}"/>
+                    <c:param name="title" value="${postModel.title}"/>
+                </c:url>
+                <a class="iconLink" href="${fn:escapeXml(shareLinkedin)}" title="Share on Linkedin"
+                                target="_blank" rel="nofollow">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <c:url value="https://plus.google.com/share" var="shareGp" scope="request">
+                    <c:param name="url" value="${pageUrl}"/>
+                </c:url>
+                <a class="iconLink" href="${fn:escapeXml(shareGp)}" title="Share on Google+"
+                                target="_blank" rel="nofollow">
+                    <i class="fab fa-google-plus"></i>
+                </a>
+                <c:url value="https://www.facebook.com/sharer/sharer.php" var="shareFb" scope="request">
+                    <c:param name="u" value="${pageUrl}"/>
+                </c:url>
+                <a class="iconLink" href="${fn:escapeXml(shareFb)}" title="Share on Facebook"
+                                target="_blank" rel="nofollow">
+                    <i class="fab fa-facebook-square"></i>
+                </a>
+                <c:url value="http://news.ycombinator.com/submitlink" var="shareYn" scope="request">
+                    <c:param name="u" value="${pageUrl}"/>
+                    <c:param name="t" value="${postModel.title}"/>
+                </c:url>
+                <a class="iconLink" href="${fn:escapeXml(shareYn)}" title="Share on Hacker News"
+                                target="_blank" rel="nofollow">
+                    <i class="fab fa-hacker-news-square"></i>
+                </a>
             </p>
 		</c:if>
         <c:if test="${not empty postModel.tags}">
