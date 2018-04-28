@@ -1,8 +1,8 @@
 package com.dmytrobilokha.nibee.web.home;
 
 import com.dmytrobilokha.nibee.data.Post;
-import com.dmytrobilokha.nibee.web.AbstractModel;
 import com.dmytrobilokha.nibee.web.HeadlinePostModel;
+import com.dmytrobilokha.nibee.web.InRequestPuttable;
 import com.dmytrobilokha.nibee.web.param.InvalidParamException;
 import com.dmytrobilokha.nibee.web.param.ParamParser;
 
@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class BrowsePostsModel extends AbstractModel {
+public class BrowsePostsModel implements InRequestPuttable {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern("uu-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);

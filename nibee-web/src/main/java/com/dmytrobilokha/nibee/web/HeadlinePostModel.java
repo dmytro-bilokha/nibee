@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Locale;
 
-public class HeadlinePostModel extends AbstractModel {
+public class HeadlinePostModel implements InRequestPuttable {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern("dd MMM uuuu", Locale.ENGLISH);
