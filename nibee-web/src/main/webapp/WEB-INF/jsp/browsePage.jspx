@@ -6,11 +6,11 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
-    <cnt:page title="${webConstants.siteName}">
+    <cnt:page title="${initParam.blogName}">
         <c:forEach items="${browsePostsModel.headlines}" var="postHeadline">
             <div class="headliner">
                 <c:url value="/${postHeadline.name}/" var="postUrl" scope="request"/>
-                <a class="postLink" href="${fn:escapeXml(postUrl)}">${postHeadline.title}</a>
+                <a class="postLink" href="${fn:escapeXml(postUrl)}">${fn:escapeXml(postHeadline.title)}</a>
                 <cnt:postDates post="${postHeadline}"/>
                 <cnt:postTags cssClass="postTags" tags="${postHeadline.tags}"/>
             </div>

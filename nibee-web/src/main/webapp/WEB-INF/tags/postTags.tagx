@@ -11,7 +11,7 @@
     <p class="${cssClass}">
         <c:forEach items="${tags}" var="tag">
             <c:url value="/" var="tagHome" scope="request">
-                <c:param name="${webConstants.tagId}" value="${tag.id}"/>
+                <c:param name="tagId" value="${tag.id}"/>
             </c:url>
             <a class="tagLink" href="${fn:escapeXml(tagHome)}">${tag.name}</a>
         </c:forEach>

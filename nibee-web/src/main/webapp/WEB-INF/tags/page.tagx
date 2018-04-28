@@ -33,7 +33,7 @@
         <div id="wrapper">
             <div id="navigationWrapper">
                 <div id="navigation">
-                    <p id="blogTitle">${webConstants.siteName}</p>
+                    <p id="blogTitle">${initParam.blogName}</p>
                     <p class="navhead">Navigate</p>
                     <nav>
                         <c:url value="/" var="home" scope="request"/>
