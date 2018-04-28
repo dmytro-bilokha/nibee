@@ -6,7 +6,7 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/jsp/error/404.jspx</location>
+        <location>/WEB-INF/jsp/error/404_Not_Found.jspx</location>
     </error-page>
     <error-page>
         <error-code>400</error-code>

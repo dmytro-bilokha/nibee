@@ -7,7 +7,7 @@
     version="2.1">
 
     <cnt:page title="Bad Request">
-        <p>
+        <p class="highlightMessage">
             <c:choose>
                 <c:when test="${not empty invalidParamException.message}">
                     <c:out value="${invalidParamException.message}"/>

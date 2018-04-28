@@ -7,6 +7,6 @@
     version="2.1">
 
     <cnt:page title="Page Not Found">
-        <p>Sorry, the requested page does not exist or no longer available.</p>
+        <p class="highlightMessage">Sorry, the requested page does not exist or no longer available.</p>
     </cnt:page>
 </jsp:root>
