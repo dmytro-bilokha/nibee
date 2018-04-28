@@ -1,0 +1,13 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    version="2.1">
+
+    <jsp:directive.tag pageEncoding="UTF-8"/>
+    <jsp:directive.attribute name="post" required="true" type="com.dmytrobilokha.nibee.web.HeadlinePostModel"/>
+    <p class="postDates">
+        Created: ${post.createdOn}<c:if test="${not empty post.modifiedOn}">, Updated: ${post.modifiedOn}</c:if>
+    </p>
+</jsp:root>

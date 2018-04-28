@@ -11,9 +11,7 @@
             <div class="headliner">
                 <c:url value="/${postHeadline.name}/" var="postUrl" scope="request"/>
                 <a class="postLink" href="${fn:escapeXml(postUrl)}">${postHeadline.title}</a>
-                <p class="postDates">
-                    Created: ${postHeadline.createdOn}<c:if test="${not empty postHeadline.modifiedOn}">, Updated: ${postHeadline.modifiedOn}</c:if>
-                </p>
+                <cnt:postDates post="${postHeadline}"/>
                 <p class="postTags">
                     <c:forEach items="${postHeadline.tags}" var="tag">
                         <c:url value="/" var="tagHome" scope="request">
