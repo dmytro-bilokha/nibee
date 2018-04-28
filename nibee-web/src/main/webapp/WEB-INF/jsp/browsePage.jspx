@@ -6,7 +6,11 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
-    <cnt:page title="${initParam.blogName}">
+    <c:set var="headlinersTitle" scope="request">
+        ${initParam.blogName} - List of Posts<c:if test="${browsePostsModel.filteredByTag}"> Tagged '${browsePostsModel.tag.name}'</c:if>
+    </c:set>
+    <cnt:page title="${headlinersTitle}">
+        <h1>List of Posts<c:if test="${browsePostsModel.filteredByTag}"> Tagged <em>'${browsePostsModel.tag.name}'</em></c:if></h1>
         <c:forEach items="${browsePostsModel.headlines}" var="postHeadline">
             <div class="headliner">
                 <c:url value="/${postHeadline.name}/" var="postUrl" scope="request"/>
@@ -21,8 +25,8 @@
                     <c:when test="${browsePostsModel.backPossible}">
                         <c:url value="/" var="backUrl" scope="request">
                             <c:param name="after" value="${browsePostsModel.backParam}"/>
-                            <c:if test="${not empty param.tagId}">
-                                <c:param name="tagId" value="${param.tagId}"/>
+                            <c:if test="${browsePostsModel.filteredByTag}">
+                                <c:param name="tagId" value="${browsePostsModel.tag.id}"/>
                             </c:if>
                         </c:url>
                         <a class="iconLink" href="${fn:escapeXml(backUrl)}"><i class="fas fa-chevron-left"></i></a>
@@ -37,8 +41,8 @@
                     <c:when test="${browsePostsModel.forwardPossible}">
                         <c:url value="/" var="forwardUrl" scope="request">
                             <c:param name="before" value="${browsePostsModel.forwardParam}"/>
-                            <c:if test="${not empty param.tagId}">
-                                <c:param name="tagId" value="${param.tagId}"/>
+                            <c:if test="${browsePostsModel.filteredByTag}">
+                                <c:param name="tagId" value="${browsePostsModel.tag.id}"/>
                             </c:if>
                         </c:url>
                         <a class="iconLink" href="${fn:escapeXml(forwardUrl)}"><i class="fas fa-chevron-right"></i></a>

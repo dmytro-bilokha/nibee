@@ -1,6 +1,7 @@
 package com.dmytrobilokha.nibee.web.home;
 
 import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.Tag;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.web.NavigablePage;
 import com.dmytrobilokha.nibee.web.param.InvalidParamException;
@@ -70,7 +71,7 @@ public class HomeServlet extends HttpServlet{
             navigationType = BrowsePostsModel.NavigationType.FORWARD;
             posts = posts.subList(0, HEADLINERS_PER_PAGE);
         }
-        return new BrowsePostsModel(posts, navigationType);
+        return createBrowsePostsModel(posts, navigationType, tagIdValue);
     }
 
     private BrowsePostsModel buildModelWithBefore(LocalDateTime beforeDateTime, Optional<Long> tagIdValue) {
@@ -83,7 +84,7 @@ public class HomeServlet extends HttpServlet{
             navigationType = BrowsePostsModel.NavigationType.BACK_AND_FORWARD;
             posts = posts.subList(0, HEADLINERS_PER_PAGE);
         }
-        return new BrowsePostsModel(posts, navigationType);
+        return createBrowsePostsModel(posts, navigationType, tagIdValue);
     }
 
     private BrowsePostsModel buildModelWithAfter(LocalDateTime afterDateTime, Optional<Long> tagIdValue) {
@@ -95,6 +96,20 @@ public class HomeServlet extends HttpServlet{
         if (posts.size() > HEADLINERS_PER_PAGE) {
             navigationType = BrowsePostsModel.NavigationType.BACK_AND_FORWARD;
             posts = posts.subList(1, posts.size());
+        }
+        return createBrowsePostsModel(posts, navigationType, tagIdValue);
+    }
+
+    private BrowsePostsModel createBrowsePostsModel(List<Post> posts, BrowsePostsModel.NavigationType navigationType
+        , Optional<Long> tagIdValue) {
+        if (tagIdValue.isPresent()) {
+            Long tagId = tagIdValue.get();
+            Optional<Tag> tagValue = posts.get(0).getTags().stream()
+                    .filter(t -> tagId.equals(t.getId()))
+                    .findFirst();
+            if (tagValue.isPresent()) {
+                return new BrowsePostsModel(posts, navigationType, tagValue.get());
+            }
         }
         return new BrowsePostsModel(posts, navigationType);
     }

@@ -1,6 +1,7 @@
 package com.dmytrobilokha.nibee.web.home;
 
 import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.Tag;
 import com.dmytrobilokha.nibee.web.HeadlinePostModel;
 import com.dmytrobilokha.nibee.web.InRequestPuttable;
 import com.dmytrobilokha.nibee.web.param.InvalidParamException;
@@ -24,8 +25,13 @@ public class BrowsePostsModel implements InRequestPuttable {
     private final NavigationType navigationType;
     private final String backParam;
     private final String forwardParam;
+    private final Tag tag;
 
     BrowsePostsModel(List<Post> posts, NavigationType navigationType) {
+        this(posts, navigationType, null);
+    }
+
+    BrowsePostsModel(List<Post> posts, NavigationType navigationType, Tag tag) {
         validate(posts, navigationType);
         this.navigationType = navigationType;
         this.headlines = Collections.unmodifiableList(
@@ -35,6 +41,7 @@ public class BrowsePostsModel implements InRequestPuttable {
         );
         this.backParam = navigationType.back ? convertLastTouch(posts.get(0)) : "";
         this.forwardParam = navigationType.forward ? convertLastTouch(posts.get(posts.size() - 1)) : "";
+        this.tag = tag;
     }
 
     static Optional<LocalDateTime> extractBeforeParam(HttpServletRequest request) throws InvalidParamException {
@@ -81,6 +88,14 @@ public class BrowsePostsModel implements InRequestPuttable {
 
     public String getForwardParam() {
         return forwardParam;
+    }
+
+    public boolean isFilteredByTag() {
+        return tag != null;
+    }
+
+    public Tag getTag() {
+        return tag;
     }
 
     public enum NavigationType {
