@@ -6,7 +6,7 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
-    <cnt:page title="Dmytro Bilokha's Blog - Posts List">
+    <cnt:page title="${webConstants.siteName}">
         <c:forEach items="${browsePostsModel.headlines}" var="postHeadline">
             <div class="headliner">
                 <c:url value="/${postHeadline.name}/" var="postUrl" scope="request"/>
