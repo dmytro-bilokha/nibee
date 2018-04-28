@@ -8,28 +8,19 @@
 
     <cnt:page title="${postModel.title}" contentBase="${postModel.contentBase}">
 		<h1 id="firstHeader">${postModel.title}</h1>
-		<p class="postDates">
-		Created: ${postModel.createdOn}<c:if test="${not empty postModel.modifiedOn}">, Updated: ${postModel.modifiedOn}</c:if>
-		</p>
+        <cnt:postDates post="${postModel}"/>
         <c:import url="${postModel.entryFileUrl}"/>
         <c:if test="${postModel.postSharable}">
-		<p class="shareicons">
-			<a class="iconLink" href="https://en.wikipedia.org/" title="Share on Reddit"><i class="fab fa-reddit"></i></a>
-			<a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-twitter-square"></i></a>
-			<a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-linkedin"></i></a>
-			<a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-google-plus"></i></a>
-			<a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-facebook-square"></i></a>
-		</p>
+            <p class="shareicons">
+                <a class="iconLink" href="https://en.wikipedia.org/" title="Share on Reddit"><i class="fab fa-reddit"></i></a>
+                <a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-twitter-square"></i></a>
+                <a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-linkedin"></i></a>
+                <a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-google-plus"></i></a>
+                <a class="iconLink" href="https://en.wikipedia.org/"><i class="fab fa-facebook-square"></i></a>
+            </p>
 		</c:if>
         <c:if test="${not empty postModel.tags}">
-		<p class="postTags">
-		    <c:forEach items="${postModel.tags}" var="tag">
-                <c:url value="/" var="tagHome" scope="request">
-                    <c:param name="tagId" value="${tag.id}"/>
-                </c:url>
-                <a class="tagLink" href="${fn:escapeXml(tagHome)}">${tag.name}</a>
-			</c:forEach>
-		</p>
+            <cnt:postTags cssClass="postTags" tags="${postModel.tags}"/>
 		</c:if>
     </cnt:page>
 

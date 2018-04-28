@@ -12,14 +12,7 @@
                 <c:url value="/${postHeadline.name}/" var="postUrl" scope="request"/>
                 <a class="postLink" href="${fn:escapeXml(postUrl)}">${postHeadline.title}</a>
                 <cnt:postDates post="${postHeadline}"/>
-                <p class="postTags">
-                    <c:forEach items="${postHeadline.tags}" var="tag">
-                        <c:url value="/" var="tagHome" scope="request">
-                            <c:param name="tagId" value="${tag.id}"/>
-                        </c:url>
-                        <a class="tagLink" href="${fn:escapeXml(tagHome)}">${tag.name}</a>
-                    </c:forEach>
-                </p>
+                <cnt:postTags cssClass="postTags" tags="${postHeadline.tags}"/>
             </div>
 		</c:forEach>
 		<div class="backForwardButtons">
