@@ -8,6 +8,10 @@
         <param-name>blogName</param-name>
         <param-value>Dmytro Bilokha's Blog</param-value>
     </context-param>
+    <context-param>
+        <param-name>followOnTwitterLink</param-name>
+        <param-value>https://twitter.com/intent/follow?screen_name=dmytro_bilokha</param-value>
+    </context-param>
 
     <error-page>
         <error-code>404</error-code>

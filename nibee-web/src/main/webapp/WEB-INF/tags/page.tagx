@@ -38,11 +38,13 @@
                     <nav>
                         <c:url value="/" var="home" scope="request"/>
                         <a class="navlink" href="${fn:escapeXml(home)}">home</a>
-                        <a class="navlink" href="https://en.wikipedia.org/">about</a>
+                        <c:url value="/about" var="about" scope="request"/>
+                        <a class="navlink" href="${fn:escapeXml(about)}">about</a>
                     </nav>
                     <p class="navhead">Subscribe</p>
                     <p class="navicons">
-                        <a class="iconLink" href="https://en.wikipedia.org/" title="Follow me on Twitter" rel="nofollow">
+                        <a class="iconLink" href="${initParam.followOnTwitterLink}" target="_blank"
+                                title="Follow me on Twitter" rel="nofollow">
                             <i class="fab fa-twitter-square"></i>
                         </a>
                     </p>
