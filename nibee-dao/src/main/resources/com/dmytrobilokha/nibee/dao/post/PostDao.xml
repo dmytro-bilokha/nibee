@@ -21,10 +21,6 @@
         </constructor>
     </resultMap>
 
-    <update id="changeFirstName" parameterType="java.lang.String" flushCache="true">
-        UPDATE post SET name=#{name} where id=1
-    </update>
-
     <select id="findPostPathByName" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT path FROM post WHERE name=#{name}
     </select>
@@ -36,17 +32,6 @@
         LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
         LEFT OUTER JOIN tag t ON pt.tag_id=t.id
         WHERE p.name=#{name}
-    </select>
-
-    <select id="findPostByTagId" resultMap="post" parameterType="_long">
-        SELECT
-            p.id, p.name, p.title, p.path, p.created_on, p.modified_on, t.id as tag_id, t.name as tag_name
-        FROM post p
-        LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
-        INNER JOIN tag t ON pt.tag_id=t.id
-        WHERE p.id IN (
-            SELECT post_id FROM post_tag WHERE tag_id=#{tagId}
-        )
     </select>
 
     <sql id="selectPostWithTags">

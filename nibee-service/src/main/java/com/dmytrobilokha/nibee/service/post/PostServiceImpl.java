@@ -36,11 +36,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findPostByTagId(long id) {
-        return postDao.findPostByTagId(id);
-    }
-
-    @Override
     public List<Post> findPostAfter(LocalDateTime dateTime, Optional<Long> tagId, int limit) {
         return postDao.findPostAfter(dateTime, tagId.orElse(null), limit);
     }

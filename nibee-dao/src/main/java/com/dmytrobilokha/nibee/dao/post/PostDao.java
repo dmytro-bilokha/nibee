@@ -14,8 +14,6 @@ public interface PostDao {
 
     String findPostPathByName(String name);
 
-    List<Post> findPostByTagId(long tagId);
-
     List<Post> findPostAfter(@Param("dateTime") LocalDateTime dateTime, @Param("tagId") Long tagId
             , @Param("limit") int limit);
 

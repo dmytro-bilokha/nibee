@@ -12,8 +12,6 @@ public interface PostService {
 
     Optional<String> findPostPathByName(String name);
 
-    List<Post> findPostByTagId(long id);
-
     List<Post> findPostAfter(LocalDateTime dateTime, Optional<Long> tagId, int limit);
 
     List<Post> findPostBefore(LocalDateTime dateTime, Optional<Long> tagId, int limit);

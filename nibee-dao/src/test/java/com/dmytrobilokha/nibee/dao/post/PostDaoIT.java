@@ -55,13 +55,6 @@ public class PostDaoIT extends AbstractDaoTest {
         assertNull(post);
     }
 
-    @Test
-    public void checkFindsPostByTagId() {
-        final long id = 1L;
-        List<Post> posts = postDao.findPostByTagId(id);
-        assertEveryPostHasTagWithId(posts, id);
-    }
-
     private void assertEveryPostHasTagWithId(Collection<Post> posts, long id) {
         assertFalse("Posts list should not be empty", posts.isEmpty());
         for (Post post : posts) {
@@ -70,12 +63,6 @@ public class PostDaoIT extends AbstractDaoTest {
                     .anyMatch(t -> Long.valueOf(id).equals(t.getId()));
             assertTrue(post + " should has tag with id=" + id, containsId);
         }
-    }
-
-    @Test
-    public void checkDoesntFindPostByTagId() {
-        List<Post> posts = postDao.findPostByTagId(12345678111L);
-        assertTrue(posts.isEmpty());
     }
 
     @Test

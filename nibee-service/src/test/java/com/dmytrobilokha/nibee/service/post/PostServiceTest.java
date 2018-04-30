@@ -17,14 +17,11 @@ public class PostServiceTest {
 
     private PostService postService;
     private PostDao postDaoMock;
-    private List<Post> mockDaoOutput;
 
     @Before
     public void init() {
         postDaoMock = Mockito.mock(PostDao.class);
-        mockDaoOutput = new ArrayList<>();
         Mockito.when(postDaoMock.findPostByName(Mockito.anyString())).thenReturn(null);
-        Mockito.when(postDaoMock.findPostByTagId(Mockito.anyLong())).thenReturn(mockDaoOutput);
         postService = new PostServiceImpl(postDaoMock);
     }
 
