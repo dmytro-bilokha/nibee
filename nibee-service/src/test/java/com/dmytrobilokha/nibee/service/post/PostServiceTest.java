@@ -23,7 +23,7 @@ public class PostServiceTest {
     public void init() {
         postDaoMock = Mockito.mock(PostDao.class);
         mockDaoOutput = new ArrayList<>();
-        Mockito.when(postDaoMock.findPostByName(Mockito.anyString())).thenReturn(mockDaoOutput);
+        Mockito.when(postDaoMock.findPostByName(Mockito.anyString())).thenReturn(null);
         Mockito.when(postDaoMock.findPostByTagId(Mockito.anyLong())).thenReturn(mockDaoOutput);
         postService = new PostServiceImpl(postDaoMock);
     }
@@ -35,12 +35,9 @@ public class PostServiceTest {
     }
 
     @Test
-    public void testReturnsFirstPost() {
+    public void testReturnsPostByName() {
         Post post1 = Mockito.mock(Post.class);
-        Post post2 = Mockito.mock(Post.class);
-        assertTrue(post1 != post2);
-        mockDaoOutput.add(post1);
-        mockDaoOutput.add(post2);
+        Mockito.when(postDaoMock.findPostByName(Mockito.anyString())).thenReturn(post1);
         Optional<Post> result = postService.findPostByName("name doesnt matter");
         assertTrue(result.isPresent());
         assertTrue(post1 == result.get());

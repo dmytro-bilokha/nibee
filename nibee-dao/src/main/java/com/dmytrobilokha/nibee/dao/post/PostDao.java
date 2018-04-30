@@ -10,9 +10,9 @@ import java.util.List;
 @Mapper
 public interface PostDao {
 
-    List<Post> findPostByName(String name);
+    Post findPostByName(String name);
 
-    List<String> findPostPathByName(String name);
+    String findPostPathByName(String name);
 
     List<Post> findPostByTagId(long tagId);
 

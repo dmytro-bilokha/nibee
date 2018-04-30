@@ -15,8 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class PostDaoIT extends AbstractDaoTest {
@@ -35,22 +37,22 @@ public class PostDaoIT extends AbstractDaoTest {
 
     @Test
     public void checkFindsPostByName() {
-        List<Post> posts = postDao.findPostByName("post-about-rest");
-        assertEquals(1, posts.size());
-        assertEquals("post-about-rest", posts.get(0).getName());
+        Post post = postDao.findPostByName("post-about-rest");
+        assertNotNull(post);
+        assertEquals("post-about-rest", post.getName());
     }
 
     @Test
     public void checkFindsPostWithoutTagByName() {
-        List<Post> posts = postDao.findPostByName("resources");
-        assertEquals(1, posts.size());
-        assertEquals("resources", posts.get(0).getName());
+        Post post = postDao.findPostByName("resources");
+        assertNotNull(post);
+        assertEquals("resources", post.getName());
     }
 
     @Test
     public void checkDoesntFindPost() {
-        List<Post> posts = postDao.findPostByName("SomeNotExistingInDbNameHere");
-        assertTrue(posts.isEmpty());
+        Post post = postDao.findPostByName("SomeNotExistingInDbNameHere");
+        assertNull(post);
     }
 
     @Test
@@ -78,9 +80,8 @@ public class PostDaoIT extends AbstractDaoTest {
 
     @Test
     public void checkFindsPathByPostName() {
-        List<String> postPaths = postDao.findPostPathByName("post-about-rest");
-        assertEquals(1, postPaths.size());
-        assertEquals("2018/01/REST", postPaths.get(0));
+        String postPath = postDao.findPostPathByName("post-about-rest");
+        assertEquals("2018/01/REST", postPath);
     }
 
     @Test
