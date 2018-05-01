@@ -34,9 +34,10 @@ create-jdbc-connection-pool --restype=javax.sql.DataSource --datasourceclassname
 create-jdbc-resource --connectionpoolid=nibeeJdbcPool jdbc/nibeeDataSource
 ```
 
-6. From `asadmin` console create application configuration properties resource:
+6. From `asadmin` console create application configuration properties resource and add required properties:
 ```
-create-custom-resource --restype=java.util.Properties --factoryclass=org.glassfish.resources.custom.factory.PropertiesFactory --property posts.root=your_posts_root_directory nibee/properties
+create-custom-resource --restype=java.util.Properties --factoryclass=org.glassfish.resources.custom.factory.PropertiesFactory --property postsRoot=your_posts_root_directory nibee/properties
+set resources.custom-resource.nibee/properties.property.headlinersPerPage=10
 ```
 
 7. Put blog data under `your_posts_root_directory` from the previous step.

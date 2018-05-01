@@ -1,5 +1,7 @@
 package com.dmytrobilokha.nibee.web.home;
 
+import com.dmytrobilokha.nibee.service.config.ConfigProperty;
+import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.web.NavigablePage;
 import com.dmytrobilokha.nibee.web.param.InvalidParamException;
@@ -18,13 +20,14 @@ import java.time.LocalDateTime;
 public class HomeServlet extends HttpServlet{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeServlet.class);
-    private static final int HEADLINERS_PER_PAGE = 2;
 
     private final PostService postService;
+    private final ConfigService configService;
 
     @Inject
-    public HomeServlet(PostService postService) {
+    public HomeServlet(PostService postService, ConfigService configService) {
         this.postService = postService;
+        this.configService = configService;
     }
 
     @Override
@@ -40,7 +43,8 @@ public class HomeServlet extends HttpServlet{
             sendBadRequestError(req, resp, ex);
             return;
         }
-        BrowsePostsModel model = new BrowsePostsModelBuilder(postService, HEADLINERS_PER_PAGE)
+        int headlinersPerPage = configService.getAsInt(ConfigProperty.HEADLINERS_PER_PAGE);
+        BrowsePostsModel model = new BrowsePostsModelBuilder(postService, headlinersPerPage)
                 .before(beforeValue)
                 .after(afterValue)
                 .tagId(tagIdValue)
