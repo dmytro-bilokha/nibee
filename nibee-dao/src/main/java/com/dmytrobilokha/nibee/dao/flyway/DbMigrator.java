@@ -1,6 +1,8 @@
 package com.dmytrobilokha.nibee.dao.flyway;
 
 import org.flywaydb.core.Flyway;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -11,6 +13,8 @@ import javax.sql.DataSource;
 
 @ApplicationScoped
 public class DbMigrator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DbMigrator.class);
 
     private final DataSource dataSource;
 
@@ -24,6 +28,7 @@ public class DbMigrator {
         if (dataSource == null) {
             throw new IllegalStateException("Unable to migrate DB, because injected dataSource is null");
         }
+        LOGGER.info("Initializing flyway DB migration");
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
         flyway.setLocations("classpath:db-script");
