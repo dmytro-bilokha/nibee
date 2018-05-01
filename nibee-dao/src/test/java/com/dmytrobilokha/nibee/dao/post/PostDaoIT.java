@@ -55,16 +55,6 @@ public class PostDaoIT extends AbstractDaoTest {
         assertNull(post);
     }
 
-    private void assertEveryPostHasTagWithId(Collection<Post> posts, long id) {
-        assertFalse("Posts list should not be empty", posts.isEmpty());
-        for (Post post : posts) {
-            boolean containsId = post.getTags()
-                    .stream()
-                    .anyMatch(t -> Long.valueOf(id).equals(t.getId()));
-            assertTrue(post + " should has tag with id=" + id, containsId);
-        }
-    }
-
     @Test
     public void checkFindsPathByPostName() {
         String postPath = postDao.findPostPathByName("post-about-rest");

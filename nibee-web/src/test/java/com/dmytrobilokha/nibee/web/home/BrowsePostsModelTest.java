@@ -24,5 +24,4 @@ public class BrowsePostsModelTest {
         assertEquals("08-01-26T22:00:00.999", browsePostsModel.getForwardParam());
     }
 
-    //TODO: add test for dateTime parsing
 }
