@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @WebServlet(urlPatterns = "/WEB-INF/home")
 public class HomeServlet extends HttpServlet{
@@ -29,9 +28,9 @@ public class HomeServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        Optional<LocalDateTime> beforeValue;
-        Optional<LocalDateTime> afterValue;
-        Optional<Long> tagIdValue;
+        LocalDateTime beforeValue;
+        LocalDateTime afterValue;
+        Long tagIdValue;
         try {
             beforeValue = BrowsePostsModel.extractBeforeParam(req);
             afterValue = BrowsePostsModel.extractAfterParam(req);
@@ -41,9 +40,9 @@ public class HomeServlet extends HttpServlet{
             return;
         }
         BrowsePostsModel model = new BrowsePostsModelBuilder(postService)
-                .before(beforeValue.orElse(null))
-                .after(afterValue.orElse(null))
-                .tagId(tagIdValue.orElse(null))
+                .before(beforeValue)
+                .after(afterValue)
+                .tagId(tagIdValue)
                 .build();
         if (model == null) {
             NavigablePage.NO_POSTS.forwardTo(req, resp);

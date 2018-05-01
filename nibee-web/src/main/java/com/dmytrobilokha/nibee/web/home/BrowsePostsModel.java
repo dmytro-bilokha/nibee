@@ -13,7 +13,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BrowsePostsModel implements InRequestPuttable {
@@ -44,15 +43,15 @@ public class BrowsePostsModel implements InRequestPuttable {
         this.tag = tag;
     }
 
-    static Optional<LocalDateTime> extractBeforeParam(HttpServletRequest request) throws InvalidParamException {
+    static LocalDateTime extractBeforeParam(HttpServletRequest request) throws InvalidParamException {
         return ParamParser.parseDateTime(request, "before", DATE_TIME_FORMATTER);
     }
 
-    static Optional<LocalDateTime> extractAfterParam(HttpServletRequest request) throws InvalidParamException {
+    static LocalDateTime extractAfterParam(HttpServletRequest request) throws InvalidParamException {
         return ParamParser.parseDateTime(request, "after", DATE_TIME_FORMATTER);
     }
 
-    static Optional<Long> extractTagIdParam(HttpServletRequest request) throws InvalidParamException {
+    static Long extractTagIdParam(HttpServletRequest request) throws InvalidParamException {
         return ParamParser.parseLong(request, "tagId");
     }
 
