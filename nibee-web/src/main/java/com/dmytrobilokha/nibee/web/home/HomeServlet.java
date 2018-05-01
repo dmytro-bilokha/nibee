@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 public class HomeServlet extends HttpServlet{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeServlet.class);
+    private static final int HEADLINERS_PER_PAGE = 2;
 
     private final PostService postService;
 
@@ -39,7 +40,7 @@ public class HomeServlet extends HttpServlet{
             sendBadRequestError(req, resp, ex);
             return;
         }
-        BrowsePostsModel model = new BrowsePostsModelBuilder(postService)
+        BrowsePostsModel model = new BrowsePostsModelBuilder(postService, HEADLINERS_PER_PAGE)
                 .before(beforeValue)
                 .after(afterValue)
                 .tagId(tagIdValue)

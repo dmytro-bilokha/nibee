@@ -11,15 +11,16 @@ import java.util.List;
 class BrowsePostsModelBuilder {
 
     private static final LocalDateTime THE_END_OF_TIME = LocalDateTime.of(3000, 1, 1, 0, 1);
-    private static final int HEADLINERS_PER_PAGE = 2;
 
     private final PostService postService;
+    private final int headlinersPerPage;
     private Long tagId;
     private LocalDateTime before;
     private LocalDateTime after;
 
-    BrowsePostsModelBuilder(PostService postService) {
+    BrowsePostsModelBuilder(PostService postService, int headlinersPerPage) {
         this.postService = postService;
+        this.headlinersPerPage = headlinersPerPage;
     }
 
     BrowsePostsModelBuilder tagId(Long tagId) {
@@ -62,13 +63,13 @@ class BrowsePostsModelBuilder {
         List<Post> posts;
         NavigationType navigationType;
         if (tagIdParam != null) {
-            posts = postService.findPostBeforeFilteredByTag(beforeParam, tagIdParam, HEADLINERS_PER_PAGE + 1);
+            posts = postService.findPostBeforeFilteredByTag(beforeParam, tagIdParam, headlinersPerPage + 1);
         } else {
-            posts = postService.findPostBefore(beforeParam, HEADLINERS_PER_PAGE + 1);
+            posts = postService.findPostBefore(beforeParam, headlinersPerPage + 1);
         }
-        if (posts.size() > HEADLINERS_PER_PAGE) {
+        if (posts.size() > headlinersPerPage) {
             navigationType = beforeParam == THE_END_OF_TIME ? NavigationType.FORWARD : NavigationType.BACK_AND_FORWARD;
-            posts = posts.subList(0, HEADLINERS_PER_PAGE);
+            posts = posts.subList(0, headlinersPerPage);
         } else {
             navigationType = beforeParam == THE_END_OF_TIME ? NavigationType.NO : NavigationType.BACK;
         }
@@ -79,11 +80,11 @@ class BrowsePostsModelBuilder {
         List<Post> posts;
         NavigationType navigationType;
         if (tagIdParam != null) {
-            posts = postService.findPostAfterFilteredByTag(afterParam, tagIdParam, HEADLINERS_PER_PAGE + 1);
+            posts = postService.findPostAfterFilteredByTag(afterParam, tagIdParam, headlinersPerPage + 1);
         } else {
-            posts = postService.findPostAfter(afterParam, HEADLINERS_PER_PAGE + 1);
+            posts = postService.findPostAfter(afterParam, headlinersPerPage + 1);
         }
-        if (posts.size() > HEADLINERS_PER_PAGE) {
+        if (posts.size() > headlinersPerPage) {
             navigationType = NavigationType.BACK_AND_FORWARD;
             posts = posts.subList(1, posts.size());
         } else {
