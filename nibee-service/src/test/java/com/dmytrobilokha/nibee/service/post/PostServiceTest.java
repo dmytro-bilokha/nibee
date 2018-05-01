@@ -6,11 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class PostServiceTest {
@@ -26,18 +22,17 @@ public class PostServiceTest {
     }
 
     @Test
-    public void testReturnsEmptyOptional() {
-        Optional<Post> result = postService.findPostByName("name doesnt matter");
-        assertFalse(result.isPresent());
+    public void testReturnsNull() {
+        Post result = postService.findPostByName("name doesnt matter");
+        assertNull(result);
     }
 
     @Test
     public void testReturnsPostByName() {
         Post post1 = Mockito.mock(Post.class);
         Mockito.when(postDaoMock.findPostByName(Mockito.anyString())).thenReturn(post1);
-        Optional<Post> result = postService.findPostByName("name doesnt matter");
-        assertTrue(result.isPresent());
-        assertTrue(post1 == result.get());
+        Post result = postService.findPostByName("name doesnt matter");
+        assertTrue(post1 == result);
     }
 
 }

@@ -9,7 +9,6 @@ import com.dmytrobilokha.nibee.web.NavigablePage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.file.Path;
-import java.util.Optional;
 
 class PostEntryBlogResponse extends BlogResponse {
 
@@ -29,12 +28,11 @@ class PostEntryBlogResponse extends BlogResponse {
 
     @Override
     void respond(HttpServletRequest req, HttpServletResponse resp) {
-        Optional<Post> postOptional = postService.findPostByName(postName);
-        if (!postOptional.isPresent()) {
+        Post post = postService.findPostByName(postName);
+        if (post == null) {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        Post post = postOptional.get();
         servePost(req, resp, post);
     }
 

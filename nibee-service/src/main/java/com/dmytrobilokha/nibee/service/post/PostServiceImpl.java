@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Stateless
 public class PostServiceImpl implements PostService {
@@ -24,15 +23,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Optional<Post> findPostByName(String name) {
-        Post post = postDao.findPostByName(name);
-        return Optional.ofNullable(post);
+    public Post findPostByName(String name) {
+        return postDao.findPostByName(name);
     }
 
     @Override
-    public Optional<String> findPostPathByName(String name) {
-        String path = postDao.findPostPathByName(name);
-        return Optional.ofNullable(path);
+    public String findPostPathByName(String name) {
+        return postDao.findPostPathByName(name);
     }
 
     @Override

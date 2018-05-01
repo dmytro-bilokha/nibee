@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Optional;
 
 class PostResourceBlogResponse extends BlogResponse {
 
@@ -29,12 +28,11 @@ class PostResourceBlogResponse extends BlogResponse {
 
     @Override
     void respond(HttpServletRequest req, HttpServletResponse resp) {
-        Optional<String> pathOptional = postService.findPostPathByName(postName);
-        if (!pathOptional.isPresent()) {
+        String postBase = postService.findPostPathByName(postName);
+        if (postBase == null) {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        String postBase = pathOptional.get();
         servePostResource(resp, postBase);
     }
 
