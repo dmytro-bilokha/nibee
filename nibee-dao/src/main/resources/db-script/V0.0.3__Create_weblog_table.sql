@@ -1,0 +1,16 @@
+CREATE TABLE web_log
+( id BIGINT NOT NULL AUTO_INCREMENT
+, uuid BINARY(16)
+, session_id VARCHAR(100)
+, server_port SMALLINT UNSIGNED NOT NULL
+, request_uri VARCHAR(1024) NOT NULL
+, query_string VARCHAR(1024)
+, referer VARCHAR(2048)
+, user_agent VARCHAR(2048)
+, accept_encoding VARCHAR(2048)
+, timestamp DATETIME(3) DEFAULT CURRENT_TIMESTAMP
+, client_port SMALLINT UNSIGNED NOT NULL
+, client_ip VARBINARY(16) NOT NULL
+, CONSTRAINT web_log_pk PRIMARY KEY (id)
+);
+

@@ -23,6 +23,7 @@ public class SessionFactoryProducer {
     private static final String[] MAPPER_PACKAGES = new String[]{
             "com.dmytrobilokha.nibee.dao.post"
             , "com.dmytrobilokha.nibee.dao.tag"
+            , "com.dmytrobilokha.nibee.dao.weblog"
     };
 
     private final DataSource dataSource;

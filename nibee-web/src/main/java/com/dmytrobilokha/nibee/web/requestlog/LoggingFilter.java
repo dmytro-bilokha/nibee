@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web.requestlog;
 
-import com.dmytrobilokha.nibee.data.WebRequestLogEntry;
+import com.dmytrobilokha.nibee.data.WebLogEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +45,7 @@ public class LoggingFilter implements Filter {
             sessionUuid = getOrCreateCookieUuid(req, resp);
             session.setAttribute(UUID_PARAM_NAME, sessionUuid);
         }
-        WebRequestLogEntry logEntry = WebRequestLogEntry.getBuilder()
+        WebLogEntry logEntry = WebLogEntry.getBuilder()
                 .sessionId(session.getId())
                 .uuid(sessionUuid)
                 .requestUri(req.getRequestURI())
