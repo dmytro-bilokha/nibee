@@ -8,7 +8,7 @@ CREATE TABLE web_log
 , referer VARCHAR(2048)
 , user_agent VARCHAR(2048)
 , accept_encoding VARCHAR(2048)
-, created_on DATETIME DEFAULT CURRENT_TIMESTAMP
+, created_on DATETIME(3) DEFAULT CURRENT_TIMESTAMP(3)
 , client_port SMALLINT UNSIGNED NOT NULL
 , client_ip VARBINARY(16) NOT NULL
 , CONSTRAINT web_log_pk PRIMARY KEY (id)
