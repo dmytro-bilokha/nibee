@@ -6,6 +6,8 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
+    <jsp:directive.page session="false"/>
+
     <cnt:page title="Bad Request">
         <p class="highlightMessage">
             <c:choose>

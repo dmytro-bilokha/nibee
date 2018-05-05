@@ -6,6 +6,8 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
+    <jsp:directive.page session="false"/>
+
     <cnt:page title="Page Not Found">
         <p class="highlightMessage">Sorry, the requested page does not exist or no longer available.</p>
     </cnt:page>

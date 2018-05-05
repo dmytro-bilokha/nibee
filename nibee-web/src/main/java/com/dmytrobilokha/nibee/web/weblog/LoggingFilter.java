@@ -1,4 +1,4 @@
-package com.dmytrobilokha.nibee.web.requestlog;
+package com.dmytrobilokha.nibee.web.weblog;
 
 import com.dmytrobilokha.nibee.data.WebLogEntry;
 import com.dmytrobilokha.nibee.service.weblog.WebLogService;
@@ -48,14 +48,20 @@ public class LoggingFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
-        HttpSession session = req.getSession();
-        String sessionUuid = (String) session.getAttribute(UUID_PARAM_NAME);
-        if (sessionUuid == null) {
-            sessionUuid = getOrCreateCookieUuid(req, resp);
-            session.setAttribute(UUID_PARAM_NAME, sessionUuid);
+        String userAgent = req.getHeader(USER_AGENT);
+        String sessionId = null;
+        String sessionUuid = null;
+        if (isUserAgentFromHuman(userAgent)) {
+            HttpSession session = req.getSession();
+            sessionId = session.getId();
+            sessionUuid = (String) session.getAttribute(UUID_PARAM_NAME);
+            if (sessionUuid == null) {
+                sessionUuid = getOrCreateCookieUuid(req, resp);
+                session.setAttribute(UUID_PARAM_NAME, sessionUuid);
+            }
         }
         WebLogEntry logEntry = WebLogEntry.getBuilder()
-                .sessionId(session.getId())
+                .sessionId(sessionId)
                 .uuid(sessionUuid)
                 .requestUri(req.getRequestURI())
                 .queryString(req.getQueryString())
@@ -70,6 +76,41 @@ public class LoggingFilter implements Filter {
         chain.doFilter(request, response);
     }
 
+    private boolean isUserAgentFromHuman(String userAgent) {
+        if (userAgent == null || userAgent.isEmpty()) {
+            return false;
+        }
+        String userAgentLowerCase = userAgent.toLowerCase();
+        boolean isUserAgentFromBot =
+                //Google web crawlers
+                userAgentLowerCase.contains("googlebot")
+                || userAgentLowerCase.contains("mediapartners-google")
+                || userAgentLowerCase.contains("adsbot")
+                || userAgentLowerCase.contains("developers.google")
+                //MS Bing bot
+                || userAgentLowerCase.contains("bingbot")
+                //Yahoo Slurp bot
+                || userAgentLowerCase.contains("slurp")
+                //DuckDuck Go search bot
+                || userAgentLowerCase.contains("duckduckbot")
+                //Chinese Baidu search bot
+                || userAgentLowerCase.contains("baiduspider")
+                //Yandex search bot
+                || userAgentLowerCase.contains("yandexbot")
+                //Chinese Sogou search bot
+                || userAgentLowerCase.contains("sogou")
+                //French-based Exalead search bot
+                || userAgentLowerCase.contains("exabot")
+                //Facebook external hit
+                || userAgentLowerCase.contains("facebot")
+                || userAgentLowerCase.contains("facebookexternalhit")
+                //Alexa crawler
+                || userAgentLowerCase.contains("ia_archiver")
+                ;
+        return !isUserAgentFromBot;
+    }
+
+    //TODO: may be implement some expiry date renovation?
     private String getOrCreateCookieUuid(HttpServletRequest req, HttpServletResponse resp) {
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {

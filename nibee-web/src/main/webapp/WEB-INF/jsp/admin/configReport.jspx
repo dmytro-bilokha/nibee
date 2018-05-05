@@ -4,6 +4,9 @@
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns="http://www.w3.org/1999/xhtml"
     version="2.1">
+
+    <jsp:directive.page session="false"/>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <style>

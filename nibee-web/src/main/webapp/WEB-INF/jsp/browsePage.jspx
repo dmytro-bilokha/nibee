@@ -6,6 +6,8 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
+    <jsp:directive.page session="false"/>
+
     <c:set var="headlinersTitle" scope="request">
         ${initParam.blogName} - List of Posts<c:if test="${browsePostsModel.filteredByTag}"> Tagged '${browsePostsModel.tag.name}'</c:if>
     </c:set>

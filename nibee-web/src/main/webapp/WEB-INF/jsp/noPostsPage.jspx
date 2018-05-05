@@ -6,6 +6,8 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
+    <jsp:directive.page session="false"/>
+
     <cnt:page title="Found No Posts">
         <p class="highlightMessage">No posts matching your criteria were found. Try with another parameters.</p>
     </cnt:page>

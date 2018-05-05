@@ -6,6 +6,8 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
+    <jsp:directive.page session="false"/>
+
     <cnt:page title="${postModel.title}" contentBase="${postModel.contentBase}">
 		<h1 id="firstHeader">${postModel.title}</h1>
         <cnt:postDates post="${postModel}"/>

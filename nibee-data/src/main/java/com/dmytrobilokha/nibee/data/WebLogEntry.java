@@ -127,8 +127,7 @@ public class WebLogEntry {
         }
 
         private void validate() {
-            boolean invalid = uuid == null || sessionId == null || serverPort == null || requestUri == null
-                    || clientPort == null || clientIp == null;
+            boolean invalid = serverPort == null || requestUri == null || clientPort == null || clientIp == null;
             if (invalid) {
                 throw new IllegalStateException("Unable to create WebLogEntry from invalid " + this);
             }
