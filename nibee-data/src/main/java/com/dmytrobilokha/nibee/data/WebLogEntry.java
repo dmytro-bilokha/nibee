@@ -13,7 +13,7 @@ public class WebLogEntry {
     private String referer;
     private String userAgent;
     private String acceptEncoding;
-    private LocalDateTime timeStamp;
+    private LocalDateTime createdOn;
     private int clientPort;
     private String clientIp;
 
@@ -50,7 +50,7 @@ public class WebLogEntry {
                 ", referer='" + referer + '\'' +
                 ", userAgent='" + userAgent + '\'' +
                 ", acceptEncoding='" + acceptEncoding + '\'' +
-                ", timeStamp=" + timeStamp +
+                ", createdOn=" + createdOn +
                 ", clientPort=" + clientPort +
                 ", clientIp='" + clientIp + '\'' +
                 '}';
@@ -92,8 +92,8 @@ public class WebLogEntry {
         return acceptEncoding;
     }
 
-    public LocalDateTime getTimeStamp() {
-        return timeStamp;
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
     }
 
     public int getClientPort() {

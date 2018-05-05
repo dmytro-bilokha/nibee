@@ -4,10 +4,7 @@ import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
@@ -16,14 +13,17 @@ public class DbMigrator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DbMigrator.class);
 
-    private final DataSource dataSource;
+    private DataSource dataSource;
+
+    public DbMigrator() {
+        //Constructor required to make DbMigrator proxable
+    }
 
     @Inject
     public DbMigrator(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    @PostConstruct
     public void migrateDb() {
         if (dataSource == null) {
             throw new IllegalStateException("Unable to migrate DB, because injected dataSource is null");
@@ -35,10 +35,6 @@ public class DbMigrator {
         flyway.setBaselineVersionAsString("0.0.0");
         flyway.setBaselineOnMigrate(true);
         flyway.migrate();
-    }
-
-    public void eagerInit(@Observes @Initialized(ApplicationScoped.class) Object initEvent) {
-        //The methods does nothing. We need it just to ensure a CDI framework initializes the bean eagerly.
     }
 
 }
