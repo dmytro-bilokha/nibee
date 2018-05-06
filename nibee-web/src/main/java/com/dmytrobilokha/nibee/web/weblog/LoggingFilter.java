@@ -13,13 +13,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 
 @WebFilter(urlPatterns = "/*")
@@ -32,10 +29,12 @@ public class LoggingFilter implements Filter {
     private static final String ACCEPT_ENCODING = "Accept-Encoding";
 
     private WebLogService webLogService;
+    private CookieHelper cookieHelper;
 
     @Inject
-    public LoggingFilter(WebLogService webLogService) {
+    public LoggingFilter(WebLogService webLogService, CookieHelper cookieHelper) {
         this.webLogService = webLogService;
+        this.cookieHelper = cookieHelper;
     }
 
     @Override
@@ -110,21 +109,12 @@ public class LoggingFilter implements Filter {
         return !isUserAgentFromBot;
     }
 
-    //TODO: may be implement some expiry date renovation?
     private String getOrCreateCookieUuid(HttpServletRequest req, HttpServletResponse resp) {
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            Optional<Cookie> cookieOptional = Arrays.stream(cookies)
-                    .filter(cookie -> UUID_PARAM_NAME.equals(cookie.getName()))
-                    .findFirst();
-            if (cookieOptional.isPresent()) {
-                return cookieOptional.get().getValue();
-            }
+        String uuid = cookieHelper.getCookieValue(req, UUID_PARAM_NAME);
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString();
+            cookieHelper.attachCookie(resp, UUID_PARAM_NAME, uuid, 1_000_000_000);
         }
-        String uuid = UUID.randomUUID().toString();
-        Cookie uuidCookie = new Cookie(UUID_PARAM_NAME, uuid);
-        uuidCookie.setMaxAge(100_000_000);
-        resp.addCookie(uuidCookie);
         return uuid;
     }
 
