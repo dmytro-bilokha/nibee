@@ -1,7 +1,7 @@
 package com.dmytrobilokha.nibee.service.weblog;
 
 import com.dmytrobilokha.nibee.dao.weblog.WebLogDao;
-import com.dmytrobilokha.nibee.data.WebLogEntry;
+import com.dmytrobilokha.nibee.data.WebLogRecord;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -21,8 +21,8 @@ public class WebLogServiceImpl implements WebLogService {
     }
 
     @Override
-    public int insertEntry(WebLogEntry entry) {
-        return webLogDao.insertEntry(entry);
+    public int insertRecord(WebLogRecord entry) {
+        return webLogDao.insertRecord(entry);
     }
 
 }

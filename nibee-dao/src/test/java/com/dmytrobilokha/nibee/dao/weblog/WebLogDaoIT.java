@@ -1,9 +1,10 @@
 package com.dmytrobilokha.nibee.dao.weblog;
 
 import com.dmytrobilokha.nibee.dao.AbstractDaoTest;
-import com.dmytrobilokha.nibee.data.WebLogEntry;
+import com.dmytrobilokha.nibee.data.WebLogRecord;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -26,22 +27,43 @@ public class WebLogDaoIT extends AbstractDaoTest {
     }
 
     @Test
-    public void checkInsertsAndCounts() {
-        WebLogEntry logEntry = createWebLogEntry();
-        int count = webLogDao.insertEntry(logEntry);
+    public void checkInsertsAndReturnsCount() {
+        WebLogRecord logEntry = createWebLogEntry();
+        int count = webLogDao.insertRecord(logEntry);
         assertEquals(1, count);
     }
 
     @Test
     public void checkAssignsIdOnInsert() {
-        WebLogEntry logEntry = createWebLogEntry();
+        WebLogRecord logEntry = createWebLogEntry();
         assertNull(logEntry.getId());
-        webLogDao.insertEntry(logEntry);
+        webLogDao.insertRecord(logEntry);
         assertNotNull(logEntry.getId());
     }
 
-    private WebLogEntry createWebLogEntry() {
-        return WebLogEntry.getBuilder()
+    @Test
+    public void checkIncrementsCountOnInsert() {
+        int total = webLogDao.countRecords();
+        webLogDao.insertRecord(createWebLogEntry());
+        int newTotal = webLogDao.countRecords();
+        assertEquals(1, newTotal - total);
+    }
+
+    @Ignore("H2DB doesn't support ORDER BY for DELETE operator")
+    @Test
+    public void checkDeletes() {
+        webLogDao.insertRecord(createWebLogEntry());
+        webLogDao.insertRecord(createWebLogEntry());
+        webLogDao.insertRecord(createWebLogEntry());
+        int total = webLogDao.countRecords();
+        int deleteCount = webLogDao.deleteOldestRecords(2);
+        assertEquals(2, deleteCount);
+        int newTotal = webLogDao.countRecords();
+        assertEquals(2, total - newTotal);
+    }
+
+    private WebLogRecord createWebLogEntry() {
+        return WebLogRecord.getBuilder()
                 .sessionId("session-id")
                 .uuid("123e4567-e89b-12d3-a456-426655440000")
                 .requestUri("/blog/")

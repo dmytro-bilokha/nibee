@@ -4,7 +4,7 @@
 
 <mapper namespace="com.dmytrobilokha.nibee.dao.weblog.WebLogDao">
 
-    <insert id="insertEntry" parameterType="com.dmytrobilokha.nibee.data.WebLogEntry"
+    <insert id="insertRecord" parameterType="com.dmytrobilokha.nibee.data.WebLogRecord"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO web_log (
         uuid
@@ -30,5 +30,13 @@
         , INET6_ATON(#{clientIp})
         )
     </insert>
+
+    <select id="countRecords" resultType="int">
+        SELECT COUNT(id) FROM web_log
+    </select>
+
+    <delete id="deleteOldestRecords" parameterType="int">
+        DELETE FROM web_log WHERE created_on IS NOT NULL ORDER BY created_on ASC LIMIT #{limit}
+    </delete>
 
 </mapper>

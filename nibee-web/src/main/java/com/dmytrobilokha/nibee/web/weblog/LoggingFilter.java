@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web.weblog;
 
-import com.dmytrobilokha.nibee.data.WebLogEntry;
+import com.dmytrobilokha.nibee.data.WebLogRecord;
 import com.dmytrobilokha.nibee.service.weblog.WebLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +60,7 @@ public class LoggingFilter implements Filter {
                 session.setAttribute(UUID_PARAM_NAME, sessionUuid);
             }
         }
-        WebLogEntry logEntry = WebLogEntry.getBuilder()
+        WebLogRecord logEntry = WebLogRecord.getBuilder()
                 .sessionId(sessionId)
                 .uuid(sessionUuid)
                 .requestUri(req.getRequestURI())
@@ -72,7 +72,7 @@ public class LoggingFilter implements Filter {
                 .acceptEncoding(req.getHeader(ACCEPT_ENCODING))
                 .referer(req.getHeader(REFERER))
                 .build();
-        webLogService.insertEntry(logEntry);
+        webLogService.insertRecord(logEntry);
         chain.doFilter(request, response);
     }
 

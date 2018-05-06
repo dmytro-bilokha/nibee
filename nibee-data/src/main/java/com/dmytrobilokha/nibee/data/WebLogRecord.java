@@ -2,7 +2,7 @@ package com.dmytrobilokha.nibee.data;
 
 import java.time.LocalDateTime;
 
-public class WebLogEntry {
+public class WebLogRecord {
 
     private Long id;
     private String uuid;
@@ -17,11 +17,11 @@ public class WebLogEntry {
     private int clientPort;
     private String clientIp;
 
-    WebLogEntry() {
+    WebLogRecord() {
         //The constructor required by MyBatis
     }
 
-    private WebLogEntry(Builder builder) {
+    private WebLogRecord(Builder builder) {
         this.uuid = builder.uuid;
         this.sessionId = builder.sessionId;
         this.serverPort = builder.serverPort;
@@ -40,7 +40,7 @@ public class WebLogEntry {
 
     @Override
     public String toString() {
-        return "WebLogEntry{" +
+        return "WebLogRecord{" +
                 "id=" + id +
                 ", uuid='" + uuid + '\'' +
                 ", sessionId='" + sessionId + '\'' +
@@ -121,15 +121,15 @@ public class WebLogEntry {
             //Not going to instantiate builder outside
         }
 
-        public WebLogEntry build() {
+        public WebLogRecord build() {
             validate();
-            return new WebLogEntry(this);
+            return new WebLogRecord(this);
         }
 
         private void validate() {
             boolean invalid = serverPort == null || requestUri == null || clientPort == null || clientIp == null;
             if (invalid) {
-                throw new IllegalStateException("Unable to create WebLogEntry from invalid " + this);
+                throw new IllegalStateException("Unable to create WebLogRecord from invalid " + this);
             }
         }
 
