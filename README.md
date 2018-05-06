@@ -38,6 +38,7 @@ create-jdbc-resource --connectionpoolid=nibeeJdbcPool jdbc/nibeeDataSource
 ```
 create-custom-resource --restype=java.util.Properties --factoryclass=org.glassfish.resources.custom.factory.PropertiesFactory --property postsRoot=your_posts_root_directory nibee/properties
 set resources.custom-resource.nibee/properties.property.headlinersPerPage=10
+set resources.custom-resource.nibee/properties.property.webLogRecordsMax=10000000
 ```
 
 7. Put blog data under `your_posts_root_directory` from the previous step.

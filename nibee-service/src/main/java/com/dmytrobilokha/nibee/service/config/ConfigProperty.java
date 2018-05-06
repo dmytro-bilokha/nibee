@@ -2,7 +2,8 @@ package com.dmytrobilokha.nibee.service.config;
 
 public enum ConfigProperty {
     POSTS_ROOT("postsRoot")
-    , HEADLINERS_PER_PAGE("headlinersPerPage");
+    , HEADLINERS_PER_PAGE("headlinersPerPage")
+    , WEB_LOG_RECORDS_MAX("webLogRecordsMax")
     ;
 
     private final String propertyName;
