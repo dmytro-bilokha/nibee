@@ -17,7 +17,7 @@ public class ConfigServiceTest {
 
     private static final String PROPERTIES_JNDI_NAME = "nibee/properties";
 
-    private ConfigService configService;
+    private ConfigServiceImpl configService;
     private Context mockNamingContext;
 
     private Properties properties;
@@ -27,7 +27,7 @@ public class ConfigServiceTest {
         this.properties = new Properties();
         this.mockNamingContext = Mockito.mock(Context.class);
         Mockito.when(mockNamingContext.lookup(PROPERTIES_JNDI_NAME)).thenReturn(properties);
-        this.configService = new ConfigService(mockNamingContext);
+        this.configService = new ConfigServiceImpl(mockNamingContext);
     }
 
     @Test
