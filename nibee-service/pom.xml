@@ -14,6 +14,10 @@
 
     <name>nibee: Service Module</name>
 
+    <properties>
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -67,6 +71,12 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>
