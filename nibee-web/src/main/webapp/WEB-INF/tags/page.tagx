@@ -57,7 +57,10 @@
                 <footer>
                     <c:url value="/license/" var="license" scope="request"/>
                     <p id="copyright">© Dmytro Bilokha 2018, <a href="${fn:escapeXml(license)}"
-                        rel="license" title="License info" target="_self">License</a></p>
+                        rel="license" title="License info" target="_self">License</a>
+                        Platform version: ${applicationScope.appVersion}
+                        build timestamp: ${applicationScope.buildTimestamp}
+                    </p>
                 </footer>
             </div>
         </div>
