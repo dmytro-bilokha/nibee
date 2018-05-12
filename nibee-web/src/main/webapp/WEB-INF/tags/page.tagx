@@ -38,8 +38,10 @@
                     <nav>
                         <c:url value="/" var="home" scope="request"/>
                         <a class="navlink" href="${fn:escapeXml(home)}" target="_self">home</a>
-                        <c:url value="/about" var="about" scope="request"/>
+                        <c:url value="/about/" var="about" scope="request"/>
                         <a class="navlink" href="${fn:escapeXml(about)}" target="_self">about</a>
+                        <c:url value="/terms-of-use/" var="terms" scope="request"/>
+                        <a class="navlink" href="${fn:escapeXml(terms)}" target="_self">terms of use</a>
                     </nav>
                     <p class="navhead">Subscribe</p>
                     <p class="navicons">
@@ -55,7 +57,7 @@
             <div id="main">
                 <jsp:doBody/>
                 <footer>
-                    <c:url value="/license/" var="license" scope="request"/>
+                    <c:url value="/terms-of-use/#license" var="license" scope="request"/>
                     <p id="copyright">© Dmytro Bilokha 2018, <a href="${fn:escapeXml(license)}"
                         rel="license" title="License info" target="_self">License</a>
                         Platform version: ${applicationScope.appVersion}

@@ -52,7 +52,7 @@ public class BlogResponseFactory {
         if (CHECK_PATTERN.matcher(sanitizedPath).find()) {
             return null;
         }
-        return sanitizedPath.toLowerCase();
+        return sanitizedPath;
     }
 
 }

@@ -47,7 +47,7 @@ public class BlogResponseFactoryTest {
                 , {"postname", PostEntryBlogResponse.class, "postname", null}
                 , {"/postname/postresource", PostResourceBlogResponse.class, "postname", "postresource"}
                 , {"postname/postresource", PostResourceBlogResponse.class, "postname", "postresource"}
-                , {"/POSTNAMe/postRESource", PostResourceBlogResponse.class, "postname", "postresource"}
+                , {"/POSTNAMe/postRESource", PostResourceBlogResponse.class, "POSTNAMe", "postRESource"}
                 , {"//postname/postresource//", PostResourceBlogResponse.class, "postname", "postresource"}
                 , {"/postname/postresource/css/img.jpg", PostResourceBlogResponse.class, "postname", "postresource/css/img.jpg"}
                 , {"/postname/postresource/css/img.jpg/", PostResourceBlogResponse.class, "postname", "postresource/css/img.jpg"}
