@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -58,6 +59,23 @@ public abstract class AbstractDaoTest {
 
     protected <T> T getMapper(Class<T> mapperClass) {
         return sqlSession.getMapper(mapperClass);
+    }
+
+    protected static int calculateTableRows(String tableName) {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + tableName);
+            resultSet.first();
+            return resultSet.getInt(1);
+        } catch (SQLException ex) {
+            throw new IllegalStateException(ex);
+        } finally {
+            silentlyClose(resultSet, statement, connection);
+        }
     }
 
     protected static void executeSqlStatement(String statementString) {

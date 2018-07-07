@@ -24,6 +24,7 @@ public class SessionFactoryProducer {
             "com.dmytrobilokha.nibee.dao.post"
             , "com.dmytrobilokha.nibee.dao.tag"
             , "com.dmytrobilokha.nibee.dao.weblog"
+            , "com.dmytrobilokha.nibee.dao.comment"
     };
 
     private final DataSource dataSource;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dmytrobilokha.nibee.dao.comment.CommentDao">
+
+    <resultMap id="comment" type="com.dmytrobilokha.nibee.data.Comment">
+        <id property="id" column="id"/>
+        <result property="postId" column="post_id"/>
+        <result property="authorNickname" column="author_nickname"/>
+        <result property="content" column="content"/>
+        <result property="createdOn" column="created_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <insert id="insert" parameterType="com.dmytrobilokha.nibee.data.Comment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO post_comment (post_id, author_nickname, content) VALUES (#{postId}, #{authorNickname}, #{content})
+    </insert>
+
+    <select id="findCommentByPostId" resultMap="comment" parameterType="java.lang.Long">
+        SELECT id, post_id, author_nickname, content, created_on
+        FROM post_comment
+        WHERE post_id=#{postId}
+        ORDER BY created_on DESC
+    </select>
+
+</mapper>
