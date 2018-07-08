@@ -77,5 +77,9 @@
         ORDER BY COALESCE(p.modified_on, p.created_on) DESC, p.id DESC, tag_name ASC
     </select>
 
+    <select id="countPostsById" resultType="int" parameterType="java.lang.Long">
+        SELECT COUNT(id) FROM post WHERE id=#{id}
+    </select>
+
 </mapper>
 

@@ -1,24 +1,34 @@
 package com.dmytrobilokha.nibee.data;
 
+import com.dmytrobilokha.nibee.data.adapter.LocalDateTimeAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Comment {
 
     private Long id;
     private Long postId;
     private String authorNickname;
     private String content;
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     private LocalDateTime createdOn;
 
     Comment() {
         //This constructor is required by MyBatis
     }
 
-    public Comment(Long postId, String authorNickname, String content) {
+    public Comment(Long postId, String authorNickname, String content, LocalDateTime createdOn) {
         this.postId = postId;
         this.authorNickname = authorNickname;
         this.content = content;
+        this.createdOn = createdOn;
     }
 
     public Long getId() {

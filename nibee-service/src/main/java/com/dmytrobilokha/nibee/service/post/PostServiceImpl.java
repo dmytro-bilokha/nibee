@@ -51,4 +51,10 @@ public class PostServiceImpl implements PostService {
     public List<Post> findPostBeforeFilteredByTag(LocalDateTime dateTime, Long tagId, int limit) {
         return postDao.findPostBefore(dateTime, tagId, limit);
     }
+
+    @Override
+    public boolean doesPostExist(Long postId) {
+        return postDao.countPostsById(postId) > 0;
+    }
+
 }

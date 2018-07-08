@@ -215,4 +215,16 @@ public class PostDaoIT extends AbstractDaoTest {
         return post2DateTime.compareTo(post1DateTime);
     }
 
+    @Test
+    public void testCountsExistingPost() {
+        int numPosts = postDao.countPostsById(1L);
+        assertEquals(1, numPosts);
+    }
+
+    @Test
+    public void testDoesntCountsNonExistingPost() {
+        int numPosts = postDao.countPostsById(88889999L);
+        assertEquals(0, numPosts);
+    }
+
 }

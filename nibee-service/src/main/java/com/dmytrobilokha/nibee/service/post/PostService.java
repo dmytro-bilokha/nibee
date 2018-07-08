@@ -19,4 +19,5 @@ public interface PostService {
 
     List<Post> findPostBeforeFilteredByTag(LocalDateTime dateTime, Long tagId, int limit);
 
+    boolean doesPostExist(Long postId);
 }

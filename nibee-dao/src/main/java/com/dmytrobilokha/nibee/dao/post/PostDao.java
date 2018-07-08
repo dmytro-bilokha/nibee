@@ -20,4 +20,6 @@ public interface PostDao {
     List<Post> findPostBefore(@Param("dateTime") LocalDateTime dateTime, @Param("tagId") Long tagId
             , @Param("limit") int limit);
 
+    int countPostsById(Long id);
+
 }

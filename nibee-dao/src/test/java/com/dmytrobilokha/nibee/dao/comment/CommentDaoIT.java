@@ -35,7 +35,7 @@ public class CommentDaoIT extends AbstractDaoTest {
     @Test
     public void testInsertsComment() {
         int numCommentsBefore = calculateTableRows(COMMENT_TABLE);
-        Comment comment = new Comment(1L, "nickname", "This is a comment");
+        Comment comment = new Comment(1L, "nickname", "This is a comment", null);
         assertEquals(1, commentDao.insert(comment));
         int numCommentsAfter = calculateTableRows(COMMENT_TABLE);
         assertEquals(1, numCommentsAfter - numCommentsBefore);
@@ -44,7 +44,7 @@ public class CommentDaoIT extends AbstractDaoTest {
 
     @Test
     public void testBlocksInsertForNonExsistingPost() {
-        Comment comment = new Comment(7777777221L, "nickname", "This is a comment");
+        Comment comment = new Comment(7777777221L, "nickname", "This is a comment", null);
         try {
             commentDao.insert(comment);
         } catch (PersistenceException ex) {
