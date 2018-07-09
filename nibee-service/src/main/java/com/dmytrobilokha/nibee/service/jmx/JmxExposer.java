@@ -61,7 +61,7 @@ public class JmxExposer {
                 throw new IllegalStateException("Failed to register " + mxBean + " into JMX", ex);
             }
         }
-        LOGGER.info("Registered into JMS beans: {}", mxBeans);
+        LOGGER.info("Registered into JMX beans: {}", mxBeans);
     }
 
     private ObjectName getName(Object mxBean) throws MalformedObjectNameException {
@@ -80,7 +80,7 @@ public class JmxExposer {
                 throw new IllegalStateException("Failed to unregister " + mxBean + " from JMX", ex);
             }
         }
-        LOGGER.info("Unregistered from JMS beans: {}", mxBeans);
+        LOGGER.info("Unregistered from JMX beans: {}", mxBeans);
     }
 
 }
