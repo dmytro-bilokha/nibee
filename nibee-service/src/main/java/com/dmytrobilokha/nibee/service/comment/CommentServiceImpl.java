@@ -7,6 +7,7 @@ import com.dmytrobilokha.nibee.service.post.PostService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Stateless
 public class CommentServiceImpl implements CommentService {
@@ -25,6 +26,11 @@ public class CommentServiceImpl implements CommentService {
     public CommentServiceImpl(CommentDao commentDao, PostService postService) {
         this.commentDao = commentDao;
         this.postService = postService;
+    }
+
+    @Override
+    public List<Comment> fetchPostComments(Long postId) {
+        return commentDao.findCommentByPostId(postId);
     }
 
     @Override

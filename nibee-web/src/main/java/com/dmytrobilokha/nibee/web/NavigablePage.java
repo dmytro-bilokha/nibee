@@ -11,6 +11,7 @@ public enum NavigablePage {
     , HOME("/WEB-INF/home")
     , BROWSE_POSTS("/WEB-INF/jsp/browsePage.jspx")
     , POST("/WEB-INF/jsp/postPage.jspx")
+    , COMMENTS("/WEB-INF/jsp/commentsFragment.jspx")
     , CONFIG_REPORT("/WEB-INF/jsp/admin/configReport.jspx")
     ;
 
