@@ -17,16 +17,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 
 @Path("comments")
 public class CommentResource {
 
     private final CommentService commentService;
+    private final CommentsModelCreator commentsModelCreator;
 
     @Inject
-    public CommentResource(CommentService commentService) {
+    public CommentResource(CommentService commentService, CommentsModelCreator commentsModelCreator) {
         this.commentService = commentService;
+        this.commentsModelCreator = commentsModelCreator;
     }
 
     @POST
@@ -46,9 +47,7 @@ public class CommentResource {
     public void fetch(@Context HttpServletRequest request
                       , @Context HttpServletResponse response
                       , @PathParam("postId") Long postId) {
-        List<Comment> comments = commentService.fetchPostComments(postId);
-        CommentsModel model = new CommentsModel(comments);
-        model.putInRequest(request);
+        commentsModelCreator.createAndPutInRequest(postId, request);
         NavigablePage.COMMENTS.forwardTo(request, response);
     }
 

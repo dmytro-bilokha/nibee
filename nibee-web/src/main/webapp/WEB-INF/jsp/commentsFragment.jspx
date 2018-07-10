@@ -6,13 +6,6 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
-<div id="commentsBlock">
-    <c:forEach items="${commentsModel.comments}" var="comment">
-        <div id="comment-${comment.id}">
-            <h6>${comment.authorNickname} ${comment.createdOn}</h6>
-            <p>${comment.content}</p>
-        </div>
-    </c:forEach>
-</div>
+    <cnt:postComments comments="${commentsModel.comments}"/>
 
 </jsp:root>

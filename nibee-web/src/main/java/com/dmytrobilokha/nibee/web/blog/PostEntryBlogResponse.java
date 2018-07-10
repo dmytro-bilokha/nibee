@@ -5,6 +5,7 @@ import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.web.NavigablePage;
+import com.dmytrobilokha.nibee.web.comment.CommentsModelCreator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +18,15 @@ class PostEntryBlogResponse extends BlogResponse {
     private final ConfigService configService;
     private final PostService postService;
     private final FileService fileService;
+    private final CommentsModelCreator commentsModelCreator;
     final String postName;
 
-    PostEntryBlogResponse(ConfigService configService, PostService postService, FileService fileService, String postName) {
+    PostEntryBlogResponse(ConfigService configService, PostService postService, FileService fileService
+            , CommentsModelCreator commentsModelCreator, String postName) {
         this.configService = configService;
         this.postService = postService;
         this.fileService = fileService;
+        this.commentsModelCreator = commentsModelCreator;
         this.postName = postName;
     }
 
@@ -45,6 +49,7 @@ class PostEntryBlogResponse extends BlogResponse {
         String contentBase = req.getRequestURI().endsWith("/") ? req.getRequestURI() : (req.getRequestURI() + '/');
         PostModel postModel = new PostModel("file://localhost" + postEntryPath.toString(), contentBase, post);
         postModel.putInRequest(req);
+        commentsModelCreator.createAndPutInRequest(post.getId(), req);
         NavigablePage.POST.forwardTo(req, resp);
     }
 

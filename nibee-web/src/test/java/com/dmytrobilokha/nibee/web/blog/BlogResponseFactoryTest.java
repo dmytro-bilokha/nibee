@@ -3,6 +3,7 @@ package com.dmytrobilokha.nibee.web.blog;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
+import com.dmytrobilokha.nibee.web.comment.CommentsModelCreator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,7 @@ public class BlogResponseFactoryTest {
     private ConfigService mockConfigService;
     private PostService mockPostService;
     private FileService mockFileService;
+    private CommentsModelCreator mockCommentsModelCreator;
     private HttpServletRequest mockRequest;
 
     private final String servletPath;
@@ -64,12 +66,14 @@ public class BlogResponseFactoryTest {
 
     @Before
     public void init() {
+        mockCommentsModelCreator = Mockito.mock(CommentsModelCreator.class);
         mockConfigService = Mockito.mock(ConfigService.class);
         mockPostService = Mockito.mock(PostService.class);
         mockFileService = Mockito.mock(FileService.class);
         mockRequest = Mockito.mock(HttpServletRequest.class);
         Mockito.when(mockRequest.getServletPath()).thenReturn(servletPath);
-        blogResponseFactory = new BlogResponseFactory(mockConfigService, mockPostService, mockFileService);
+        blogResponseFactory = new BlogResponseFactory(mockConfigService, mockPostService
+                , mockFileService, mockCommentsModelCreator);
     }
 
     @Test

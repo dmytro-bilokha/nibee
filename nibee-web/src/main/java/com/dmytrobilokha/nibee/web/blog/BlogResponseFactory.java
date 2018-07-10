@@ -3,6 +3,7 @@ package com.dmytrobilokha.nibee.web.blog;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
+import com.dmytrobilokha.nibee.web.comment.CommentsModelCreator;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -18,12 +19,15 @@ public class BlogResponseFactory {
     private final ConfigService configService;
     private final PostService postService;
     private final FileService fileService;
+    private final CommentsModelCreator commentsModelCreator;
 
     @Inject
-    BlogResponseFactory(ConfigService configService, PostService postService, FileService fileService) {
+    BlogResponseFactory(ConfigService configService, PostService postService
+            , FileService fileService, CommentsModelCreator commentsModelCreator) {
         this.configService = configService;
         this.postService = postService;
         this.fileService = fileService;
+        this.commentsModelCreator = commentsModelCreator;
     }
 
     BlogResponse createResponse(HttpServletRequest req) {
@@ -37,7 +41,7 @@ public class BlogResponseFactory {
         }
         String postName = postNameResourceArray[0];
         if (postNameResourceArray.length == 1) {
-            return new PostEntryBlogResponse(configService, postService, fileService, postName);
+            return new PostEntryBlogResponse(configService, postService, fileService, commentsModelCreator, postName);
         }
         if (postNameResourceArray.length >= 2 && !postNameResourceArray[1].isEmpty()) {
             String postResource = postNameResourceArray[1];

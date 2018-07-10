@@ -74,6 +74,7 @@
         <c:if test="${not empty postModel.tags}">
             <cnt:postTags cssClass="postTags" tags="${postModel.tags}"/>
 		</c:if>
+        <cnt:postComments comments="${commentsModel.comments}"/>
     </cnt:page>
 
 </jsp:root>

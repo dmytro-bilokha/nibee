@@ -5,6 +5,7 @@ import com.dmytrobilokha.nibee.service.config.ConfigProperty;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
+import com.dmytrobilokha.nibee.web.comment.CommentsModelCreator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -18,7 +19,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,11 +29,13 @@ public class PostEntryBlogResponseTest {
     private ConfigService mockConfigService;
     private PostService mockPostService;
     private FileService mockFileService;
+    private CommentsModelCreator mockCommentsModelCreator;
     private HttpServletRequest mockRequest;
     private HttpServletResponse mockResponse;
 
     @Before
     public void init() {
+        mockCommentsModelCreator = Mockito.mock(CommentsModelCreator.class);
         mockConfigService = Mockito.mock(ConfigService.class);
         Mockito.when(mockConfigService.getAsString(ConfigProperty.POSTS_ROOT)).thenReturn("/home/nibee");
         mockPostService = Mockito.mock(PostService.class);
@@ -45,7 +47,8 @@ public class PostEntryBlogResponseTest {
         Mockito.when(mockRequest.getRequestDispatcher(Mockito.anyString()))
                 .thenReturn(Mockito.mock(RequestDispatcher.class));
         mockResponse = Mockito.mock(HttpServletResponse.class);
-        blogResponse = new PostEntryBlogResponse(mockConfigService, mockPostService, mockFileService, POST_NAME);
+        blogResponse = new PostEntryBlogResponse(mockConfigService, mockPostService, mockFileService
+                , mockCommentsModelCreator, POST_NAME);
     }
 
     @Test
@@ -67,7 +70,8 @@ public class PostEntryBlogResponseTest {
     public void testForwardsToJsp() {
         Post post = createPost();
         Mockito.when(mockPostService.findPostByName(POST_NAME)).thenReturn(post);
-        Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html"))).thenReturn(true);
+        Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html")))
+                .thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
         Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/jsp/postPage.jspx");
     }
@@ -76,7 +80,8 @@ public class PostEntryBlogResponseTest {
     public void testSetsModelAttribute() {
         Post post = createPost();
         Mockito.when(mockPostService.findPostByName(POST_NAME)).thenReturn(post);
-        Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html"))).thenReturn(true);
+        Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html")))
+                .thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
         ArgumentCaptor<PostModel> modelArgumentCaptor = ArgumentCaptor.forClass(PostModel.class);
         Mockito.verify(mockRequest).setAttribute(Mockito.eq("postModel"), modelArgumentCaptor.capture());
