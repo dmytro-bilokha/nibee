@@ -9,9 +9,10 @@
     <jsp:directive.attribute name="comments" required="true" type="java.util.Collection"/>
 
     <div id="commentsBlock">
+        <h5>Comments: ${comments.size()}</h5>
         <c:forEach items="${comments}" var="comment">
             <div id="comment-${comment.id}">
-                <h6><c:out value="${comment.authorNickname}"/> <c:out value="${comment.createdOn}"/></h6>
+                <h6><c:out value="${comment.authorNickname}"/> commented <c:out value="${comment.createdOn}"/></h6>
                 <p><c:out value="${comment.content}"/></p>
             </div>
         </c:forEach>
