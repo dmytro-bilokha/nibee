@@ -1,0 +1,25 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    version="2.1">
+
+    <jsp:directive.tag pageEncoding="UTF-8"/>
+
+    <form id="newCommentForm" method="POST" action="/blog/api/comments">
+        <input type="hidden" name="postId" value="2"/>
+        <h5>Add comment</h5>
+        <div class="formRow">
+            <label for="authorNickname">Nickname: </label>
+            <input name="authorNickname" type="text" size="27" maxlength="25" value="authorNickname"/>
+        </div>
+        <div class="formRow">
+            <label for="captcha">Captcha: </label>
+            <input name="captcha" type="text" size="27" maxlength="25" value="captcha"/>
+        </div>
+        <textarea name="content" rows="15" cols="40" class="commentContent">Content text</textarea>
+        <input name="post" type="submit" value="Submit"/>
+    </form>
+
+</jsp:root>

@@ -33,12 +33,13 @@ public class CommentResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Comment create(
+    public Long create(
             @FormParam("postId") Long postId
             , @FormParam("authorNickname") String authorNickname
             , @FormParam("content") String content
     ) throws CommentCreationException {
-        return commentService.createAndSave(postId, authorNickname, content);
+        Comment comment = commentService.createAndSave(postId, authorNickname, content);
+        return comment.getId();
     }
 
     @GET
