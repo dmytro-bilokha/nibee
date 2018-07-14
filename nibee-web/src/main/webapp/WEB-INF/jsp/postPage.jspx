@@ -79,7 +79,7 @@
 		</c:if>
 		<hr/>
         <cnt:postComments comments="${commentsModel.comments}"/>
-        <cnt:newCommentForm/>
+        <cnt:newCommentForm postId="${postModel.id}"/>
     </cnt:page>
 
 </jsp:root>

@@ -6,9 +6,10 @@
     version="2.1">
 
     <jsp:directive.tag pageEncoding="UTF-8"/>
+    <jsp:directive.attribute name="postId" required="true" type="java.lang.Long"/>
 
     <form id="newCommentForm" class="boxedForm" method="POST" action="">
-        <input type="hidden" name="postId" value="2"/>
+        <input id="postIdInput" type="hidden" name="postId" value="${postId}"/>
         <h5>Add comment</h5>
         <div class="formRow">
             <div><label for="authorNickname">Nickname:   </label></div>

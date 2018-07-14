@@ -5,17 +5,23 @@ import com.dmytrobilokha.nibee.web.HeadlinePostModel;
 
 public class PostModel extends HeadlinePostModel {
 
+    private final Long id;
     private final String entryFileUrl;
     private final String contentBase;
 
     PostModel(String entryFileUrl, String contentBase, Post post) {
         super(post);
+        this.id = post.getId();
         this.entryFileUrl = entryFileUrl;
         this.contentBase = contentBase;
     }
 
     public boolean isPostSharable() {
         return !getTags().isEmpty();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getEntryFileUrl() {
