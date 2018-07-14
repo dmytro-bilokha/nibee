@@ -9,6 +9,9 @@
     <jsp:directive.page session="false"/>
 
     <cnt:page title="${postModel.title}" contentBase="${postModel.contentBase}">
+        <script type="text/javascript" src="../resources/js/EventUtil.js" defer="defer"></script>
+        <script type="text/javascript" src="../resources/js/AjaxUtil.js" defer="defer"></script>
+        <script type="text/javascript" src="../resources/js/PostPage.js" defer="defer"></script>
 		<h1 id="firstHeader">${postModel.title}</h1>
         <cnt:postDates post="${postModel}"/>
         <c:import url="${postModel.entryFileUrl}"/>
