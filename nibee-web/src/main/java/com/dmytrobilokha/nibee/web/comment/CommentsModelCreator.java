@@ -22,6 +22,7 @@ public class CommentsModelCreator {
         List<Comment> comments = commentService.fetchPostComments(postId);
         CommentsModel model = new CommentsModel(comments);
         model.putInRequest(req);
+        req.setAttribute("postId", postId);
     }
 
 }

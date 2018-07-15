@@ -78,8 +78,7 @@
             <cnt:postTags cssClass="postTags" tags="${postModel.tags}"/>
 		</c:if>
 		<hr/>
-        <cnt:postComments comments="${commentsModel.comments}"/>
-        <cnt:newCommentForm postId="${postModel.id}"/>
+        <cnt:postComments comments="${commentsModel.comments}" postId="${postModel.id}"/>
     </cnt:page>
 
 </jsp:root>

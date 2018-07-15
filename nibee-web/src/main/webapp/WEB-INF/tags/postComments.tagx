@@ -3,10 +3,12 @@
     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
     <jsp:directive.tag pageEncoding="UTF-8"/>
     <jsp:directive.attribute name="comments" required="true" type="java.util.Collection"/>
+    <jsp:directive.attribute name="postId" required="true" type="java.lang.Long"/>
 
     <div id="commentsBlock">
         <h5>Comments: ${comments.size()}</h5>
@@ -14,11 +16,12 @@
             <div id="comment-${comment.id}">
                 <h6>
                     <c:out value="${comment.authorNickname}"/> commented <c:out value="${comment.createdOn}"/>
-                    <button class="replyToCommentButton" id="replyButton-${comment.id}">Reply</button>
+                    <button class="replyToCommentButton" id="replyButton-${comment.id}" disabled="true">Reply</button>
                 </h6>
                 <p><c:out value="${comment.content}"/></p>
             </div>
         </c:forEach>
+        <cnt:newCommentForm postId="${postId}"/>
     </div>
 
 </jsp:root>

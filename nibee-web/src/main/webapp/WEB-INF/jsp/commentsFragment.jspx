@@ -6,6 +6,6 @@
     xmlns:cnt="urn:jsptagdir:/WEB-INF/tags/"
     version="2.1">
 
-    <cnt:postComments comments="${commentsModel.comments}"/>
+    <cnt:postComments comments="${commentsModel.comments}" postId="${postId}"/>
 
 </jsp:root>
