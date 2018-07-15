@@ -10,6 +10,7 @@
 
     <form id="newCommentForm" class="boxedForm" method="POST" action="">
         <input id="postIdInput" type="hidden" name="postId" value="${postId}"/>
+        <input id="commentIdInput" type="hidden" name="commentId" value=""/>
         <h5>Add comment</h5>
         <div class="formRow">
             <div><label for="authorNickname">Nickname:   </label></div>
@@ -20,7 +21,10 @@
             <div><input name="captcha" type="text" size="27" maxlength="25" value="captcha"/></div>
         </div>
         <textarea name="content" rows="15" cols="90" class="commentContent">Content text</textarea>
-        <div class="buttonRow"><input id="submitCommentButton" name="post" type="submit" value="Submit"/></div>
+        <div class="buttonRow">
+            <button id="submitCommentButton">Submit</button>
+            <button id="cancelCommentButton">Cancel</button>
+        </div>
     </form>
 
 </jsp:root>
