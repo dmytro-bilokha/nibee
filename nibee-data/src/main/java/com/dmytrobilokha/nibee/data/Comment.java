@@ -15,6 +15,7 @@ public class Comment {
 
     private Long id;
     private Long postId;
+    private Long parentCommentId;
     private String authorNickname;
     private String content;
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
@@ -24,8 +25,9 @@ public class Comment {
         //This constructor is required by MyBatis
     }
 
-    public Comment(Long postId, String authorNickname, String content, LocalDateTime createdOn) {
+    public Comment(Long postId, Long parentCommentId, String authorNickname, String content, LocalDateTime createdOn) {
         this.postId = postId;
+        this.parentCommentId = parentCommentId;
         this.authorNickname = authorNickname;
         this.content = content;
         this.createdOn = createdOn;
@@ -37,6 +39,10 @@ public class Comment {
 
     public Long getPostId() {
         return postId;
+    }
+
+    public Long getParentCommentId() {
+        return parentCommentId;
     }
 
     public String getAuthorNickname() {
@@ -57,6 +63,8 @@ public class Comment {
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
         return Objects.equals(id, comment.id) &&
+                Objects.equals(postId, comment.postId) &&
+                Objects.equals(parentCommentId, comment.parentCommentId) &&
                 Objects.equals(authorNickname, comment.authorNickname) &&
                 Objects.equals(content, comment.content) &&
                 Objects.equals(createdOn, comment.createdOn);
@@ -64,7 +72,19 @@ public class Comment {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, authorNickname, createdOn);
+        return Objects.hash(id, postId, parentCommentId);
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", postId=" + postId +
+                ", parentCommentId=" + parentCommentId +
+                ", authorNickname='" + authorNickname + '\'' +
+                ", content='" + content + '\'' +
+                ", createdOn=" + createdOn +
+                '}';
     }
 
 }

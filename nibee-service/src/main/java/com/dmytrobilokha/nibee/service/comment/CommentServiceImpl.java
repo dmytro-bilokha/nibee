@@ -34,12 +34,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment createAndSave(Long postId, String authorNickname, String content) throws CommentCreationException {
+    public boolean doesPostCommentExist(Long postId, Long commentId) {
+        return commentDao.countPostComments(postId, commentId) > 0;
+    }
+
+    @Override
+    public Comment createAndSave(Long postId, Long parentCommentId, String authorNickname, String content)
+            throws CommentCreationException {
         String nickname = authorNickname == null ? null : authorNickname.trim();
         validateAuthorNickname(nickname);
         validateContent(content);
-        validatePostId(postId);
-        Comment comment = new Comment(postId, nickname, content, LocalDateTime.now());
+        validateParentsId(postId, parentCommentId);
+        Comment comment = new Comment(postId, parentCommentId, nickname, content, LocalDateTime.now());
         commentDao.insert(comment);
         return comment;
     }
@@ -64,7 +70,15 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
-    private void validatePostId(Long postId) throws CommentCreationException {
+    private void validateParentsId(Long postId, Long parentCommentId) throws CommentCreationException {
+        if (parentCommentId != null) {
+            if (!doesPostCommentExist(postId, parentCommentId)) {
+                throw new CommentCreationException("Unable to create replay for the comment with id '"
+                + parentCommentId + "' under the post with id '" + postId
+                        + "', because such comment/post doesn't exist");
+            }
+            return;
+        }
         if (!postService.doesPostExist(postId)) {
             throw new CommentCreationException("Unable to create comment for the post with id '" + postId
                     + "', because such post doesn't exist");

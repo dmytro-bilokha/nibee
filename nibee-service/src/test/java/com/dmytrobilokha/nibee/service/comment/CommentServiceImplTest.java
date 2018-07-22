@@ -24,38 +24,46 @@ public class CommentServiceImplTest {
         commentDaoMock = Mockito.mock(CommentDao.class);
         postServiceMock = Mockito.mock(PostService.class);
         when(postServiceMock.doesPostExist(any())).thenReturn(true);
+        when(commentDaoMock.countPostComments(any(), any())).thenReturn(1);
         commentService = new CommentServiceImpl(commentDaoMock, postServiceMock);
     }
 
     @Test
     public void checkBlocksCreationForNonExistingPost() {
         when(postServiceMock.doesPostExist(any())).thenReturn(false);
-        assertThrowsException(() -> commentService.createAndSave(1L, "author", "content")
+        assertThrowsException(() -> commentService.createAndSave(1L, null, "author", "content")
                 , "Exception should be thrown when trying to comment non-existing post");
     }
 
     @Test
+    public void checkBlocksCreationForNonExistingParrentComment() {
+        when(commentDaoMock.countPostComments(any(), any())).thenReturn(0);
+        assertThrowsException(() -> commentService.createAndSave(1L, 42L, "author", "content")
+                , "Exception should be thrown when trying to reply to non-existing comment");
+    }
+
+    @Test
     public void checkBlocksCreationForEmptyAuthor() {
-        assertThrowsException(() -> commentService.createAndSave(1L, "  ", "content")
+        assertThrowsException(() -> commentService.createAndSave(1L, null, "  ", "content")
                 , "Exception should be thrown when trying to comment with empty author");
     }
 
     @Test
     public void checkBlocksCreationForEmptyContent() {
-        assertThrowsException(() -> commentService.createAndSave(1L, "author", "  ")
+        assertThrowsException(() -> commentService.createAndSave(1L, null, "author", "  ")
                 , "Exception should be thrown when trying to comment with empty content");
     }
 
     @Test
     public void checkBlocksCreationForTooLongAuthorNickname() {
         assertThrowsException(() ->
-                        commentService.createAndSave(1L, "authorNicknameIsTooooooLongToBeAllowed", "Content")
+                        commentService.createAndSave(1L, null, "authorNicknameIsTooooooLongToBeAllowed", "Content")
                 , "Exception should be thrown when trying to comment with empty content");
     }
 
     @Test
     public void checkCreatesComment() throws CommentCreationException {
-        Comment comment = commentService.createAndSave(1L, "TheAuthor", "Content");
+        Comment comment = commentService.createAndSave(1L, null, "TheAuthor", "Content");
         assertNotNull(comment);
         Mockito.verify(commentDaoMock, times(1)).insert(comment);
     }

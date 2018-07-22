@@ -10,7 +10,7 @@
 
     <form id="newCommentForm" class="boxedForm" method="POST" action="">
         <input id="postIdInput" type="hidden" name="postId" value="${postId}"/>
-        <input id="commentIdInput" type="hidden" name="commentId" value=""/>
+        <input id="commentIdInput" type="hidden" name="parentCommentId" value=""/>
         <h5>Add comment</h5>
         <div class="errorMessageBlock">
             <div id="commentFormClientError"/>

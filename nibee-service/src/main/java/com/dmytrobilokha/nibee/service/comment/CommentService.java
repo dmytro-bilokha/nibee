@@ -7,7 +7,8 @@ import java.util.List;
 public interface CommentService {
 
     List<Comment> fetchPostComments(Long postId);
-
-    Comment createAndSave(Long postId, String authorNickname, String content) throws CommentCreationException;
+    boolean doesPostCommentExist(Long postId, Long commentId);
+    Comment createAndSave(Long postId, Long parentCommentId, String authorNickname, String content)
+            throws CommentCreationException;
 
 }

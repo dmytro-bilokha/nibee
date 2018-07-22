@@ -7,12 +7,11 @@
     version="2.1">
 
     <jsp:directive.tag pageEncoding="UTF-8"/>
-    <jsp:directive.attribute name="comments" required="true" type="java.util.Collection"/>
-    <jsp:directive.attribute name="postId" required="true" type="java.lang.Long"/>
+    <jsp:directive.attribute name="model" required="true" type="com.dmytrobilokha.nibee.web.comment.CommentsModel"/>
 
     <div id="commentsBlock">
         <h5>Comments: ${comments.size()}</h5>
-        <c:forEach items="${comments}" var="comment">
+        <c:forEach items="${model.comments}" var="comment">
             <div id="comment-${comment.id}">
                 <h6>
                     <c:out value="${comment.authorNickname}"/> commented <c:out value="${comment.createdOn}"/>
@@ -21,7 +20,7 @@
                 <p><c:out value="${comment.content}"/></p>
             </div>
         </c:forEach>
-        <cnt:newCommentForm postId="${postId}"/>
+        <cnt:newCommentForm postId="${model.postId}"/>
     </div>
 
 </jsp:root>

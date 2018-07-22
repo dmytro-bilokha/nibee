@@ -35,10 +35,11 @@ public class CommentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Long create(
             @FormParam("postId") Long postId
+            , @FormParam("parentCommentId") Long parentCommentId
             , @FormParam("authorNickname") String authorNickname
             , @FormParam("content") String content
     ) throws CommentCreationException {
-        Comment comment = commentService.createAndSave(postId, authorNickname, content);
+        Comment comment = commentService.createAndSave(postId, parentCommentId, authorNickname, content);
         return comment.getId();
     }
 
