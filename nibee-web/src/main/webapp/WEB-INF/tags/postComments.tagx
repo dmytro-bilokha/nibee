@@ -9,15 +9,19 @@
     <jsp:directive.tag pageEncoding="UTF-8"/>
     <jsp:directive.attribute name="model" required="true" type="com.dmytrobilokha.nibee.web.comment.CommentsModel"/>
 
+    <c:set var="leftDepthMarginMax" value="${15}"/>
     <div id="commentsBlock">
-        <h5>Comments: ${comments.size()}</h5>
         <c:forEach items="${model.comments}" var="comment">
-            <div id="comment-${comment.id}">
+            <c:set var="leftDepthMargin" value="${comment.depthLevel * 1.5}"/>
+            <c:if test="${leftDepthMargin gt leftDepthMarginMax}">
+                <c:set var="leftDepthMargin" value="${leftDepthMarginMax}"/>
+            </c:if>
+            <div id="comment-${comment.id}" style="margin-left: ${leftDepthMargin}em;">
                 <h6>
                     <c:out value="${comment.authorNickname}"/> commented <c:out value="${comment.createdOn}"/>
                     <button class="replyToCommentButton" id="replyButton-${comment.id}" disabled="true">Reply</button>
                 </h6>
-                <p><c:out value="${comment.content}"/></p>
+                <pre><c:out value="${comment.content}"/></pre>
             </div>
         </c:forEach>
         <cnt:newCommentForm postId="${model.postId}"/>

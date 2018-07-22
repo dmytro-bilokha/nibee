@@ -24,7 +24,7 @@
             <div><label for="captcha">Captcha: </label></div>
             <div><input name="captcha" type="text" size="27" maxlength="25" value=""/></div>
         </div>
-        <textarea name="content" rows="15" cols="90" class="commentContent"></textarea>
+        <textarea name="content" class="commentContent"></textarea>
         <div class="buttonRow">
             <button id="submitCommentButton" disabled="true">Submit</button>
             <button id="cancelCommentButton" disabled="true">Cancel</button>
