@@ -17,10 +17,18 @@
                 <c:set var="leftDepthMargin" value="${leftDepthMarginMax}"/>
             </c:if>
             <div id="comment-${comment.id}" style="margin-left: ${leftDepthMargin}em;">
-                <h6>
-                    <c:out value="${comment.authorNickname}"/> commented <c:out value="${comment.createdOn}"/>
-                    <button class="replyToCommentButton" id="replyButton-${comment.id}" disabled="true">Reply</button>
-                </h6>
+                <div class="commentHeader">
+                    <div class="commentAuthor">
+                        <c:out value="${comment.authorNickname}"/>
+                    </div>
+                    <div class="commentHeadFiller"/>
+                    <div class="commentHeadSys">
+                        <c:out value="${comment.createdOn}"/>
+                        <button class="replyToCommentButton" id="replyButton-${comment.id}" disabled="true">
+                            Reply
+                        </button>
+                    </div>
+                </div>
                 <pre><c:out value="${comment.content}"/></pre>
             </div>
         </c:forEach>
