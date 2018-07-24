@@ -11,18 +11,26 @@
     <form id="newCommentForm" class="boxedForm" method="POST" action="">
         <input id="postIdInput" type="hidden" name="postId" value="${postId}"/>
         <input id="commentIdInput" type="hidden" name="parentCommentId" value=""/>
-        <h5>Add comment</h5>
+        <div class="commentHeader">
+            <div class="commentAuthor" id="commentFormHeaderText">Comment</div>
+            <div class="commentHeadFiller"/>
+            <div class="commentHeadSys">
+                <button id="closeCommentFormButton" disabled="true">X</button>
+            </div>
+        </div>
         <div class="errorMessageBlock">
             <div id="commentFormClientError"/>
             <div id="commentFormServerError"/>
         </div>
-        <div class="formRow">
-            <div><label for="authorNickname">Nickname:   </label></div>
-            <div><input name="authorNickname" type="text" size="27" maxlength="25" value=""/></div>
-        </div>
-        <div class="formRow">
-            <div><label for="captcha">Captcha: </label></div>
-            <div><input name="captcha" type="text" size="27" maxlength="25" value=""/></div>
+        <div class="formTable">
+            <div class="formRow">
+                <div><label for="authorNickname">Nickname:   </label></div>
+                <div><input name="authorNickname" type="text" size="27" maxlength="25" value=""/></div>
+            </div>
+            <div class="formRow">
+                <div><label for="captcha">Captcha: </label></div>
+                <div><input name="captcha" type="text" size="27" maxlength="25" value=""/></div>
+            </div>
         </div>
         <textarea name="content" class="commentContent"></textarea>
         <div class="buttonRow">
