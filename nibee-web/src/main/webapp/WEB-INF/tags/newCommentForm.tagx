@@ -25,14 +25,25 @@
         <div class="formTable">
             <div class="formRow">
                 <div><label for="authorNickname">Nickname:   </label></div>
-                <div><input name="authorNickname" type="text" size="27" maxlength="25" value=""/></div>
+                <div><input id="authorNicknameInput" name="authorNickname" type="text" size="27" maxlength="25" value=""/></div>
+            </div>
+            <div id="authorNicknameError" class="hidden">
+                <div/>
+                <div class="fieldErrorMessage">Nickname should not be empty</div>
             </div>
             <div class="formRow">
                 <div><label for="captcha">Captcha: </label></div>
-                <div><input name="captcha" type="text" size="27" maxlength="25" value=""/></div>
+                <div><input id="captchaInput"  name="captcha" type="text" size="27" maxlength="25" value=""/></div>
+            </div>
+            <div id="captchaError" class="hidden">
+                <div/>
+                <div class="fieldErrorMessage">Entered captcha value is wrong</div>
             </div>
         </div>
-        <textarea name="content" class="commentContent"></textarea>
+        <div id="textAreaWrapper">
+            <textarea id="contentInput" name="content" class="commentContent"></textarea>
+            <div id="contentError" class="hidden">Content should not be empty</div>
+        </div>
         <div class="buttonRow">
             <button id="submitCommentButton" disabled="true">Submit</button>
             <button id="cancelCommentButton" disabled="true">Cancel</button>
