@@ -14,8 +14,8 @@ public class CommentCreationExceptionMapper implements ExceptionMapper<CommentCr
     public Response toResponse(CommentCreationException exception) {
         return Response
                 .status(Response.Status.BAD_REQUEST)
-                .type(MediaType.TEXT_PLAIN_TYPE)
-                .entity(exception.getMessage())
+                .type(MediaType.APPLICATION_JSON)
+                .entity(exception.getMessages())
                 .build();
     }
 

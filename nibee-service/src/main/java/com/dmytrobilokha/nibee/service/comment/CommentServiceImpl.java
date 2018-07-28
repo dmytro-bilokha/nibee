@@ -7,6 +7,8 @@ import com.dmytrobilokha.nibee.service.post.PostService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Stateless
@@ -42,47 +44,56 @@ public class CommentServiceImpl implements CommentService {
     public Comment createAndSave(Long postId, Long parentCommentId, String authorNickname, String content)
             throws CommentCreationException {
         String nickname = authorNickname == null ? null : authorNickname.trim();
-        validateAuthorNickname(nickname);
-        validateContent(content);
-        validateParentsId(postId, parentCommentId);
+        validate(postId, parentCommentId, nickname, content);
         Comment comment = new Comment(postId, parentCommentId, nickname, content, LocalDateTime.now());
         commentDao.insert(comment);
         return comment;
     }
 
-    private void validateAuthorNickname(String authorNickname) throws CommentCreationException {
+    private void validate(Long postId, Long parentCommentId, String nickname, String content)
+            throws CommentCreationException {
+        List<String> validationErrorMessages = new ArrayList<>();
+        validationErrorMessages.addAll(checkAuthorNickname(nickname));
+        validationErrorMessages.addAll(checkContent(content));
+        validationErrorMessages.addAll(checkParentsId(postId, parentCommentId));
+        if (!validationErrorMessages.isEmpty()) {
+            throw new CommentCreationException(validationErrorMessages);
+        }
+    }
+
+    private List<String> checkAuthorNickname(String authorNickname) {
         if (authorNickname == null || authorNickname.isEmpty()) {
-            throw new CommentCreationException("Author nickname should not be null or empty");
+            return Collections.singletonList("Author nickname should not be empty");
         }
         if (authorNickname.length() > NICKNAME_MAX_LENGTH) {
-            throw new CommentCreationException("Author nickname should not exceed "
+            return Collections.singletonList("Author nickname should not exceed "
                     + NICKNAME_MAX_LENGTH + " characters");
         }
+        return Collections.emptyList();
     }
 
-    private void validateContent(String content) throws CommentCreationException {
+    private List<String> checkContent(String content) {
         if (content == null || content.trim().isEmpty()) {
-            throw new CommentCreationException("Content should not be null or empty");
+            return Collections.singletonList("Content should not be empty");
         }
         if (content.length() > CONTENT_MAX_LENGTH) {
-            throw new CommentCreationException("Content should not exceed "
-                    + CONTENT_MAX_LENGTH + " characters");
+            return Collections.singletonList("Content should not exceed " + CONTENT_MAX_LENGTH + " characters");
         }
+        return Collections.emptyList();
     }
 
-    private void validateParentsId(Long postId, Long parentCommentId) throws CommentCreationException {
+    private List<String> checkParentsId(Long postId, Long parentCommentId) {
         if (parentCommentId != null) {
             if (!doesPostCommentExist(postId, parentCommentId)) {
-                throw new CommentCreationException("Unable to create replay for the comment with id '"
+                return Collections.singletonList("Unable to create replay for the comment with id '"
                 + parentCommentId + "' under the post with id '" + postId
                         + "', because such comment/post doesn't exist");
             }
-            return;
-        }
-        if (!postService.doesPostExist(postId)) {
-            throw new CommentCreationException("Unable to create comment for the post with id '" + postId
+        } else if (!postService.doesPostExist(postId)) {
+            return Collections.singletonList("Unable to create comment for the post with id '" + postId
                     + "', because such post doesn't exist");
         }
+        return Collections.emptyList();
     }
 
 }
