@@ -14,20 +14,21 @@ import java.util.List;
 @Stateless
 public class CommentServiceImpl implements CommentService {
 
-    private static final int NICKNAME_MAX_LENGTH = 25;
     private static final int CONTENT_MAX_LENGTH = 5000;
 
     private CommentDao commentDao;
     private PostService postService;
+    private NicknameValidator nicknameValidator;
 
     public CommentServiceImpl() {
         //This constructor is required by the EJB spec
     }
 
     @Inject
-    public CommentServiceImpl(CommentDao commentDao, PostService postService) {
+    public CommentServiceImpl(CommentDao commentDao, PostService postService, NicknameValidator nicknameValidator) {
         this.commentDao = commentDao;
         this.postService = postService;
+        this.nicknameValidator = nicknameValidator;
     }
 
     @Override
@@ -43,9 +44,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment createAndSave(Long postId, Long parentCommentId, String authorNickname, String content)
             throws CommentCreationException {
-        String nickname = authorNickname == null ? null : authorNickname.trim();
-        validate(postId, parentCommentId, nickname, content);
-        Comment comment = new Comment(postId, parentCommentId, nickname, content, LocalDateTime.now());
+        validate(postId, parentCommentId, authorNickname, content);
+        Comment comment = new Comment(postId, parentCommentId, authorNickname, content, LocalDateTime.now());
         commentDao.insert(comment);
         return comment;
     }
@@ -53,23 +53,12 @@ public class CommentServiceImpl implements CommentService {
     private void validate(Long postId, Long parentCommentId, String nickname, String content)
             throws CommentCreationException {
         List<String> validationErrorMessages = new ArrayList<>();
-        validationErrorMessages.addAll(checkAuthorNickname(nickname));
+        validationErrorMessages.addAll(nicknameValidator.checkNickname(nickname));
         validationErrorMessages.addAll(checkContent(content));
         validationErrorMessages.addAll(checkParentsId(postId, parentCommentId));
         if (!validationErrorMessages.isEmpty()) {
             throw new CommentCreationException(validationErrorMessages);
         }
-    }
-
-    private List<String> checkAuthorNickname(String authorNickname) {
-        if (authorNickname == null || authorNickname.isEmpty()) {
-            return Collections.singletonList("Author nickname should not be empty");
-        }
-        if (authorNickname.length() > NICKNAME_MAX_LENGTH) {
-            return Collections.singletonList("Author nickname should not exceed "
-                    + NICKNAME_MAX_LENGTH + " characters");
-        }
-        return Collections.emptyList();
     }
 
     private List<String> checkContent(String content) {
