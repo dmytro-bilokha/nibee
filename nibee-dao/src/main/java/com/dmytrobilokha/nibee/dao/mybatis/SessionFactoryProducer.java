@@ -9,6 +9,7 @@ import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import org.mybatis.cdi.SessionFactoryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -21,10 +22,10 @@ public class SessionFactoryProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionFactoryProducer.class);
     private static final String[] MAPPER_PACKAGES = new String[]{
-            "com.dmytrobilokha.nibee.dao.post"
-            , "com.dmytrobilokha.nibee.dao.tag"
-            , "com.dmytrobilokha.nibee.dao.weblog"
-            , "com.dmytrobilokha.nibee.dao.comment"
+        "com.dmytrobilokha.nibee.dao.post"
+        , "com.dmytrobilokha.nibee.dao.tag"
+        , "com.dmytrobilokha.nibee.dao.weblog"
+        , "com.dmytrobilokha.nibee.dao.comment"
     };
 
     private final DataSource dataSource;

@@ -32,7 +32,7 @@ public class ConfigReportServlet extends HttpServlet {
 
     private void buildReport() {
         for (ConfigProperty configProperty : ConfigProperty.values()) {
-           configReport.add(configProperty, configService.getAsString(configProperty));
+            configReport.add(configProperty, configService.getAsString(configProperty));
         }
         configReport.sort();
     }

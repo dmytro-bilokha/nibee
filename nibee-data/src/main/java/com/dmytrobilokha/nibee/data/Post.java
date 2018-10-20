@@ -68,10 +68,10 @@ public class Post {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return Objects.equals(id, post.id) &&
-                Objects.equals(name, post.name) &&
-                Objects.equals(title, post.title) &&
-                Objects.equals(path, post.path);
+        return Objects.equals(id, post.id)
+            && Objects.equals(name, post.name)
+            && Objects.equals(title, post.title)
+            && Objects.equals(path, post.path);
     }
 
     @Override
@@ -81,15 +81,9 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", title='" + title + '\'' +
-                ", path='" + path + '\'' +
-                ", createdOn=" + createdOn +
-                ", modifiedOn=" + modifiedOn +
-                ", tagList=" + tagList +
-                '}';
+        return "Post{" + "id=" + id + ", name='" + name + '\'' + ", title='" + title + '\''
+            + ", path='" + path + '\'' + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn
+            + ", tagList=" + tagList + '}';
     }
 
 }

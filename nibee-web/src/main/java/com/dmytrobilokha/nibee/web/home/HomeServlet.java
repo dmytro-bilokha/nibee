@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 @WebServlet(urlPatterns = "/WEB-INF/home")
-public class HomeServlet extends HttpServlet{
+public class HomeServlet extends HttpServlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HomeServlet.class);
 

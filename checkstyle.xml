@@ -9,17 +9,25 @@
     <property name="severity" value="error"/>
     <property name="fileExtensions" value="java, properties, xml"/>
 
+    <!-- No too long files -->
+    <module name="FileLength">
+        <property name="max" value="1500"/>
+    </module>
+
     <!-- No tabs in the source code -->
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
 
-    <module name="TreeWalker">
+    <!-- Unix-style end of line at the end of each file -->
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf"/>
+    </module>
 
-        <!-- No super-length lines -->
-        <module name="LineLength">
-            <property name="max" value="120"/>
-        </module>
+    <!-- Properties keys should be unique -->
+    <module name="UniqueProperties"/>
+
+    <module name="TreeWalker">
 
         <!-- Star imports could lead to a lot of pain to investigate the issue -->
         <module name="AvoidStarImport"/>
@@ -152,9 +160,88 @@
         <module name="CyclomaticComplexity"/>
         <module name="JavaNCSS"/>
 
+        <!-- Java arrays style -->
+        <module name="ArrayTypeStyle"/>
 
+        <!-- No escaped unicode -->
+        <module name="AvoidEscapedUnicodeCharacters"/>
 
+        <!-- Comments should be indented like a code -->
+        <module name="CommentsIndentation"/>
 
+        <!-- Indentation rules -->
+        <module name="Indentation"/>
+
+        <!-- File name should correspond to the class name -->
+        <module name="OuterTypeFilename"/>
+
+        <!-- No end-line comments -->
+        <module name="TrailingComment"/>
+
+        <!-- 10L and not 10l in constants -->
+        <module name="UpperEll"/>
+
+        <!-- Use modifiers order recommended by JLS -->
+        <module name="ModifierOrder"/>
+
+        <!-- No redundant modifiers -->
+        <module name="RedundantModifier"/>
+
+        <!-- No too long anonymous inner classes -->
+        <module name="AnonInnerLength"/>
+
+        <!-- No super-length lines -->
+        <module name="LineLength">
+            <property name="max" value="120"/>
+        </module>
+
+        <!-- No too long methods -->
+        <module name="MethodLength"/>
+
+        <!-- No too many parameters -->
+        <module name="ParameterNumber"/>
+
+        <!-- No space for empty -->
+        <module name="EmptyForInitializerPad"/>
+        <module name="EmptyForIteratorPad"/>
+
+        <!-- Regulate empty lines -->
+        <module name="EmptyLineSeparator">
+            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
+            <property name="allowMultipleEmptyLines" value="false"/>
+            <property name="tokens"
+                      value="PACKAGE_DEF, IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF, STATIC_INIT, INSTANCE_INIT, METHOD_DEF, CTOR_DEF"/>
+        </module>
+
+        <!-- Generics whitespace configuration -->
+        <module name="GenericWhitespace"/>
+
+        <!-- No method parameters padding -->
+        <module name="MethodParamPad"/>
+
+        <!-- No line wrapping for package and imports -->
+        <module name="NoLineWrap"/>
+
+        <!-- Regulate whitespaces after some tokens -->
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore">
+            <property name="allowLineBreaks" value="true"/>
+        </module>
+
+        <!-- Wrap lines -->
+        <module name="OperatorWrap"/>
+        <module name="SeparatorWrap">
+            <property name="tokens" value="DOT, AT"/>
+            <property name="option" value="nl"/>
+        </module>
+
+        <!-- No padding of parentheses -->
+        <module name="ParenPad"/>
+        <module name="TypecastParenPad"/>
+
+        <!-- Whitespace config -->
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround"/>
 
     </module>
 

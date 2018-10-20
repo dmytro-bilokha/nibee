@@ -40,20 +40,12 @@ public class WebLogRecord {
 
     @Override
     public String toString() {
-        return "WebLogRecord{" +
-                "id=" + id +
-                ", uuid='" + uuid + '\'' +
-                ", sessionId='" + sessionId + '\'' +
-                ", serverPort=" + serverPort +
-                ", requestUri='" + requestUri + '\'' +
-                ", queryString='" + queryString + '\'' +
-                ", referer='" + referer + '\'' +
-                ", userAgent='" + userAgent + '\'' +
-                ", acceptEncoding='" + acceptEncoding + '\'' +
-                ", createdOn=" + createdOn +
-                ", clientPort=" + clientPort +
-                ", clientIp='" + clientIp + '\'' +
-                '}';
+        return "WebLogRecord{" + "id=" + id + ", uuid='" + uuid + '\'' + ", sessionId='" + sessionId
+            + '\'' + ", serverPort=" + serverPort + ", requestUri='" + requestUri + '\''
+            + ", queryString='" + queryString + '\'' + ", referer='" + referer
+            + '\'' + ", userAgent='" + userAgent + '\'' + ", acceptEncoding='" + acceptEncoding
+            + '\'' + ", createdOn=" + createdOn + ", clientPort=" + clientPort
+            + ", clientIp='" + clientIp + '\'' + '}';
     }
 
     public Long getId() {
@@ -135,18 +127,11 @@ public class WebLogRecord {
 
         @Override
         public String toString() {
-            return "Builder{" +
-                    "uuid='" + uuid + '\'' +
-                    ", sessionId='" + sessionId + '\'' +
-                    ", serverPort=" + serverPort +
-                    ", requestUri='" + requestUri + '\'' +
-                    ", queryString='" + queryString + '\'' +
-                    ", referer='" + referer + '\'' +
-                    ", userAgent='" + userAgent + '\'' +
-                    ", acceptEncoding='" + acceptEncoding + '\'' +
-                    ", clientPort=" + clientPort +
-                    ", clientIp='" + clientIp + '\'' +
-                    '}';
+            return "Builder{" + "uuid='" + uuid + '\'' + ", sessionId='" + sessionId + '\''
+                + ", serverPort=" + serverPort + ", requestUri='" + requestUri + '\''
+                + ", queryString='" + queryString + '\'' + ", referer='" + referer + '\''
+                + ", userAgent='" + userAgent + '\'' + ", acceptEncoding='" + acceptEncoding + '\''
+                + ", clientPort=" + clientPort + ", clientIp='" + clientIp + '\'' + '}';
         }
 
         public Builder uuid(String uuid) {

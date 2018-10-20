@@ -84,7 +84,7 @@ public class ConfigServiceImpl implements ConfigService, ConfigServiceMXBean {
 
     private Properties getBuildProperties() {
         Properties buildProperties = new Properties();
-        try(BufferedInputStream bis = new BufferedInputStream(
+        try (BufferedInputStream bis = new BufferedInputStream(
                 environmentServicesProvider.getResourceAsStream(INIT_PROPERTIES))) {
             buildProperties.load(bis);
         } catch (IOException ex) {

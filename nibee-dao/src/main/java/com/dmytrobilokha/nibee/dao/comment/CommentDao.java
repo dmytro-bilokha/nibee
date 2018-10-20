@@ -10,7 +10,9 @@ import java.util.List;
 public interface CommentDao {
 
     int insert(Comment comment);
+
     int countPostComments(@Param("postId") Long postId, @Param("commentId") Long commentId);
+
     List<Comment> findCommentByPostId(Long postId);
 
 }

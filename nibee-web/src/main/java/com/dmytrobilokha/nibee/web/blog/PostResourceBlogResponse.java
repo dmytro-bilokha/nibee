@@ -47,7 +47,7 @@ class PostResourceBlogResponse extends BlogResponse {
         try {
             resp.setContentLengthLong(fileService.getFileSize(resourcePath));
             fileService.dumpFileToStream(resourcePath, resp.getOutputStream());
-        } catch (IOException ex ){
+        } catch (IOException ex) {
             logger.error("Failed to serve resource '{}' from post {}", resourcePath, postBase, ex);
             respondWithError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;

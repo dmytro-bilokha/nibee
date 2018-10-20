@@ -63,7 +63,7 @@ public class FileService {
             return "";
         }
         int lastDotIndex = fileName.lastIndexOf('.');
-        if (lastDotIndex < 1 || lastDotIndex >= fileName.length()-1) {
+        if (lastDotIndex < 1 || lastDotIndex >= fileName.length() - 1) {
             return "";
         }
         String fileExtension = fileName.substring(lastDotIndex + 1);

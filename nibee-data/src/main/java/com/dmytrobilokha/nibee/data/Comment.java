@@ -62,12 +62,12 @@ public class Comment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
-        return Objects.equals(id, comment.id) &&
-                Objects.equals(postId, comment.postId) &&
-                Objects.equals(parentCommentId, comment.parentCommentId) &&
-                Objects.equals(authorNickname, comment.authorNickname) &&
-                Objects.equals(content, comment.content) &&
-                Objects.equals(createdOn, comment.createdOn);
+        return Objects.equals(id, comment.id)
+            && Objects.equals(postId, comment.postId)
+            && Objects.equals(parentCommentId, comment.parentCommentId)
+            && Objects.equals(authorNickname, comment.authorNickname)
+            && Objects.equals(content, comment.content)
+            && Objects.equals(createdOn, comment.createdOn);
     }
 
     @Override
@@ -77,14 +77,9 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", postId=" + postId +
-                ", parentCommentId=" + parentCommentId +
-                ", authorNickname='" + authorNickname + '\'' +
-                ", content='" + content + '\'' +
-                ", createdOn=" + createdOn +
-                '}';
+        return "Comment{" + "id=" + id + ", postId=" + postId + ", parentCommentId=" + parentCommentId
+            + ", authorNickname='" + authorNickname + '\'' + ", content='" + content
+            + '\'' + ", createdOn=" + createdOn + '}';
     }
 
 }
