@@ -64,13 +64,6 @@
                </suiteXmlFiles>
                <threadCount>1</threadCount>
             </configuration>
-            <dependencies>
-               <dependency>
-                  <groupId>org.apache.maven.surefire</groupId>
-                  <artifactId>surefire-testng</artifactId>
-                  <version>2.22.1</version>
-               </dependency>
-            </dependencies>
          </plugin>
       </plugins>
    </build>
