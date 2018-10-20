@@ -2,56 +2,52 @@ package com.dmytrobilokha.nibee.dao.weblog;
 
 import com.dmytrobilokha.nibee.dao.AbstractDaoTest;
 import com.dmytrobilokha.nibee.data.WebLogRecord;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
-public class WebLogDaoIT extends AbstractDaoTest {
+public class WebLogDaoTest extends AbstractDaoTest {
 
     private WebLogDao webLogDao;
 
     @BeforeClass
-    public static void initFunctionAlias() {
+    public void initFunctionAlias() {
         executeSqlStatement("CREATE ALIAS UUID_TO_BIN FOR \"com.dmytrobilokha.nibee.dao.H2dbMySqlFunctions.uuidToBin\"");
         executeSqlStatement("CREATE ALIAS INET6_ATON FOR \"com.dmytrobilokha.nibee.dao.H2dbMySqlFunctions.inet6AtoN\"");
     }
 
-    @Before
+    @BeforeMethod
     public void initWebLogDao() {
         webLogDao = getMapper(WebLogDao.class);
     }
 
-    @Test
-    public void checkInsertsAndReturnsCount() {
+    public void insertsAndReturnsCount() {
         WebLogRecord logEntry = createWebLogEntry();
         int count = webLogDao.insertRecord(logEntry);
         assertEquals(1, count);
     }
 
-    @Test
-    public void checkAssignsIdOnInsert() {
+    public void assignsIdOnInsert() {
         WebLogRecord logEntry = createWebLogEntry();
         assertNull(logEntry.getId());
         webLogDao.insertRecord(logEntry);
         assertNotNull(logEntry.getId());
     }
 
-    @Test
-    public void checkIncrementsCountOnInsert() {
+    public void incrementsCountOnInsert() {
         int total = webLogDao.countRecords();
         webLogDao.insertRecord(createWebLogEntry());
         int newTotal = webLogDao.countRecords();
         assertEquals(1, newTotal - total);
     }
 
-    @Ignore("H2DB doesn't support ORDER BY for DELETE operator")
-    @Test
-    public void checkDeletes() {
+    //H2DB doesn't support ORDER BY for DELETE operator
+    @Test(groups = "broken")
+    public void deletes() {
         webLogDao.insertRecord(createWebLogEntry());
         webLogDao.insertRecord(createWebLogEntry());
         webLogDao.insertRecord(createWebLogEntry());
@@ -76,4 +72,5 @@ public class WebLogDaoIT extends AbstractDaoTest {
                 .referer("https://google.com/")
                 .build();
     }
+
 }

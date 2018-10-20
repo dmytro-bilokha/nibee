@@ -1,23 +1,21 @@
 package com.dmytrobilokha.nibee.dao.comment;
 
-
 import com.dmytrobilokha.nibee.dao.AbstractDaoTest;
 import com.dmytrobilokha.nibee.data.Comment;
 import org.apache.ibatis.exceptions.PersistenceException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
-public class CommentDaoIT extends AbstractDaoTest {
+public class CommentDaoTest extends AbstractDaoTest {
 
     private static final String COMMENT_TABLE = "post_comment";
     private static final Long NON_EXISTING_POST_ID = 7777777221L;
@@ -26,17 +24,16 @@ public class CommentDaoIT extends AbstractDaoTest {
     private CommentDao commentDao;
 
     @BeforeClass
-    public static void loadData() {
+    public void loadData() {
         executeSqlScripts("post.sql", "post_comment.sql");
     }
 
-    @Before
+    @BeforeMethod
     public void initPostRepository() {
         commentDao = getMapper(CommentDao.class);
     }
 
-    @Test
-    public void testInsertsComment() {
+    public void insertsComment() {
         int numCommentsBefore = calculateTableRows(COMMENT_TABLE);
         Comment comment = new Comment(1L, null, "nickname", "This is a comment", null);
         assertEquals(1, commentDao.insert(comment));
@@ -45,30 +42,19 @@ public class CommentDaoIT extends AbstractDaoTest {
         assertNotNull(comment.getId());
     }
 
-    @Test
-    public void testBlocksInsertForNonExistingPost() {
+    @Test(expectedExceptions = PersistenceException.class)
+    public void blocksInsertForNonExistingPost() {
         Comment comment = new Comment(NON_EXISTING_POST_ID, null, "nickname", "This is a comment", null);
-        try {
-            commentDao.insert(comment);
-        } catch (PersistenceException ex) {
-            return;
-        }
-        fail("Inserting comment referencing to non-existing post should be blocked");
+        commentDao.insert(comment);
     }
 
-    @Test
-    public void testBlocksInsertForNonExistingPostComment() {
+    @Test(expectedExceptions = PersistenceException.class)
+    public void blocksInsertForNonExistingPostComment() {
         Comment comment = new Comment(2L, NON_EXISTING_COMMENT_ID, "nickname", "This is a comment", null);
-        try {
-            commentDao.insert(comment);
-        } catch (PersistenceException ex) {
-            return;
-        }
-        fail("Inserting comment referencing to non-existing parent post comment should be blocked");
+        commentDao.insert(comment);
     }
 
-    @Test
-    public void testFindsByPostIdAndReturnsOrdered() {
+    public void findsByPostIdAndReturnsOrdered() {
         List<Comment> comments = commentDao.findCommentByPostId(2L);
         assertTrue(comments.size() > 1);
         LocalDateTime previous = LocalDateTime.MIN;
@@ -78,23 +64,19 @@ public class CommentDaoIT extends AbstractDaoTest {
         }
     }
 
-    @Test
-    public void testCountsExistingPostAndComment() {
+    public void countsExistingPostAndComment() {
         assertEquals(1, commentDao.countPostComments(2L, 2L));
     }
 
-    @Test
-    public void testCountsNotExistingPostAndComment() {
+    public void countsNotExistingPostAndComment() {
         assertEquals(0, commentDao.countPostComments(NON_EXISTING_POST_ID, NON_EXISTING_COMMENT_ID));
     }
 
-    @Test
-    public void testCountsExistingPostAndNotComment() {
+    public void countsExistingPostAndNotComment() {
         assertEquals(0, commentDao.countPostComments(2L, NON_EXISTING_COMMENT_ID));
     }
 
-    @Test
-    public void testReturnsParentCommentId() {
+    public void returnsParentCommentId() {
         List<Comment> comments = commentDao.findCommentByPostId(1L);
         Optional<Comment> childComment = comments.stream()
                 .filter(comment -> comment.getParentCommentId() != null)

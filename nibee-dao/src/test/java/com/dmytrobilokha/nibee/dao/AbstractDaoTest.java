@@ -5,10 +5,11 @@ import com.dmytrobilokha.nibee.dao.mybatis.SessionFactoryProducer;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.h2.jdbcx.JdbcDataSource;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,18 +19,19 @@ import java.sql.Statement;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+@Test(groups = {"database.embedded"})
 public abstract class AbstractDaoTest {
 
     private static final String DB_SCRIPT_BASE = "datasets/";
     private static final Pattern STATEMENT_DELIMITER = Pattern.compile(";\\h*\\r?\\n");
 
-    private static DataSource dataSource;
-    private static SqlSessionFactory sqlSessionFactory;
+    private DataSource dataSource;
+    private SqlSessionFactory sqlSessionFactory;
 
     private SqlSession sqlSession;
 
     @BeforeClass
-    public static void initDb() {
+    public void initDb() {
         JdbcDataSource jdbcDataSource = new JdbcDataSource();
         dataSource = jdbcDataSource;
         jdbcDataSource.setUrl("jdbc:h2:mem:nibee;MODE=MYSQL;DB_CLOSE_DELAY=-1");
@@ -41,16 +43,16 @@ public abstract class AbstractDaoTest {
     }
 
     @AfterClass
-    public static void shutdownDb() {
+    public void shutdownDb() {
         executeSqlStatement("SHUTDOWN");
     }
 
-    @Before
+    @BeforeMethod
     public void openSqlSession() {
         sqlSession = sqlSessionFactory.openSession();
     }
 
-    @After
+    @AfterMethod
     public void closeSqlSession() {
         sqlSession.rollback();
         sqlSession.close();
@@ -61,7 +63,7 @@ public abstract class AbstractDaoTest {
         return sqlSession.getMapper(mapperClass);
     }
 
-    protected static int calculateTableRows(String tableName) {
+    protected int calculateTableRows(String tableName) {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -78,7 +80,7 @@ public abstract class AbstractDaoTest {
         }
     }
 
-    protected static void executeSqlStatement(String statementString) {
+    protected void executeSqlStatement(String statementString) {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();) {
             statement.execute(statementString);
@@ -87,7 +89,7 @@ public abstract class AbstractDaoTest {
         }
     }
 
-    protected static void executeSqlScripts(String... scriptNames) {
+    protected void executeSqlScripts(String... scriptNames) {
         Connection connection = null;
         Statement statement = null;
         Scanner scanner = null;
@@ -114,7 +116,7 @@ public abstract class AbstractDaoTest {
         }
     }
 
-    private static void silentlyClose(AutoCloseable... openResources) {
+    private void silentlyClose(AutoCloseable... openResources) {
         for (AutoCloseable resource : openResources) {
             if (resource != null) {
                 try {

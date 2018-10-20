@@ -22,11 +22,12 @@
         <mybatis.version>3.4.5</mybatis.version>
         <mybatis-cdi.version>1.0.2</mybatis-cdi.version>
 
-        <flyway-version>5.0.7</flyway-version>
+        <flyway.version>5.0.7</flyway.version>
 
         <javaee.api.version>7.0</javaee.api.version>
         <slf4j.version>1.7.25</slf4j.version>
 
+        <testng.version>6.14.3</testng.version>
         <junit.version>4.12</junit.version>
         <mockito.version>2.13.0</mockito.version>
         <h2.version>1.4.196</h2.version>
@@ -34,10 +35,10 @@
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
         <maven.ear.plugin.version>2.10.1</maven.ear.plugin.version>
         <maven.ejb.plugin.version>3.0.0</maven.ejb.plugin.version>
-        <maven.surefire.plugin.version>2.19.1</maven.surefire.plugin.version>
+        <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>2.19.1</maven.failsafe.plugin.version>
         <maven.war.plugin.version>3.2.0</maven.war.plugin.version>
-        <exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
+        <maven.exec.plugin.version>1.6.0</maven.exec.plugin.version>
         <maven.jacoco.plugin.version>0.7.6.201602180812</maven.jacoco.plugin.version>
 
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -90,7 +91,7 @@
             <dependency>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-core</artifactId>
-                <version>${flyway-version}</version>
+                <version>${flyway.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax</groupId>
@@ -108,6 +109,12 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -132,50 +139,52 @@
     </dependencyManagement>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*IT.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>**/*IT.java</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${maven.jacoco.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <append>true</append>
-                            <destFile>${sonar.jacoco.reportPath}</destFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+        <!--
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+                <excludes>
+                    <exclude>**/*IT.java</exclude>
+                </excludes>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+                <includes>
+                    <include>**/*IT.java</include>
+                </includes>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>integration-test</goal>
+                        <goal>verify</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${maven.jacoco.plugin.version}</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                    <configuration>
+                        <append>true</append>
+                        <destFile>${sonar.jacoco.reportPath}</destFile>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+        -->
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -211,7 +220,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>${exec.maven.plugin.version}</version>
+                    <version>${maven.exec.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

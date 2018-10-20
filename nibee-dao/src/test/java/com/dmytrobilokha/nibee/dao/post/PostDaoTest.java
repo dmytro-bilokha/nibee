@@ -3,9 +3,8 @@ package com.dmytrobilokha.nibee.dao.post;
 import com.dmytrobilokha.nibee.dao.AbstractDaoTest;
 import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.data.Tag;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,54 +14,49 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
-public class PostDaoIT extends AbstractDaoTest {
+public class PostDaoTest extends AbstractDaoTest {
 
     private PostDao postDao;
 
     @BeforeClass
-    public static void loadData() {
+    public void loadData() {
         executeSqlScripts("post.sql");
     }
 
-    @Before
+    @BeforeMethod
     public void initPostRepository() {
         postDao = getMapper(PostDao.class);
     }
 
-    @Test
-    public void checkFindsPostByName() {
+    public void findsPostByName() {
         Post post = postDao.findPostByName("post-about-rest");
         assertNotNull(post);
         assertEquals("post-about-rest", post.getName());
     }
 
-    @Test
-    public void checkFindsPostWithoutTagByName() {
+    public void findsPostWithoutTagByName() {
         Post post = postDao.findPostByName("resources");
         assertNotNull(post);
         assertEquals("resources", post.getName());
     }
 
-    @Test
-    public void checkDoesntFindPost() {
+    public void doesntFindPost() {
         Post post = postDao.findPostByName("SomeNotExistingInDbNameHere");
         assertNull(post);
     }
 
-    @Test
-    public void checkFindsPathByPostName() {
+    public void findsPathByPostName() {
         String postPath = postDao.findPostPathByName("post-about-rest");
         assertEquals("2018/01/REST", postPath);
     }
 
-    @Test
-    public void checkFindsPostAfter() {
+    public void findsPostAfter() {
         LocalDateTime dateTime = LocalDateTime.of(2018, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
         assertFalse(posts.isEmpty());
@@ -72,15 +66,13 @@ public class PostDaoIT extends AbstractDaoTest {
         assertTrue(wrongDatePosts.isEmpty());
     }
 
-    @Test
-    public void checkFindsNoPostAfter() {
+    public void findsNoPostAfter() {
         LocalDateTime dateTime = LocalDateTime.of(2028, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
         assertTrue(posts.isEmpty());
     }
 
-    @Test
-    public void checkOrdersPostAfter() {
+    public void ordersPostAfter() {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
         assertPostsOrdered(posts);
@@ -94,8 +86,7 @@ public class PostDaoIT extends AbstractDaoTest {
         }
     }
 
-    @Test
-    public void checkLimitsPostAfter() {
+    public void limitsPostAfter() {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
         assertTrue(posts.size() > 2);
@@ -104,8 +95,7 @@ public class PostDaoIT extends AbstractDaoTest {
         assertEquals(limit, limitedPosts.size());
     }
 
-    @Test
-    public void checkFiltersByTagIdPostAfter() {
+    public void filtersByTagIdPostAfter() {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, 1L, 1000);
         assertFalse(posts.isEmpty());
@@ -119,8 +109,7 @@ public class PostDaoIT extends AbstractDaoTest {
         }
     }
 
-    @Test
-    public void checkDoesntLoseTagWhenFiltering() {
+    public void doesntLoseTagWhenFiltering() {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> postsFiltered = postDao.findPostAfter(dateTime, 1L, 1000);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
@@ -131,8 +120,7 @@ public class PostDaoIT extends AbstractDaoTest {
         }
     }
 
-    @Test
-    public void checkReturnsPostAfterWithTagsOrdered() {
+    public void returnsPostAfterWithTagsOrdered() {
         LocalDateTime dateTime = LocalDateTime.of(2010, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
         assertTagsOrderedByName(posts);
@@ -153,8 +141,7 @@ public class PostDaoIT extends AbstractDaoTest {
        return tag1.getName().compareTo(tag2.getName());
     }
 
-    @Test
-    public void checkFindsPostBefore() {
+    public void findsPostBefore() {
         LocalDateTime dateTime = LocalDateTime.of(2018, 4, 14, 0, 1);
         List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
         assertFalse(posts.isEmpty());
@@ -164,22 +151,19 @@ public class PostDaoIT extends AbstractDaoTest {
         assertTrue(wrongDatePosts.isEmpty());
     }
 
-    @Test
-    public void checkFindsNoPostBefore() {
+    public void findsNoPostBefore() {
         LocalDateTime dateTime = LocalDateTime.of(2000, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
         assertTrue(posts.isEmpty());
     }
 
-    @Test
-    public void checkOrdersPostBefore() {
+    public void ordersPostBefore() {
         LocalDateTime dateTime = LocalDateTime.of(2060, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
         assertPostsOrdered(posts);
     }
 
-    @Test
-    public void checkLimitsPostBefore() {
+    public void limitsPostBefore() {
         LocalDateTime dateTime = LocalDateTime.of(2060, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
         assertTrue(posts.size() > 1);
@@ -187,8 +171,7 @@ public class PostDaoIT extends AbstractDaoTest {
         assertEquals(1, limitedPosts.size());
     }
 
-    @Test
-    public void checkLimitsPostBefore2() {
+    public void limitsPostBefore2() {
         LocalDateTime dateTime = LocalDateTime.of(2060, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
         assertTrue(posts.size() > 2);
@@ -197,8 +180,7 @@ public class PostDaoIT extends AbstractDaoTest {
         assertEquals(limit, limitedPosts.size());
     }
 
-    @Test
-    public void checkReturnsPostBeforeWithTagsOrdered() {
+    public void returnsPostBeforeWithTagsOrdered() {
         LocalDateTime dateTime = LocalDateTime.of(2080, 3, 3, 0, 1);
         List<Post> posts = postDao.findPostBefore(dateTime, null, 1000);
         assertTagsOrderedByName(posts);
@@ -215,14 +197,12 @@ public class PostDaoIT extends AbstractDaoTest {
         return post2DateTime.compareTo(post1DateTime);
     }
 
-    @Test
-    public void testCountsExistingPost() {
+    public void countsExistingPost() {
         int numPosts = postDao.countPostsById(1L);
         assertEquals(1, numPosts);
     }
 
-    @Test
-    public void testDoesntCountsNonExistingPost() {
+    public void doesntCountsNonExistingPost() {
         int numPosts = postDao.countPostsById(88889999L);
         assertEquals(0, numPosts);
     }
