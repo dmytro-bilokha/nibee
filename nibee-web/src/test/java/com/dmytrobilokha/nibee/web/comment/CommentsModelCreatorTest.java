@@ -2,10 +2,9 @@ package com.dmytrobilokha.nibee.web.comment;
 
 import com.dmytrobilokha.nibee.data.Comment;
 import com.dmytrobilokha.nibee.service.comment.CommentService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,11 +15,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
+@Test(groups = "web.unit")
 public class CommentsModelCreatorTest {
 
     private CommentService mockCommentService;
@@ -30,25 +33,24 @@ public class CommentsModelCreatorTest {
     private CommentsModelCreator commentsModelCreator;
     private CommentsModel createdModel;
 
-    @Before
+    @BeforeClass
     public void init() {
-        mockCommentService = Mockito.mock(CommentService.class);
-        mockRequest = Mockito.mock(HttpServletRequest.class);
-        Mockito.doAnswer(ans -> {
+        mockCommentService = mock(CommentService.class);
+        mockRequest = mock(HttpServletRequest.class);
+        doAnswer(ans -> {
             createdModel = ans.getArgument(1);
             return null;
         }).when(mockRequest).setAttribute(eq("commentsModel"), any());
-        Mockito.when(mockCommentService.fetchPostComments(anyLong())).thenReturn(commentsFromService);
+        when(mockCommentService.fetchPostComments(anyLong())).thenReturn(commentsFromService);
         commentsModelCreator = new CommentsModelCreator(mockCommentService);
     }
 
-    @After
+    @AfterMethod
     public void clean() {
         commentsFromService.clear();
     }
 
-    @Test
-    public void testPassesPostIdAndComments() {
+    public void passesPostIdAndComments() {
         Comment singleComment = createComment(5L, null);
         commentsFromService.add(singleComment);
         commentsModelCreator.createAndPutInRequest(1L, mockRequest);
@@ -56,8 +58,7 @@ public class CommentsModelCreatorTest {
         assertEquals(1, createdModel.getComments().size());
     }
 
-    @Test
-    public void testRollsCommentTree() {
+    public void rollsCommentTree() {
         fillCommentsWithTestDataset();
         commentsModelCreator.createAndPutInRequest(2L, mockRequest);
         List<Long> commentsId = createdModel.getComments()
@@ -70,8 +71,7 @@ public class CommentsModelCreatorTest {
         );
     }
 
-    @Test
-    public void testCalculatesDepth() {
+    public void calculatesDepth() {
         fillCommentsWithTestDataset();
         commentsModelCreator.createAndPutInRequest(2L, mockRequest);
         List<Integer> depthShouldBe = createdModel.getComments()

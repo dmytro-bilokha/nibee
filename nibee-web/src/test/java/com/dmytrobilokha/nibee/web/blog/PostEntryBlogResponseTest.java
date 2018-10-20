@@ -6,10 +6,9 @@ import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.web.comment.CommentsModelCreator;
-import org.junit.Before;
-import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +19,15 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
+@Test(groups = "web.unit")
 public class PostEntryBlogResponseTest {
 
     private static final String POST_NAME = "postname";
@@ -33,58 +39,54 @@ public class PostEntryBlogResponseTest {
     private HttpServletRequest mockRequest;
     private HttpServletResponse mockResponse;
 
-    @Before
+    @BeforeMethod
     public void init() {
-        mockCommentsModelCreator = Mockito.mock(CommentsModelCreator.class);
-        mockConfigService = Mockito.mock(ConfigService.class);
-        Mockito.when(mockConfigService.getAsString(ConfigProperty.POSTS_ROOT)).thenReturn("/home/nibee");
-        mockPostService = Mockito.mock(PostService.class);
-        Mockito.when(mockPostService.findPostByName(Mockito.anyString())).thenReturn(null);
-        mockFileService = Mockito.mock(FileService.class);
-        Mockito.when(mockFileService.isFileRegularAndReadable(Mockito.any())).thenReturn(false);
-        mockRequest = Mockito.mock(HttpServletRequest.class);
-        Mockito.when(mockRequest.getRequestURI()).thenReturn("/blog/" + POST_NAME);
-        Mockito.when(mockRequest.getRequestDispatcher(Mockito.anyString()))
-                .thenReturn(Mockito.mock(RequestDispatcher.class));
-        mockResponse = Mockito.mock(HttpServletResponse.class);
+        mockCommentsModelCreator = mock(CommentsModelCreator.class);
+        mockConfigService = mock(ConfigService.class);
+        when(mockConfigService.getAsString(ConfigProperty.POSTS_ROOT)).thenReturn("/home/nibee");
+        mockPostService = mock(PostService.class);
+        when(mockPostService.findPostByName(anyString())).thenReturn(null);
+        mockFileService = mock(FileService.class);
+        when(mockFileService.isFileRegularAndReadable(any())).thenReturn(false);
+        mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getRequestURI()).thenReturn("/blog/" + POST_NAME);
+        when(mockRequest.getRequestDispatcher(anyString()))
+                .thenReturn(mock(RequestDispatcher.class));
+        mockResponse = mock(HttpServletResponse.class);
         blogResponse = new PostEntryBlogResponse(mockConfigService, mockPostService, mockFileService
                 , mockCommentsModelCreator, POST_NAME);
     }
 
-    @Test
-    public void testSends404WhenPostNotFound() throws IOException {
-        Mockito.when(mockFileService.isFileRegularAndReadable(Mockito.any())).thenReturn(true);
+    public void sends404WhenPostNotFound() throws IOException {
+        when(mockFileService.isFileRegularAndReadable(any())).thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
-        Mockito.verify(mockResponse).sendError(404);
+        verify(mockResponse).sendError(404);
     }
 
-    @Test
-    public void testSends404WhenFileIsNotReadable() throws IOException {
+    public void sends404WhenFileIsNotReadable() throws IOException {
         Post post = createPost();
-        Mockito.when(mockPostService.findPostByName(Mockito.anyString())).thenReturn(post);
+        when(mockPostService.findPostByName(anyString())).thenReturn(post);
         blogResponse.respond(mockRequest, mockResponse);
-        Mockito.verify(mockResponse).sendError(404);
+        verify(mockResponse).sendError(404);
     }
 
-    @Test
-    public void testForwardsToJsp() {
+    public void forwardsToJsp() {
         Post post = createPost();
-        Mockito.when(mockPostService.findPostByName(POST_NAME)).thenReturn(post);
-        Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html")))
+        when(mockPostService.findPostByName(POST_NAME)).thenReturn(post);
+        when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html")))
                 .thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
-        Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/jsp/postPage.jspx");
+        verify(mockRequest).getRequestDispatcher("/WEB-INF/jsp/postPage.jspx");
     }
 
-    @Test
-    public void testSetsModelAttribute() {
+    public void setsModelAttribute() {
         Post post = createPost();
-        Mockito.when(mockPostService.findPostByName(POST_NAME)).thenReturn(post);
-        Mockito.when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html")))
+        when(mockPostService.findPostByName(POST_NAME)).thenReturn(post);
+        when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html")))
                 .thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
         ArgumentCaptor<PostModel> modelArgumentCaptor = ArgumentCaptor.forClass(PostModel.class);
-        Mockito.verify(mockRequest).setAttribute(Mockito.eq("postModel"), modelArgumentCaptor.capture());
+        verify(mockRequest).setAttribute(eq("postModel"), modelArgumentCaptor.capture());
         List<PostModel> models = modelArgumentCaptor.getAllValues();
         assertEquals(1, models.size());
         PostModel postModel = models.get(0);

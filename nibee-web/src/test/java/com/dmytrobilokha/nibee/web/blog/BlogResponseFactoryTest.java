@@ -4,20 +4,17 @@ import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.web.comment.CommentsModelCreator;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.mockito.Mockito;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.Arrays;
-import java.util.Collection;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
-import static org.junit.Assert.assertEquals;
-
-@RunWith(Parameterized.class)
+@Test(groups = "web.unit")
 public class BlogResponseFactoryTest {
 
     private BlogResponseFactory blogResponseFactory;
@@ -27,14 +24,9 @@ public class BlogResponseFactoryTest {
     private CommentsModelCreator mockCommentsModelCreator;
     private HttpServletRequest mockRequest;
 
-    private final String servletPath;
-    private final Class responseClassExpected;
-    private final String postNameExpected;
-    private final String postResourceExpected;
-
-    @Parameterized.Parameters
-    public static Collection<Object[]> getParameters() {
-        return Arrays.asList(new Object[][] {
+    @DataProvider(name = "blogResponseFactoryData")
+    public Object[][] getParameters() {
+        return new Object[][] {
                 {"/postname/../../anothername", NotFoundBlogResponse.class, null, null}
                 , {"/postname//anothername/", NotFoundBlogResponse.class, null, null}
                 , {"/post\\name/", NotFoundBlogResponse.class, null, null}
@@ -53,31 +45,28 @@ public class BlogResponseFactoryTest {
                 , {"//postname/postresource//", PostResourceBlogResponse.class, "postname", "postresource"}
                 , {"/postname/postresource/css/img.jpg", PostResourceBlogResponse.class, "postname", "postresource/css/img.jpg"}
                 , {"/postname/postresource/css/img.jpg/", PostResourceBlogResponse.class, "postname", "postresource/css/img.jpg"}
-        });
+        };
     }
 
-    public BlogResponseFactoryTest(String servletPath, Class responseClassExpected
-            , String postNameExpected, String postResourceExpected) {
-        this.servletPath = servletPath;
-        this.responseClassExpected = responseClassExpected;
-        this.postNameExpected = postNameExpected;
-        this.postResourceExpected = postResourceExpected;
-    }
-
-    @Before
+    @BeforeClass
     public void init() {
-        mockCommentsModelCreator = Mockito.mock(CommentsModelCreator.class);
-        mockConfigService = Mockito.mock(ConfigService.class);
-        mockPostService = Mockito.mock(PostService.class);
-        mockFileService = Mockito.mock(FileService.class);
-        mockRequest = Mockito.mock(HttpServletRequest.class);
-        Mockito.when(mockRequest.getServletPath()).thenReturn(servletPath);
+        mockCommentsModelCreator = mock(CommentsModelCreator.class);
+        mockConfigService = mock(ConfigService.class);
+        mockPostService = mock(PostService.class);
+        mockFileService = mock(FileService.class);
+        mockRequest = mock(HttpServletRequest.class);
         blogResponseFactory = new BlogResponseFactory(mockConfigService, mockPostService
                 , mockFileService, mockCommentsModelCreator);
     }
 
-    @Test
-    public void testFactoryOutput() {
+    @Test(dataProvider = "blogResponseFactoryData")
+    public void testFactoryOutput(
+            String servletPath
+            , Class responseClassExpected
+            , String postNameExpected
+            , String postResourceExpected
+    ) {
+        when(mockRequest.getServletPath()).thenReturn(servletPath);
         BlogResponse response = blogResponseFactory.createResponse(mockRequest);
         assertEquals(responseClassExpected, response.getClass());
         if (responseClassExpected == PostEntryBlogResponse.class) {

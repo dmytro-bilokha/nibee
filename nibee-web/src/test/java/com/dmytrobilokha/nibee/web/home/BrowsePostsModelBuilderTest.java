@@ -3,9 +3,8 @@ package com.dmytrobilokha.nibee.web.home;
 import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.data.Tag;
 import com.dmytrobilokha.nibee.service.post.PostService;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -13,14 +12,17 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
+@Test(groups = "web.unit")
 public class BrowsePostsModelBuilderTest {
 
     private static final int HEADLINERS_PER_PAGE = 2;
@@ -29,23 +31,21 @@ public class BrowsePostsModelBuilderTest {
     private PostService mockPostService;
     private BrowsePostsModelBuilder modelBuilder;
 
-    @Before
+    @BeforeMethod
     public void init() {
-        mockPostService = Mockito.mock(PostService.class);
+        mockPostService = mock(PostService.class);
         modelBuilder = new BrowsePostsModelBuilder(mockPostService, 2);
     }
 
-    @Test
-    public void checkReturnsNullOnEmptyPostList() {
-        Mockito.when(mockPostService.findPostBefore(any(), eq(SEARCH_LIMIT))).thenReturn(Collections.emptyList());
+    public void returnsNullOnEmptyPostList() {
+        when(mockPostService.findPostBefore(any(), eq(SEARCH_LIMIT))).thenReturn(Collections.emptyList());
         BrowsePostsModel model = modelBuilder.build();
         assertNull(model);
     }
 
-    @Test
-    public void checkSetsModelPropertiesForFirstPageShort() {
+    public void setsModelPropertiesForFirstPageShort() {
         List<Post> postList = Arrays.asList(createPost(1), createPost(2));
-        Mockito.when(mockPostService.findPostBefore(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
+        when(mockPostService.findPostBefore(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder.build();
         assertNotNull(model);
         assertFalse(model.isBackPossible());
@@ -54,10 +54,9 @@ public class BrowsePostsModelBuilderTest {
         assertEquals(2, model.getHeadlines().size());
     }
 
-    @Test
-    public void checkSetsModelPropertiesForFirstPageLong() {
+    public void setsModelPropertiesForFirstPageLong() {
         List<Post> postList = Arrays.asList(createPost(1), createPost(2), createPost(3));
-        Mockito.when(mockPostService.findPostBefore(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
+        when(mockPostService.findPostBefore(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder.build();
         assertNotNull(model);
         assertFalse(model.isBackPossible());
@@ -66,10 +65,9 @@ public class BrowsePostsModelBuilderTest {
         assertEquals(2, model.getHeadlines().size());
     }
 
-    @Test
-    public void checkSetsTagForFirstPage() {
+    public void setsTagForFirstPage() {
         List<Post> postList = Arrays.asList(createPostWithTags(1), createPostWithTags(2));
-        Mockito.when(mockPostService.findPostBeforeFilteredByTag(any(), eq(1L), eq(SEARCH_LIMIT))).thenReturn(postList);
+        when(mockPostService.findPostBeforeFilteredByTag(any(), eq(1L), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder
                 .tagId(1L)
                 .build();
@@ -80,10 +78,9 @@ public class BrowsePostsModelBuilderTest {
         assertEquals(Long.valueOf(1L), tag.getId());
     }
 
-    @Test
-    public void checkSetsModelPropertiesForAfterShort() {
+    public void setsModelPropertiesForAfterShort() {
         List<Post> postList = Arrays.asList(createPost(1), createPost(2));
-        Mockito.when(mockPostService.findPostAfter(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
+        when(mockPostService.findPostAfter(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder
                 .after(LocalDateTime.of(2009, 10, 1, 1, 1))
                 .build();
@@ -94,10 +91,9 @@ public class BrowsePostsModelBuilderTest {
         assertEquals(2, model.getHeadlines().size());
     }
 
-    @Test
-    public void checkSetsModelPropertiesForAfterPageLong() {
+    public void setsModelPropertiesForAfterPageLong() {
         List<Post> postList = Arrays.asList(createPost(1), createPost(2), createPost(3));
-        Mockito.when(mockPostService.findPostAfter(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
+        when(mockPostService.findPostAfter(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder
                 .after(LocalDateTime.of(2009, 10, 1, 1, 1))
                 .build();
@@ -108,10 +104,9 @@ public class BrowsePostsModelBuilderTest {
         assertEquals(2, model.getHeadlines().size());
     }
 
-    @Test
-    public void checkSetsTagForAfter() {
+    public void setsTagForAfter() {
         List<Post> postList = Arrays.asList(createPostWithTags(1), createPostWithTags(2));
-        Mockito.when(mockPostService.findPostAfterFilteredByTag(any(), eq(1L), eq(SEARCH_LIMIT))).thenReturn(postList);
+        when(mockPostService.findPostAfterFilteredByTag(any(), eq(1L), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder
                 .tagId(1L)
                 .after(LocalDateTime.of(2009, 10, 1, 1, 1))

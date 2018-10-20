@@ -1,8 +1,10 @@
 package com.dmytrobilokha.nibee.web.param;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mockito;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,11 +12,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
+@Test(groups = "web.unit")
 public class ParamParserTest {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
@@ -22,64 +27,67 @@ public class ParamParserTest {
 
     private HttpServletRequest mockRequest;
 
-    @Before
-    public void initMocks() {
+    @BeforeClass
+    public void init() {
         mockRequest = Mockito.mock(HttpServletRequest.class);
-        Mockito.when(mockRequest.getParameter(anyString())).thenReturn("");
+    }
+
+    @BeforeMethod
+    public void setupMockDefaults() {
+        when(mockRequest.getParameter(anyString())).thenReturn("");
+    }
+
+    @AfterMethod
+    public void resetMocks() {
+        reset(mockRequest);
     }
 
     private void setRequestParam(String name, String value) {
-        Mockito.when(mockRequest.getParameter(name)).thenReturn(value);
+        when(mockRequest.getParameter(name)).thenReturn(value);
     }
 
-    @Test
-    public void checkReturnsEmptyLong1() throws InvalidParamException {
+    public void returnsEmptyLongWhenNoParam() throws InvalidParamException {
         Long paramValue = ParamParser.parseLong(mockRequest, "longParam");
         assertNull(paramValue);
     }
 
-    @Test
-    public void checkReturnsEmptyLong2() throws InvalidParamException {
+    public void returnsEmptyLongWhenParamIsNull() throws InvalidParamException {
         setRequestParam("longParam", null);
         Long paramValue = ParamParser.parseLong(mockRequest, "longParam");
         assertNull(paramValue);
     }
 
-    @Test(expected = InvalidParamException.class)
+    @Test(expectedExceptions = InvalidParamException.class)
     public void checkThrowsOnInvalidLong() throws InvalidParamException {
         setRequestParam("longParam", "43A");
         Long paramValue = ParamParser.parseLong(mockRequest, "longParam");
     }
 
-    @Test
-    public void checkParsesLong() throws InvalidParamException {
+    public void parsesLong() throws InvalidParamException {
         setRequestParam("longParam", "43");
         Long paramValue = ParamParser.parseLong(mockRequest, "longParam");
         assertNotNull(paramValue);
         assertEquals(Long.valueOf(43L), paramValue);
     }
 
-    @Test
-    public void checkReturnsEmptyDateTime1() throws InvalidParamException {
+    public void returnsEmptyDateTimeWhenNoParam() throws InvalidParamException {
         LocalDateTime paramValue = ParamParser.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
         assertNull(paramValue);
     }
 
-    @Test
-    public void checkReturnsEmptyDateTime2() throws InvalidParamException {
+    public void returnsEmptyDateTimeWhenParamIsNull() throws InvalidParamException {
         setRequestParam("dateTime", null);
         LocalDateTime paramValue = ParamParser.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
         assertNull(paramValue);
     }
 
-    @Test(expected = InvalidParamException.class)
-    public void checkThrowsOnInvalidDateTime() throws InvalidParamException {
+    @Test(expectedExceptions = InvalidParamException.class)
+    public void throwsOnInvalidDateTime() throws InvalidParamException {
         setRequestParam("dateTime", "2012-02-01TXX:23:00.000");
         LocalDateTime paramValue = ParamParser.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
     }
 
-    @Test
-    public void checkParsesDateTime() throws InvalidParamException {
+    public void parsesDateTime() throws InvalidParamException {
         final String dateTimeString = "14-02-12T12:34:09.123";
         setRequestParam("dateTime", dateTimeString);
         LocalDateTime paramValue = ParamParser.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);

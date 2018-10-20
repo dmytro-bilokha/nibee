@@ -1,13 +1,11 @@
 package com.dmytrobilokha.nibee.web.blog;
 
-
 import com.dmytrobilokha.nibee.service.config.ConfigProperty;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@Test(groups = "web.unit")
 public class PostResourceBlogResponseTest {
 
     private static final String POST_NAME = "postname";
@@ -30,58 +35,54 @@ public class PostResourceBlogResponseTest {
     private HttpServletRequest mockRequest;
     private HttpServletResponse mockResponse;
 
-    @Before
+    @BeforeMethod
     public void init() throws IOException {
-        mockConfigService = Mockito.mock(ConfigService.class);
-        Mockito.when(mockConfigService.getAsString(ConfigProperty.POSTS_ROOT)).thenReturn("/home/nibee");
-        mockPostService = Mockito.mock(PostService.class);
-        Mockito.when(mockPostService.findPostPathByName(Mockito.anyString())).thenReturn(null);
-        mockFileService = Mockito.mock(FileService.class);
-        Mockito.when(mockFileService.isFileRegularAndReadable(Mockito.any())).thenReturn(false);
-        Mockito.when(mockFileService.getFileContentType(Mockito.any())).thenReturn("");
-        Mockito.when(mockFileService.getFileSize(Mockito.any())).thenReturn(FILE_SIZE);
-        mockRequest = Mockito.mock(HttpServletRequest.class);
-        Mockito.when(mockRequest.getRequestDispatcher(Mockito.anyString()))
-                .thenReturn(Mockito.mock(RequestDispatcher.class));
-        mockResponse = Mockito.mock(HttpServletResponse.class);
+        mockConfigService = mock(ConfigService.class);
+        when(mockConfigService.getAsString(ConfigProperty.POSTS_ROOT)).thenReturn("/home/nibee");
+        mockPostService = mock(PostService.class);
+        when(mockPostService.findPostPathByName(anyString())).thenReturn(null);
+        mockFileService = mock(FileService.class);
+        when(mockFileService.isFileRegularAndReadable(any())).thenReturn(false);
+        when(mockFileService.getFileContentType(any())).thenReturn("");
+        when(mockFileService.getFileSize(any())).thenReturn(FILE_SIZE);
+        mockRequest = mock(HttpServletRequest.class);
+        when(mockRequest.getRequestDispatcher(anyString()))
+                .thenReturn(mock(RequestDispatcher.class));
+        mockResponse = mock(HttpServletResponse.class);
         blogResponse = new PostResourceBlogResponse(mockConfigService, mockPostService, mockFileService
                 , POST_NAME, POST_RESOURCE);
     }
 
-    @Test
-    public void testSends404WhenPostNotFound() throws IOException {
-        Mockito.when(mockFileService.isFileRegularAndReadable(Mockito.any())).thenReturn(true);
-        Mockito.when(mockFileService.getFileContentType(Mockito.any())).thenReturn(RESOURCE_CONTENT);
+    public void sends404WhenPostNotFound() throws IOException {
+        when(mockFileService.isFileRegularAndReadable(any())).thenReturn(true);
+        when(mockFileService.getFileContentType(any())).thenReturn(RESOURCE_CONTENT);
         blogResponse.respond(mockRequest, mockResponse);
-        Mockito.verify(mockResponse).sendError(404);
+        verify(mockResponse).sendError(404);
     }
 
-    @Test
-    public void testSends404WhenFileIsNotReadable() throws IOException {
-        Mockito.when(mockPostService.findPostPathByName(Mockito.anyString())).thenReturn("path");
-        Mockito.when(mockFileService.getFileContentType(Mockito.any())).thenReturn(RESOURCE_CONTENT);
+    public void sends404WhenFileIsNotReadable() throws IOException {
+        when(mockPostService.findPostPathByName(anyString())).thenReturn("path");
+        when(mockFileService.getFileContentType(any())).thenReturn(RESOURCE_CONTENT);
         blogResponse.respond(mockRequest, mockResponse);
-        Mockito.verify(mockResponse).sendError(404);
+        verify(mockResponse).sendError(404);
     }
 
-    @Test
-    public void testSends404WhenNoContentType() throws IOException {
-        Mockito.when(mockPostService.findPostPathByName(Mockito.anyString())).thenReturn("path");
-        Mockito.when(mockFileService.isFileRegularAndReadable(Mockito.any())).thenReturn(true);
+    public void sends404WhenNoContentType() throws IOException {
+        when(mockPostService.findPostPathByName(anyString())).thenReturn("path");
+        when(mockFileService.isFileRegularAndReadable(any())).thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
-        Mockito.verify(mockResponse).sendError(404);
+        verify(mockResponse).sendError(404);
     }
 
-    @Test
-    public void testStreamsResourceFile() throws IOException {
+    public void streamsResourceFile() throws IOException {
         Path resourcePath = Paths.get("/home/nibee/path/" + POST_RESOURCE);
-        Mockito.when(mockPostService.findPostPathByName(POST_NAME)).thenReturn("path");
-        Mockito.when(mockFileService.getFileContentType(resourcePath)).thenReturn(RESOURCE_CONTENT);
-        Mockito.when(mockFileService.isFileRegularAndReadable(resourcePath)).thenReturn(true);
+        when(mockPostService.findPostPathByName(POST_NAME)).thenReturn("path");
+        when(mockFileService.getFileContentType(resourcePath)).thenReturn(RESOURCE_CONTENT);
+        when(mockFileService.isFileRegularAndReadable(resourcePath)).thenReturn(true);
         blogResponse.respond(mockRequest, mockResponse);
-        Mockito.verify(mockResponse).setContentType(RESOURCE_CONTENT);
-        Mockito.verify(mockResponse).setContentLengthLong(FILE_SIZE);
-        Mockito.verify(mockFileService).dumpFileToStream(Mockito.eq(resourcePath), Mockito.any());
+        verify(mockResponse).setContentType(RESOURCE_CONTENT);
+        verify(mockResponse).setContentLengthLong(FILE_SIZE);
+        verify(mockFileService).dumpFileToStream(eq(resourcePath), any());
     }
 
 }
