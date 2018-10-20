@@ -11,11 +11,11 @@ import java.nio.file.Path;
 
 class PostResourceBlogResponse extends BlogResponse {
 
+    final String postName;
+    final String postResource;
     private final ConfigService configService;
     private final PostService postService;
     private final FileService fileService;
-    final String postName;
-    final String postResource;
 
     PostResourceBlogResponse(ConfigService configService, PostService postService, FileService fileService
             , String postName, String postResource) {

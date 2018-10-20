@@ -15,11 +15,11 @@ class PostEntryBlogResponse extends BlogResponse {
 
     private static final String POST_ENTRY_FILE = "_post_.html";
 
+    final String postName;
     private final ConfigService configService;
     private final PostService postService;
     private final FileService fileService;
     private final CommentsModelCreator commentsModelCreator;
-    final String postName;
 
     PostEntryBlogResponse(ConfigService configService, PostService postService, FileService fileService
             , CommentsModelCreator commentsModelCreator, String postName) {

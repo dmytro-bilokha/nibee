@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @WebFilter(urlPatterns = "/*")
@@ -27,6 +30,36 @@ public class LoggingFilter implements Filter {
     private static final String USER_AGENT = "User-Agent";
     private static final String REFERER = "Referer";
     private static final String ACCEPT_ENCODING = "Accept-Encoding";
+    private static final Set<String> BOT_USER_AGENTS;
+
+    static {
+        Set<String> botUserAgents = new HashSet<>();
+        //Google web crawlers
+        botUserAgents.add("googlebot");
+        botUserAgents.add("mediapartners-google");
+        botUserAgents.add("adsbot");
+        botUserAgents.add("developers.google");
+        //MS Bing bot
+        botUserAgents.add("bingbot");
+        //Yahoo Slurp bot
+        botUserAgents.add("slurp");
+        //DuckDuck Go search bot
+        botUserAgents.add("duckduckbot");
+        //Chinese Baidu search bot
+        botUserAgents.add("baiduspider");
+        //Yandex search bot
+        botUserAgents.add("yandexbot");
+        //Chinese Sogou search bot
+        botUserAgents.add("sogou");
+        //French-based Exalead search bot
+        botUserAgents.add("exabot");
+        //Facebook external hit
+        botUserAgents.add("facebot");
+        botUserAgents.add("facebookexternalhit");
+        //Alexa crawler
+        botUserAgents.add("ia_archiver");
+        BOT_USER_AGENTS = Collections.unmodifiableSet(botUserAgents);
+    }
 
     private WebLogService webLogService;
     private CookieHelper cookieHelper;
@@ -80,33 +113,12 @@ public class LoggingFilter implements Filter {
             return false;
         }
         String userAgentLowerCase = userAgent.toLowerCase();
-        boolean isUserAgentFromBot =
-                //Google web crawlers
-                userAgentLowerCase.contains("googlebot")
-                || userAgentLowerCase.contains("mediapartners-google")
-                || userAgentLowerCase.contains("adsbot")
-                || userAgentLowerCase.contains("developers.google")
-                //MS Bing bot
-                || userAgentLowerCase.contains("bingbot")
-                //Yahoo Slurp bot
-                || userAgentLowerCase.contains("slurp")
-                //DuckDuck Go search bot
-                || userAgentLowerCase.contains("duckduckbot")
-                //Chinese Baidu search bot
-                || userAgentLowerCase.contains("baiduspider")
-                //Yandex search bot
-                || userAgentLowerCase.contains("yandexbot")
-                //Chinese Sogou search bot
-                || userAgentLowerCase.contains("sogou")
-                //French-based Exalead search bot
-                || userAgentLowerCase.contains("exabot")
-                //Facebook external hit
-                || userAgentLowerCase.contains("facebot")
-                || userAgentLowerCase.contains("facebookexternalhit")
-                //Alexa crawler
-                || userAgentLowerCase.contains("ia_archiver")
-                ;
-        return !isUserAgentFromBot;
+        for (String botUserAgent : BOT_USER_AGENTS) {
+            if (userAgentLowerCase.contains(botUserAgent)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private String getOrCreateCookieUuid(HttpServletRequest req, HttpServletResponse resp) {
