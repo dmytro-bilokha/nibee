@@ -9,7 +9,6 @@ import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import org.mybatis.cdi.SessionFactoryProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
