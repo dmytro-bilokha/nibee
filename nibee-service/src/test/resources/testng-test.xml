@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="ServiceUnitTestSuite">
-  <test name="ServiceUnitTest" verbose="10">
+  <test name="ServiceUnitTest" verbose="1">
       <groups>
           <run>
               <include name="service.unit"/>
