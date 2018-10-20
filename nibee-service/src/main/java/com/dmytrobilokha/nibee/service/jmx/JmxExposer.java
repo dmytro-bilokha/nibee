@@ -75,8 +75,8 @@ public class JmxExposer {
             try {
                 ObjectName objectName = getName(mxBean);
                 platformMBeanServer.unregisterMBean(objectName);
-            } catch (InstanceNotFoundException | MBeanRegistrationException | RuntimeMBeanException | RuntimeErrorException
-                    | RuntimeOperationsException | MalformedObjectNameException ex) {
+            } catch (InstanceNotFoundException | MBeanRegistrationException | RuntimeMBeanException
+                        | RuntimeErrorException | RuntimeOperationsException | MalformedObjectNameException ex) {
                 throw new IllegalStateException("Failed to unregister " + mxBean + " from JMX", ex);
             }
         }
