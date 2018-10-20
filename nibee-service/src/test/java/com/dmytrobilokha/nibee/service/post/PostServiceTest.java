@@ -2,35 +2,48 @@ package com.dmytrobilokha.nibee.service.post;
 
 import com.dmytrobilokha.nibee.dao.post.PostDao;
 import com.dmytrobilokha.nibee.data.Post;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
+@Test(groups = "service.unit")
 public class PostServiceTest {
 
     private PostService postService;
     private PostDao postDaoMock;
 
-    @Before
+    @BeforeClass
     public void init() {
-        postDaoMock = Mockito.mock(PostDao.class);
-        Mockito.when(postDaoMock.findPostByName(Mockito.anyString())).thenReturn(null);
+        postDaoMock = mock(PostDao.class);
         postService = new PostServiceImpl(postDaoMock);
     }
 
-    @Test
-    public void testReturnsNull() {
+    @BeforeMethod
+    public void setupMockDefaults() {
+        when(postDaoMock.findPostByName(anyString())).thenReturn(null);
+    }
+
+    @AfterMethod
+    public void resetMocks() {
+        reset(postDaoMock);
+    }
+
+    public void returnsNullWhenPostNotFound() {
         Post result = postService.findPostByName("name doesnt matter");
         assertNull(result);
     }
 
-    @Test
-    public void testReturnsPostByName() {
-        Post post1 = Mockito.mock(Post.class);
-        Mockito.when(postDaoMock.findPostByName(Mockito.anyString())).thenReturn(post1);
+    public void returnsPostByName() {
+        Post post1 = mock(Post.class);
+        when(postDaoMock.findPostByName(anyString())).thenReturn(post1);
         Post result = postService.findPostByName("name doesnt matter");
         assertTrue(post1 == result);
     }

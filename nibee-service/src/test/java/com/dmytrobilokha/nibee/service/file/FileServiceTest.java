@@ -1,28 +1,26 @@
 package com.dmytrobilokha.nibee.service.file;
 
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
-@RunWith(Parameterized.class)
+@Test(groups = "service.unit")
 public class FileServiceTest {
 
     private FileService fileService;
-    private final Path resourcePath;
-    private final String expectedContentType;
 
-    @Parameterized.Parameters
-    public static Collection<Object[]> getParameters() {
-        return Arrays.asList(new Object[][]{
+    @BeforeClass
+    public void init() {
+        this.fileService = new FileService();
+    }
+
+    @DataProvider(name = "fileTypes")
+    public Object[][] getFileTypesToTest() {
+        return new Object[][]{
                 {"/", ""}
                 , {"/me.jpg/a", ""}
                 , {"/me/a.a", ""}
@@ -31,22 +29,12 @@ public class FileServiceTest {
                 , {"/me/.", ""}
                 , {"/me/jpg.", ""}
                 , {"/me/jpg", ""}
-        });
+        };
     }
 
-    public FileServiceTest(String resource, String expectedContentType) {
-        this.resourcePath = Paths.get(resource);
-        this.expectedContentType = expectedContentType;
-    }
-
-    @Before
-    public void init() {
-        this.fileService = new FileService();
-    }
-
-    @Test
-    public void testContentTypeReturned() {
-        assertEquals(expectedContentType, fileService.getFileContentType(resourcePath));
+    @Test(dataProvider = "fileTypes")
+    public void testContentTypeReturned(String path, String expectedContentType) {
+        assertEquals(expectedContentType, fileService.getFileContentType(Paths.get(path)));
     }
 
 }

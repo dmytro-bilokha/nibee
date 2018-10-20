@@ -2,9 +2,11 @@ package com.dmytrobilokha.nibee.service.config;
 
 
 import com.dmytrobilokha.nibee.service.EnvironmentServicesProvider;
-import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mockito;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
@@ -12,10 +14,13 @@ import javax.naming.NamingException;
 import java.io.ByteArrayInputStream;
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
+@Test(groups = "service.unit")
 public class ConfigServiceTest {
 
     private static final String PROPERTIES_JNDI_NAME = "nibee/properties";
@@ -28,23 +33,31 @@ public class ConfigServiceTest {
 
     private Properties properties;
 
-    @Before
-    public void init() throws NamingException {
-        this.properties = new Properties();
-        this.mockNamingContext = Mockito.mock(Context.class);
-        Mockito.when(mockNamingContext.lookup(PROPERTIES_JNDI_NAME)).thenReturn(properties);
-        this.mockProvider = Mockito.mock(EnvironmentServicesProvider.class);
-        Mockito.when(mockProvider.getNamingContext()).thenReturn(mockNamingContext);
-        Mockito.when(mockProvider.getResourceAsStream(anyString()))
-                .thenReturn(new ByteArrayInputStream(BUILD_PROPERTIES.getBytes()));
-        this.configService = new ConfigServiceImpl(mockProvider);
-    }
-
-    @Test
-    public void checkReturnsConfigProperties() {
+    @BeforeClass
+    public void init() {
+        properties = new Properties();
         for (ConfigProperty configProperty : ConfigProperty.values()) {
             properties.put(configProperty.getPropertyName(), configProperty.name() + "-MOCK_VALUE");
         }
+        mockNamingContext = Mockito.mock(Context.class);
+        mockProvider = Mockito.mock(EnvironmentServicesProvider.class);
+    }
+
+    @BeforeMethod
+    public void setupMockDefaults() throws NamingException {
+        when(mockNamingContext.lookup(PROPERTIES_JNDI_NAME)).thenReturn(properties);
+        when(mockProvider.getNamingContext()).thenReturn(mockNamingContext);
+        when(mockProvider.getResourceAsStream(anyString()))
+                .thenReturn(new ByteArrayInputStream(BUILD_PROPERTIES.getBytes()));
+        configService = new ConfigServiceImpl(mockProvider);
+    }
+
+    @AfterMethod
+    public void resetMocks() {
+        reset(mockNamingContext, mockProvider);
+    }
+
+    public void returnsConfigProperties() {
         configService.initConfigProperties();
         for (ConfigProperty configProperty : ConfigProperty.values()) {
             if (configProperty.isBuildDefined()) {
@@ -55,14 +68,15 @@ public class ConfigServiceTest {
         }
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void checkThrowsExceptionOnEmptyProperties() {
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void throwsExceptionOnEmptyProperties() throws NamingException {
+        when(mockNamingContext.lookup(PROPERTIES_JNDI_NAME)).thenReturn(new Properties());
         configService.initConfigProperties();
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void checkThrowsExceptionOnLookupFailure() throws NamingException {
-        Mockito.when(mockNamingContext.lookup(PROPERTIES_JNDI_NAME)).thenThrow(new NamingException());
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void throwsExceptionOnLookupFailure() throws NamingException {
+        when(mockNamingContext.lookup(PROPERTIES_JNDI_NAME)).thenThrow(new NamingException());
         configService.initConfigProperties();
     }
 
