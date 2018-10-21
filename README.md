@@ -25,12 +25,13 @@ GRANT ALL ON nibee.* TO nibee;
 ```
 
 4. Download MySQL [JDBC driver](http://dev.mysql.com/downloads/connector/j/) jar and 
-put it into your Payara domain lib folder (typically it is somewhere in domains/domain1/lib/)
+store it locally.
 
 5. Enter `asadmin` console and issue the following commands to create JDBC
-connection pool and resource:
+connection pool and resource (you may need to tweak the following commands according to your configuration):
 ```
-create-jdbc-connection-pool --restype=javax.sql.DataSource --datasourceclassname=com.mysql.cj.jdbc.MysqlDataSource --property user=nibee:password=secret_password_goes_here:DatabaseName=nibee:ServerName=localhost:port=3306:useLegacyDatetimeCode=false --steadypoolsize=2 --maxpoolsize=2 --isconnectvalidatereq=true --validationmethod=table --validationtable=DUAL --validateatmostonceperiod=60 --ping=true nibeeJdbcPool
+add-library /path/to/locally/stored/mysql-jdbc-driver.jar
+create-jdbc-connection-pool --restype=javax.sql.DataSource --datasourceclassname=com.mysql.cj.jdbc.MysqlDataSource --property user=nibee:password=secret_password_goes_here:DatabaseName=nibee:ServerName=localhost:port=3306:useLegacyDatetimeCode=false:useJDBCCompliantTimezoneShift=true:useSSL=false --steadypoolsize=2 --maxpoolsize=2 --isconnectvalidatereq=true --validationmethod=table --validationtable=DUAL --validateatmostonceperiod=60 --ping=true nibeeJdbcPool
 create-jdbc-resource --connectionpoolid=nibeeJdbcPool jdbc/nibeeDataSource
 ```
 
@@ -49,8 +50,8 @@ set resources.custom-resource.nibee/properties.property.webLogRecordsMax=1000000
 
 The application has been proven to work in following environment:
 
-* Payara Application Server 4.1.173;
+* Payara Application Server 5.183;
 * MySQL 8.0.2;
-* FreeBSD operation system version 11.1;
+* FreeBSD operation system version 11.2;
 * OpenJDK 1.8.
 
