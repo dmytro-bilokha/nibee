@@ -1,0 +1,69 @@
+Terms of Use
+
+Here I tried to put information which could be useful and/or interesting
+for the visitor.  First, I wanted to put real document like big
+corporations do. But, templates I've found are so cumbersome and boring.
+So, I've decided to put just few sentences on every topic.
+
+Content Licensing
+
+The content of the post which I create is licensed under Creative Commons
+Attribution License version 4.O. It means, you are allowed to copy it,
+repost, remix for both non-commercial and commercial purposes. But you are
+required to provide attribution. It would be nice to have a hotlink
+pointing to the original post.
+
+My code snippets inserted into the post are licensed under Creative Commons
+Zero License version 4.0.  It means, they are public domain and you are
+allowed to do whatever you want with the code for both not-commercial and
+commercial purposes.
+
+Please, be aware that in my posts I may use 3rd party content (citations,
+images, etc) which could have another license than content created by me.
+
+Content Disclaimer
+
+The blog is my personal space, all thoughts and views expressed here
+represent my own and not those of my employer or any company for whom I
+work as a contractor.
+
+No Warranties
+
+The information in the blog is provided AS IS, WITHOUT REPRESENTATIONS OR
+WARRANTIES OF ANY KIND. USE IT (OR DON'T DO IT) AT YOUR OWN RISK!
+
+Private Data Management
+
+The blogging platform uses cookies and URL rewriting to identify visitors,
+collects and stores data about them, like: IP address, user-agent, referer,
+cookie id, URL of the page requested, etc.
+
+The collected data used to:
+
+- detect blog abuse (like DoS attacks);
+- investigate issues in the blogging platform software;
+- study which posts are the most popular;
+- provide "you may also like" functionality to visitors.
+
+I am not going to sell your data or transfer it to any 3rd party.
+
+You may ask me to delete all data collected about you and I'll do it.
+Just send me a message using my contacts.
+
+Right to Ban
+
+Visitor access to the blog could be blocked in case of not frendly behavior, like:
+
+- trying to overload the blog (DoS attacks);
+- trying to hack the blog (ports scanning, vulnarability scanning, etc).
+
+Visitor could be blocked by IP address, it means all people how use the same IP will
+be automatically banned as well.
+
+Monetization Policy
+
+I don't have any intent to make money from the blog for now.
+
+Terms Change
+
+Our life changes, so this terms may change in future as well.

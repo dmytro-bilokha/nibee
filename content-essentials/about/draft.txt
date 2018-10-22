@@ -1,0 +1,19 @@
+Hello, Dear Reader! 
+
+My name is Dmytro and I am a software engineer. At my job I develop
+enterprise software using Java, SQL and Javascript languages.  I like
+software development, that's why I not only enjoy it at work, but also
+spend part of my spare time to develop something.
+
+I started blogging, because I want to share my thougts, experience,
+knowledge, opinion, doubts, etc. with someone who is also passionate about
+software development. I am a big fan of the FreeBSD operational system
+and activly use it at home. So, probably, will post about it too.
+
+I hope you will find something interesting for you here.
+
+Contacts
+
+If you want to send me a personal message, you can do it via Twitter to
+@dmytro_bilokha or via email to dmytro@posteo.net
+

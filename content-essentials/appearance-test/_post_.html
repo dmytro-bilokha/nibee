@@ -1,0 +1,215 @@
+		<p>We are working on it, really. Don't know what to write here. Don't know what to write here. Don't know what to write here. Don't know what to write here. Don't know what to write here. Don't know what to write here. Don't know what to write here. Don't know what to write here. Don't know what to write here. Don't know what to write here. Don't know what to write here.</p>
+		<p><a href="https://en.wikipedia.org/wiki/Alhambra_Nievas#Early_years">Link to Wikipedia</a></p>
+		<h2>H2: Welcome page is under development</h2>
+		<p>Here you have some table</p>
+		<table>
+			<caption>The data table</caption>
+			<thead>
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">Date</th>
+				<th scope="col">Result</th>
+			</tr>
+			</thead>
+			<tfoot>
+			<tr>
+				<td>Mr.Footer</td>
+				<td>Sat Mar 24, 2018</td>
+				<td>Perfect</td>
+			</tr>
+			</tfoot>
+			<tbody>
+			<tr>
+				<td>Mr. First</td>
+				<td>Sat Mar 24, 2018</td>
+				<td>Not bad</td>
+			</tr>
+			<tr>
+				<td>Mr. Second</td>
+				<td>Sat Mar 24, 2018</td>
+				<td>Very good</td>
+			</tr>
+			</tbody>
+		</table>
+		<h3>H3: Welcome page is under development</h3>
+		<p>We are working on it, really</p>
+		<figure>
+			<img src="images/angry-test.png" alt="Angry Test Image" width="500" height="455"/>
+			<p class="imageCopyright">Some author created this very nice clipart work</p>
+			<figcaption>Figure 1. Some angry character</figcaption>
+		</figure>
+		<section>
+			<h4>H4: Welcome page is under development</h4>
+			<p>We are working on it, really</p>
+			<figure class="figureLeft">
+				<a href="https://en.wikipedia.org/"><img width="250" height="331" src="images/java-concurrency-in-practice.png" alt="Java Concurrency in Practice"/></a>
+				<p class="imageCopyright">Nice book</p>
+				<figcaption>Figure 2. Concurrency bible</figcaption>
+			</figure>
+			<p>
+				To determine line length for optimum readability, a good guideline is between 9 and 12 words for unjustified text. Fewer words may cause the sentence structure to break up, and may also result in too many hyphenations. Both of these reduce readability. Conversely, a line with more than 12 words can become tedious to read. Additionally, a reader can easily get lost when going from the end of one long line to the beginning of the next, and may inadvertently reread the same line, or miss a line or two.</p>
+			<p>Typefaces vary in their alphabet length. The alphabet length is determined by the <em>width</em> of the lowercase a through z, historically measured in points. This measurement <em>varies</em> depending upon the typestyle and point size being used. Therefore, varying the <em>font</em> and/or point size will affect the optimum column width.</p>
+			<p>The final factor to take into account when deciding upon the appropriate line length is the nature of the actual text. For instance, some content – such as medical text – might involve many longer words, lending itself to a wider column width to avoid excessive hyphenations. On the other hand, text used for children and young readers might involve many short words, allowing for a narrower column.</p>
+			<h5>H5: Welcome page is under development</h5>
+			<p>We are working on it, really</p>
+			<h6>H6: Welcome page is under development</h6>
+			<p>We are working on it, really</p>
+			<blockquote>
+				<p>Here we go cite some of scientist. They always have something interesting to say.</p>
+				<footer>
+					<a href="https://en.wikipedia.org/">Wikipedia is a good source of cites</a>
+				</footer>
+			</blockquote>
+			<figure>
+			    <pre><code>//Meanwhile enjoy some Java code snippet
+private String buildFilterClause(List&lt;Map.Entry&lt;String, String&gt;&gt; filters, HashMap&lt;String, String&gt; fieldsMap) {
+    String filterClause = new String(" (");
+    for (Map.Entry&lt;String, String&gt; stringEntry : filters) {
+	String filterField = stringEntry.getKey();
+	String filterValue = stringEntry.getValue();
+	filterClause = filterClause + " AND :" + fieldsMap.get(filterField) + " LIKE " + filterValue;
+    }
+    filterClause = filterClause + ")";
+    return filterClause.length() == 3 ? "" : filterClause;
+}</code></pre>
+				<figcaption>Listing 1. Some interesting Java code listing</figcaption>
+			</figure>
+			<p>In the code listing above you should pay attention to the variable <code>filterField</code>, because it is really important stuff.</p>
+			<figure>
+<pre><code><span class="preproc">package</span><span class="normal"> com</span><span class="symbol">.</span><span class="normal">dmytrobilokha</span><span class="symbol">.</span><span class="normal">nibee</span><span class="symbol">.</span><span class="normal">web</span><span class="symbol">.</span><span class="normal">weblog</span><span class="symbol">;</span>
+
+<span class="preproc">import</span><span class="normal"> com</span><span class="symbol">.</span><span class="normal">dmytrobilokha</span><span class="symbol">.</span><span class="normal">nibee</span><span class="symbol">.</span><span class="normal">data</span><span class="symbol">.</span><span class="normal">WebLogRecord</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> com</span><span class="symbol">.</span><span class="normal">dmytrobilokha</span><span class="symbol">.</span><span class="normal">nibee</span><span class="symbol">.</span><span class="normal">service</span><span class="symbol">.</span><span class="normal">weblog</span><span class="symbol">.</span><span class="normal">WebLogService</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> org</span><span class="symbol">.</span><span class="normal">slf4j</span><span class="symbol">.</span><span class="normal">Logger</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> org</span><span class="symbol">.</span><span class="normal">slf4j</span><span class="symbol">.</span><span class="normal">LoggerFactory</span><span class="symbol">;</span>
+
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">inject</span><span class="symbol">.</span><span class="normal">Inject</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">Filter</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">FilterChain</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">FilterConfig</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">ServletException</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">ServletRequest</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">ServletResponse</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">annotation</span><span class="symbol">.</span><span class="normal">WebFilter</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">http</span><span class="symbol">.</span><span class="normal">HttpServletRequest</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">http</span><span class="symbol">.</span><span class="normal">HttpServletResponse</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> javax</span><span class="symbol">.</span><span class="normal">servlet</span><span class="symbol">.</span><span class="normal">http</span><span class="symbol">.</span><span class="normal">HttpSession</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> java</span><span class="symbol">.</span><span class="normal">io</span><span class="symbol">.</span><span class="normal">IOException</span><span class="symbol">;</span>
+<span class="preproc">import</span><span class="normal"> java</span><span class="symbol">.</span><span class="normal">util</span><span class="symbol">.</span><span class="normal">UUID</span><span class="symbol">;</span>
+
+<span class="comment">/** </span>
+<span class="comment"> * Here some javadocs for you</span>
+<span class="comment"> */</span>
+<span class="preproc">@WebFilter</span><span class="symbol">(</span><span class="normal">urlPatterns </span><span class="symbol">=</span><span class="normal"> </span><span class="string">"/*"</span><span class="symbol">)</span>
+<span class="keyword">public</span><span class="normal"> </span><span class="keyword">class</span><span class="normal"> </span><span class="classname">LoggingFilter</span><span class="normal"> </span><span class="keyword">implements</span><span class="normal"> Filter </span><span class="cbracket">{</span>
+
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="keyword">static</span><span class="normal"> </span><span class="keyword">final</span><span class="normal"> </span><span class="usertype">Logger</span><span class="normal"> LOGGER </span><span class="symbol">=</span><span class="normal"> LoggerFactory</span><span class="symbol">.</span><span class="function">getLogger</span><span class="symbol">(</span><span class="normal">LoggingFilter</span><span class="symbol">.</span><span class="keyword">class</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="keyword">static</span><span class="normal"> </span><span class="keyword">final</span><span class="normal"> </span><span class="usertype">String</span><span class="normal"> UUID_PARAM_NAME </span><span class="symbol">=</span><span class="normal"> </span><span class="string">"uuid"</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="keyword">static</span><span class="normal"> </span><span class="keyword">final</span><span class="normal"> </span><span class="usertype">String</span><span class="normal"> USER_AGENT </span><span class="symbol">=</span><span class="normal"> </span><span class="string">"User-Agent"</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="keyword">static</span><span class="normal"> </span><span class="keyword">final</span><span class="normal"> </span><span class="usertype">String</span><span class="normal"> REFERER </span><span class="symbol">=</span><span class="normal"> </span><span class="string">"Referer"</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="keyword">static</span><span class="normal"> </span><span class="keyword">final</span><span class="normal"> </span><span class="usertype">String</span><span class="normal"> ACCEPT_ENCODING </span><span class="symbol">=</span><span class="normal"> </span><span class="string">"Accept-Encoding"</span><span class="symbol">;</span>
+
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="usertype">WebLogService</span><span class="normal"> webLogService</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="usertype">CookieHelper</span><span class="normal"> cookieHelper</span><span class="symbol">;</span>
+
+<span class="normal">    </span><span class="preproc">@Inject</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="function">LoggingFilter</span><span class="symbol">(</span><span class="usertype">WebLogService</span><span class="normal"> webLogService</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">CookieHelper</span><span class="normal"> cookieHelper</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">webLogService </span><span class="symbol">=</span><span class="normal"> webLogService</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">this</span><span class="symbol">.</span><span class="normal">cookieHelper </span><span class="symbol">=</span><span class="normal"> cookieHelper</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="preproc">@Override</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">void</span><span class="normal"> </span><span class="function">init</span><span class="symbol">(</span><span class="usertype">FilterConfig</span><span class="normal"> filterConfig</span><span class="symbol">)</span><span class="normal"> </span><span class="keyword">throws</span><span class="normal"> ServletException </span><span class="cbracket">{</span>
+<span class="normal">        LOGGER</span><span class="symbol">.</span><span class="function">info</span><span class="symbol">(</span><span class="string">"LoggingFilter initialized"</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="preproc">@Override</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">void</span><span class="normal"> </span><span class="function">doFilter</span><span class="symbol">(</span><span class="usertype">ServletRequest</span><span class="normal"> request</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">ServletResponse</span><span class="normal"> response</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">FilterChain</span><span class="normal"> chain</span><span class="symbol">)</span>
+<span class="normal">            </span><span class="keyword">throws</span><span class="normal"> IOException</span><span class="symbol">,</span><span class="normal"> ServletException </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="usertype">HttpServletRequest</span><span class="normal"> req </span><span class="symbol">=</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">HttpServletRequest</span><span class="symbol">)</span><span class="normal"> request</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="usertype">HttpServletResponse</span><span class="normal"> resp </span><span class="symbol">=</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">HttpServletResponse</span><span class="symbol">)</span><span class="normal"> response</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="usertype">String</span><span class="normal"> userAgent </span><span class="symbol">=</span><span class="normal"> req</span><span class="symbol">.</span><span class="function">getHeader</span><span class="symbol">(</span><span class="normal">USER_AGENT</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="usertype">String</span><span class="normal"> sessionId </span><span class="symbol">=</span><span class="normal"> </span><span class="keyword">null</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="usertype">String</span><span class="normal"> sessionUuid </span><span class="symbol">=</span><span class="normal"> </span><span class="keyword">null</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="function">isUserAgentFromHuman</span><span class="symbol">(</span><span class="normal">userAgent</span><span class="symbol">))</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">            </span><span class="usertype">HttpSession</span><span class="normal"> session </span><span class="symbol">=</span><span class="normal"> req</span><span class="symbol">.</span><span class="function">getSession</span><span class="symbol">();</span>
+<span class="normal">            sessionId </span><span class="symbol">=</span><span class="normal"> session</span><span class="symbol">.</span><span class="function">getId</span><span class="symbol">();</span>
+<span class="normal">            sessionUuid </span><span class="symbol">=</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">String</span><span class="symbol">)</span><span class="normal"> session</span><span class="symbol">.</span><span class="function">getAttribute</span><span class="symbol">(</span><span class="normal">UUID_PARAM_NAME</span><span class="symbol">);</span>
+<span class="normal">            </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">sessionUuid </span><span class="symbol">==</span><span class="normal"> </span><span class="keyword">null</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">                sessionUuid </span><span class="symbol">=</span><span class="normal"> </span><span class="function">getOrCreateCookieUuid</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">,</span><span class="normal"> resp</span><span class="symbol">);</span>
+<span class="normal">                session</span><span class="symbol">.</span><span class="function">setAttribute</span><span class="symbol">(</span><span class="normal">UUID_PARAM_NAME</span><span class="symbol">,</span><span class="normal"> sessionUuid</span><span class="symbol">);</span>
+<span class="normal">            </span><span class="cbracket">}</span>
+<span class="normal">        </span><span class="cbracket">}</span>
+<span class="normal">        </span><span class="usertype">WebLogRecord</span><span class="normal"> logEntry </span><span class="symbol">=</span><span class="normal"> WebLogRecord</span><span class="symbol">.</span><span class="function">getBuilder</span><span class="symbol">()</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">sessionId</span><span class="symbol">(</span><span class="normal">sessionId</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">uuid</span><span class="symbol">(</span><span class="normal">sessionUuid</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">requestUri</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">.</span><span class="function">getRequestURI</span><span class="symbol">())</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">queryString</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">.</span><span class="function">getQueryString</span><span class="symbol">())</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">serverPort</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">.</span><span class="function">getServerPort</span><span class="symbol">())</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">clientIp</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">.</span><span class="function">getRemoteAddr</span><span class="symbol">())</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">clientPort</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">.</span><span class="function">getRemotePort</span><span class="symbol">())</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">userAgent</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">.</span><span class="function">getHeader</span><span class="symbol">(</span><span class="normal">USER_AGENT</span><span class="symbol">))</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">acceptEncoding</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">.</span><span class="function">getHeader</span><span class="symbol">(</span><span class="normal">ACCEPT_ENCODING</span><span class="symbol">))</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">referer</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">.</span><span class="function">getHeader</span><span class="symbol">(</span><span class="normal">REFERER</span><span class="symbol">))</span>
+<span class="normal">                </span><span class="symbol">.</span><span class="function">build</span><span class="symbol">();</span>
+<span class="normal">        webLogService</span><span class="symbol">.</span><span class="function">insertRecord</span><span class="symbol">(</span><span class="normal">logEntry</span><span class="symbol">);</span>
+<span class="normal">        chain</span><span class="symbol">.</span><span class="function">doFilter</span><span class="symbol">(</span><span class="normal">request</span><span class="symbol">,</span><span class="normal"> response</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="type">boolean</span><span class="normal"> </span><span class="function">isUserAgentFromHuman</span><span class="symbol">(</span><span class="usertype">String</span><span class="normal"> userAgent</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">userAgent </span><span class="symbol">==</span><span class="normal"> </span><span class="keyword">null</span><span class="normal"> </span><span class="symbol">||</span><span class="normal"> userAgent</span><span class="symbol">.</span><span class="function">isEmpty</span><span class="symbol">())</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">            </span><span class="keyword">return</span><span class="normal"> </span><span class="keyword">false</span><span class="symbol">;</span>
+<span class="normal">        </span><span class="cbracket">}</span>
+<span class="normal">        </span><span class="usertype">String</span><span class="normal"> userAgentLowerCase </span><span class="symbol">=</span><span class="normal"> userAgent</span><span class="symbol">.</span><span class="function">toLowerCase</span><span class="symbol">();</span>
+<span class="normal">        </span><span class="type">boolean</span><span class="normal"> isUserAgentFromBot </span><span class="symbol">=</span>
+<span class="normal">                </span><span class="comment">//Google web crawlers</span>
+<span class="normal">                userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"googlebot"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"mediapartners-google"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"adsbot"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"developers.google"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//MS Bing bot</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"bingbot"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//Yahoo Slurp bot</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"slurp"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//DuckDuck Go search bot</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"duckduckbot"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//Chinese Baidu search bot</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"baiduspider"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//Yandex search bot</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"yandexbot"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//Chinese Sogou search bot</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"sogou"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//French-based Exalead search bot</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"exabot"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//Facebook external hit</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"facebot"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"facebookexternalhit"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="comment">//Alexa crawler</span>
+<span class="normal">                </span><span class="symbol">||</span><span class="normal"> userAgentLowerCase</span><span class="symbol">.</span><span class="function">contains</span><span class="symbol">(</span><span class="string">"ia_archiver"</span><span class="symbol">)</span>
+<span class="normal">                </span><span class="symbol">;</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> </span><span class="symbol">!</span><span class="normal">isUserAgentFromBot</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="keyword">private</span><span class="normal"> </span><span class="usertype">String</span><span class="normal"> </span><span class="function">getOrCreateCookieUuid</span><span class="symbol">(</span><span class="usertype">HttpServletRequest</span><span class="normal"> req</span><span class="symbol">,</span><span class="normal"> </span><span class="usertype">HttpServletResponse</span><span class="normal"> resp</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        </span><span class="usertype">String</span><span class="normal"> uuid </span><span class="symbol">=</span><span class="normal"> cookieHelper</span><span class="symbol">.</span><span class="function">getCookieValue</span><span class="symbol">(</span><span class="normal">req</span><span class="symbol">,</span><span class="normal"> UUID_PARAM_NAME</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="keyword">if</span><span class="normal"> </span><span class="symbol">(</span><span class="normal">uuid </span><span class="symbol">==</span><span class="normal"> </span><span class="keyword">null</span><span class="symbol">)</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">            uuid </span><span class="symbol">=</span><span class="normal"> UUID</span><span class="symbol">.</span><span class="function">randomUUID</span><span class="symbol">().</span><span class="function">toString</span><span class="symbol">();</span>
+<span class="normal">            cookieHelper</span><span class="symbol">.</span><span class="function">attachCookie</span><span class="symbol">(</span><span class="normal">resp</span><span class="symbol">,</span><span class="normal"> UUID_PARAM_NAME</span><span class="symbol">,</span><span class="normal"> uuid</span><span class="symbol">,</span><span class="normal"> 1_000_000_000</span><span class="symbol">);</span>
+<span class="normal">        </span><span class="cbracket">}</span>
+<span class="normal">        </span><span class="keyword">return</span><span class="normal"> uuid</span><span class="symbol">;</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="normal">    </span><span class="preproc">@Override</span>
+<span class="normal">    </span><span class="keyword">public</span><span class="normal"> </span><span class="type">void</span><span class="normal"> </span><span class="function">destroy</span><span class="symbol">()</span><span class="normal"> </span><span class="cbracket">{</span>
+<span class="normal">        LOGGER</span><span class="symbol">.</span><span class="function">info</span><span class="symbol">(</span><span class="string">"LoggingFilter destroyed"</span><span class="symbol">);</span>
+<span class="normal">    </span><span class="cbracket">}</span>
+
+<span class="cbracket">}</span>
+</code></pre>
+				<figcaption>Listing 2. Logging filter (bigger example)</figcaption>
+			</figure>
+			<p>
+				To determine line length for optimum readability, a good guideline is between 9 and 12 words for unjustified text. Fewer words may cause the sentence structure to break up, and may also result in too many hyphenations. Both of these reduce readability. Conversely, a line with more than 12 words can become tedious to read. Additionally, a reader can easily get lost when going from the end of one long line to the beginning of the next, and may inadvertently reread the same line, or miss a line or two.</p>
+			<p>Typefaces vary in their alphabet length. The alphabet length is determined by the <em>width</em> of the lowercase a through z, historically measured in points. This measurement <em>varies</em> depending upon the typestyle and point size being used. Therefore, varying the <em>font</em> and/or point size will affect the optimum column width.</p>
+			<p>The final factor to take into account when deciding upon the appropriate line length is the nature of the actual text. For instance, some content – such as medical text – might involve many longer words, lending itself to a wider column width to avoid excessive hyphenations. On the other hand, text used for children and young readers might involve many short words, allowing for a narrower column.</p>
+		</section>
