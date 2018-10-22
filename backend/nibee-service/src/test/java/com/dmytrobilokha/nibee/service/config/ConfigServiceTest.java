@@ -1,6 +1,5 @@
 package com.dmytrobilokha.nibee.service.config;
 
-
 import com.dmytrobilokha.nibee.service.EnvironmentServicesProvider;
 import org.mockito.Mockito;
 import org.testng.annotations.AfterMethod;

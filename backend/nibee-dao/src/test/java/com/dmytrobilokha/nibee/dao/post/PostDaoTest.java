@@ -103,7 +103,7 @@ public class PostDaoTest extends AbstractDaoTest {
     }
 
     private void assertAllPostsHaveTagId(Collection<Post> posts, Long tagId) {
-        for(Post post : posts) {
+        for (Post post : posts) {
             assertTrue(post.getTags().stream()
                     .anyMatch(tag -> tagId.equals(tag.getId())));
         }
@@ -115,7 +115,7 @@ public class PostDaoTest extends AbstractDaoTest {
         List<Post> posts = postDao.findPostAfter(dateTime, null, 1000);
         Map<Long, Integer> postTagsSizeMap = posts.stream()
                 .collect(Collectors.toMap(Post::getId, post -> post.getTags().size()));
-        for(Post post : postsFiltered) {
+        for (Post post : postsFiltered) {
             assertEquals(postTagsSizeMap.get(post.getId()).intValue(), post.getTags().size());
         }
     }
@@ -131,14 +131,14 @@ public class PostDaoTest extends AbstractDaoTest {
             List<Tag> postTags = post.getTags();
             List<Tag> tagsOrdered = new ArrayList<>(postTags);
             Collections.sort(tagsOrdered, this::compareTags);
-            for (int i = 0 ; i < tagsOrdered.size(); i++) {
+            for (int i = 0; i < tagsOrdered.size(); i++) {
                 assertTrue(tagsOrdered.get(i) == postTags.get(i));
             }
         }
     }
 
     private int compareTags(Tag tag1, Tag tag2) {
-       return tag1.getName().compareTo(tag2.getName());
+        return tag1.getName().compareTo(tag2.getName());
     }
 
     public void findsPostBefore() {

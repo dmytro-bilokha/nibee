@@ -43,8 +43,10 @@ public class BlogResponseFactoryTest {
                 , {"postname/postresource", PostResourceBlogResponse.class, "postname", "postresource"}
                 , {"/POSTNAMe/postRESource", PostResourceBlogResponse.class, "POSTNAMe", "postRESource"}
                 , {"//postname/postresource//", PostResourceBlogResponse.class, "postname", "postresource"}
-                , {"/postname/postresource/css/img.jpg", PostResourceBlogResponse.class, "postname", "postresource/css/img.jpg"}
-                , {"/postname/postresource/css/img.jpg/", PostResourceBlogResponse.class, "postname", "postresource/css/img.jpg"}
+                , {"/postname/postresource/css/img.jpg", PostResourceBlogResponse.class, "postname"
+                        , "postresource/css/img.jpg"}
+                , {"/postname/postresource/css/img.jpg/", PostResourceBlogResponse.class, "postname"
+                        , "postresource/css/img.jpg"}
         };
     }
 

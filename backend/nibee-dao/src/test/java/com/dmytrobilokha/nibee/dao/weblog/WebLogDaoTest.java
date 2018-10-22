@@ -16,8 +16,10 @@ public class WebLogDaoTest extends AbstractDaoTest {
 
     @BeforeClass
     public void initFunctionAlias() {
-        executeSqlStatement("CREATE ALIAS UUID_TO_BIN FOR \"com.dmytrobilokha.nibee.dao.H2dbMySqlFunctions.uuidToBin\"");
-        executeSqlStatement("CREATE ALIAS INET6_ATON FOR \"com.dmytrobilokha.nibee.dao.H2dbMySqlFunctions.inet6AtoN\"");
+        executeSqlStatement("CREATE ALIAS UUID_TO_BIN FOR"
+                + " \"com.dmytrobilokha.nibee.dao.H2dbMySqlFunctions.uuidToBin\"");
+        executeSqlStatement("CREATE ALIAS INET6_ATON FOR"
+                + " \"com.dmytrobilokha.nibee.dao.H2dbMySqlFunctions.inet6AtoN\"");
     }
 
     @BeforeMethod

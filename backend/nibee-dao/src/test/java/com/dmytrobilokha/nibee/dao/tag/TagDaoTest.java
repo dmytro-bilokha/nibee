@@ -4,10 +4,15 @@ import com.dmytrobilokha.nibee.dao.AbstractDaoTest;
 import com.dmytrobilokha.nibee.data.Tag;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class TagDaoTest extends AbstractDaoTest {
 
@@ -23,12 +28,22 @@ public class TagDaoTest extends AbstractDaoTest {
         tagDao = getMapper(TagDao.class);
     }
 
+    @Test
+    public void returnsAllTags() {
+        List<Tag> tags = tagDao.getAll();
+        assertTrue(tags.size() > 2);
+    }
+
+    @Test(dependsOnMethods = "returnsAllTags")
     public void returnsAllTagsOrdered() {
         List<Tag> tags = tagDao.getAll();
-        assertEquals(3, tags.size());
-        assertEquals("REST", tags.get(0).getName());
-        assertEquals("SOAP", tags.get(1).getName());
-        assertEquals("web service", tags.get(2).getName());
+        assertOrdered(tags);
+    }
+
+    private void assertOrdered(List<Tag> tags) {
+        List<Tag> orderedTags = new ArrayList<>(tags);
+        Collections.sort(orderedTags, Comparator.comparing(Tag::getName));
+        assertEquals(orderedTags, tags);
     }
 
 }
