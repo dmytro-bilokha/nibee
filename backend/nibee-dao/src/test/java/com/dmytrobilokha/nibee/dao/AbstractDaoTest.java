@@ -49,6 +49,7 @@ public abstract class AbstractDaoTest {
 
     @AfterClass(alwaysRun = true)
     public void shutdownDb() {
+        LOGGER.info("Shutting down the test database");
         executeSqlStatement("SHUTDOWN");
     }
 
@@ -59,7 +60,6 @@ public abstract class AbstractDaoTest {
 
     @AfterMethod(alwaysRun = true)
     public void closeSqlSession() {
-        LOGGER.info("Shutting down the test database");
         sqlSession.rollback();
         sqlSession.close();
         sqlSession = null;
