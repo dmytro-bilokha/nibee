@@ -5,8 +5,6 @@ import com.dmytrobilokha.nibee.dao.mybatis.SessionFactoryProducer;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.h2.jdbcx.JdbcDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -24,8 +22,6 @@ import java.util.regex.Pattern;
 @Test(groups = {"database.embedded"})
 public abstract class AbstractDaoTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDaoTest.class);
-
     private static final String DB_SCRIPT_BASE = "datasets/";
     private static final Pattern STATEMENT_DELIMITER = Pattern.compile(";\\h*\\r?\\n");
 
@@ -36,7 +32,6 @@ public abstract class AbstractDaoTest {
 
     @BeforeClass
     public void initDb() {
-        LOGGER.info("Initializing the test database");
         JdbcDataSource jdbcDataSource = new JdbcDataSource();
         dataSource = jdbcDataSource;
         jdbcDataSource.setUrl("jdbc:h2:mem:nibee;MODE=MYSQL;DB_CLOSE_DELAY=-1");
@@ -49,7 +44,6 @@ public abstract class AbstractDaoTest {
 
     @AfterClass(alwaysRun = true)
     public void shutdownDb() {
-        LOGGER.info("Shutting down the test database");
         executeSqlStatement("SHUTDOWN");
     }
 

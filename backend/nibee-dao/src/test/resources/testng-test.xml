@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="DaoEmbeddedDbSuite">
-  <test name="DaoEmbeddedDbTest" verbose="1">
+  <test name="DaoEmbeddedDbTest" verbose="1" group-by-instances="true">
       <groups>
           <run>
               <include name="database.embedded"/>
