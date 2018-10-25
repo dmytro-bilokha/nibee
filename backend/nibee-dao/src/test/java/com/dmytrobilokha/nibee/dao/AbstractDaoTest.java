@@ -110,7 +110,7 @@ public abstract class AbstractDaoTest {
             statement.executeBatch();
             connection.commit();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw new IllegalStateException("Failed to execute requested SQL scripts: " + scriptNames, ex);
         } finally {
             silentlyClose(scanner, statement, connection);
         }
