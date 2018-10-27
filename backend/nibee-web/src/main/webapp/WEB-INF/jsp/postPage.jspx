@@ -77,7 +77,6 @@
         <c:if test="${not empty postModel.tags}">
             <cnt:postTags cssClass="postTags" tags="${postModel.tags}"/>
 		</c:if>
-		<hr/>
         <cnt:postComments model="${commentsModel}"/>
     </cnt:page>
 

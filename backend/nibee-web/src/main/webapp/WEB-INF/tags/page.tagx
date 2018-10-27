@@ -57,6 +57,7 @@
             <div id="main">
                 <jsp:doBody/>
                 <footer>
+                    <hr/>
                     <c:url value="/terms-of-use/#license" var="license" scope="request"/>
                     <p id="copyright">© Dmytro Bilokha 2018, <a href="${fn:escapeXml(license)}"
                         rel="license" title="License info" target="_self">License</a>
