@@ -6,6 +6,11 @@ content is stored on the hard drive in the specified directory.  The
 application parses request URL, reads metadata from the DB and serves files
 from the directory.
 
+## Application Status
+
+THE APPLICATION IS STILL UNDER DEVELOPMENT AND FAR AWAY FROM BEING
+READY FOR PRODUCTION.
+
 ## Deployment Procedure
 
 1. Install [Payara Application Server](https://payara.fish/). Nibee should
