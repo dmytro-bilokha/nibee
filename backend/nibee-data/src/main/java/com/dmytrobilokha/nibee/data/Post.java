@@ -13,6 +13,8 @@ public class Post {
     private String name;
     private String title;
     private String path;
+    private boolean shareable;
+    private boolean commentAllowed;
     private LocalDateTime createdOn;
     private LocalDateTime modifiedOn;
     private List<Tag> tagList;
@@ -42,6 +44,14 @@ public class Post {
 
     public String getPath() {
         return path;
+    }
+
+    public boolean isShareable() {
+        return shareable;
+    }
+
+    public boolean isCommentAllowed() {
+        return commentAllowed;
     }
 
     public LocalDateTime getCreatedOn() {
@@ -81,9 +91,17 @@ public class Post {
 
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", name='" + name + '\'' + ", title='" + title + '\''
-            + ", path='" + path + '\'' + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn
-            + ", tagList=" + tagList + '}';
+        return "Post{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", title='" + title + '\''
+                + ", path='" + path + '\''
+                + ", shareable=" + shareable
+                + ", commentAllowed=" + commentAllowed
+                + ", createdOn=" + createdOn
+                + ", modifiedOn=" + modifiedOn
+                + ", tagList=" + tagList
+                + '}';
     }
 
 }

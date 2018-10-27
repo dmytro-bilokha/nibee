@@ -5,6 +5,7 @@ import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.data.Tag;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,10 +35,18 @@ public class PostDaoTest extends AbstractDaoTest {
         postDao = getMapper(PostDao.class);
     }
 
+    @Test
     public void findsPostByName() {
         Post post = postDao.findPostByName("post-about-rest");
         assertNotNull(post);
         assertEquals("post-about-rest", post.getName());
+    }
+
+    @Test(dependsOnMethods = "findsPostByName")
+    public void readsPostFlags() {
+        Post post = postDao.findPostByName("post-about-rest");
+        assertTrue(post.isShareable());
+        assertTrue(post.isCommentAllowed());
     }
 
     public void findsPostWithoutTagByName() {

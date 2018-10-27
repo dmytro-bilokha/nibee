@@ -24,15 +24,19 @@
                     <div class="commentHeadFiller"/>
                     <div class="commentHeadSys">
                         <c:out value="${comment.createdOn}"/>
-                        <button class="replyToCommentButton" id="replyButton-${comment.id}" disabled="true">
-                            Reply
-                        </button>
+                        <c:if test="${model.showNewCommentForm}">
+                            <button class="replyToCommentButton" id="replyButton-${comment.id}" disabled="true">
+                                Reply
+                            </button>
+                        </c:if>
                     </div>
                 </div>
                 <pre><c:out value="${comment.content}"/></pre>
             </div>
         </c:forEach>
-        <cnt:newCommentForm postId="${model.postId}"/>
+        <c:if test="${model.showNewCommentForm}">
+            <cnt:newCommentForm postId="${model.postId}"/>
+        </c:if>
     </div>
 
 </jsp:root>

@@ -1,7 +1,7 @@
-INSERT INTO post (name, title, path) VALUES ('resources', 'resources', 'resources');
-INSERT INTO post (name, title, path) VALUES ('about', 'About', 'about');
-INSERT INTO post (name, title, path) VALUES ('terms-of-use', 'Terms of Use', 'terms-of-use');
-INSERT INTO post (name, title, path) VALUES ('test', 'Blog Appearance Test', 'appearance-test');
+INSERT INTO post (name, title, path, shareable, comment_allowed) VALUES ('resources', 'resources', 'resources', 0, 0);
+INSERT INTO post (name, title, path, shareable, comment_allowed) VALUES ('about', 'About', 'about', 0, 0);
+INSERT INTO post (name, title, path, shareable, comment_allowed) VALUES ('terms-of-use', 'Terms of Use', 'terms-of-use', 0, 0);
+INSERT INTO post (name, title, path, shareable, comment_allowed) VALUES ('test', 'Blog Appearance Test', 'appearance-test', 1, 1);
 
 INSERT INTO tag (name) VALUES ('Java');
 INSERT INTO tag (name) VALUES ('FreeBSD');

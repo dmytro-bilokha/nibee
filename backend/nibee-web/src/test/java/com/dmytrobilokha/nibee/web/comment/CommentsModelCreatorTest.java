@@ -50,17 +50,18 @@ public class CommentsModelCreatorTest {
         commentsFromService.clear();
     }
 
-    public void passesPostIdAndComments() {
+    public void passesPostIdCommentsAndFlag() {
         Comment singleComment = createComment(5L, null);
         commentsFromService.add(singleComment);
-        commentsModelCreator.createAndPutInRequest(1L, mockRequest);
+        commentsModelCreator.createAndPutInRequest(1L, true, mockRequest);
         assertEquals(Long.valueOf(1), createdModel.getPostId());
         assertEquals(1, createdModel.getComments().size());
+        assertEquals(true, createdModel.isShowNewCommentForm());
     }
 
     public void rollsCommentTree() {
         fillCommentsWithTestDataset();
-        commentsModelCreator.createAndPutInRequest(2L, mockRequest);
+        commentsModelCreator.createAndPutInRequest(2L, false, mockRequest);
         List<Long> commentsId = createdModel.getComments()
                 .stream()
                 .map(CommentModel::getId)
@@ -73,7 +74,7 @@ public class CommentsModelCreatorTest {
 
     public void calculatesDepth() {
         fillCommentsWithTestDataset();
-        commentsModelCreator.createAndPutInRequest(2L, mockRequest);
+        commentsModelCreator.createAndPutInRequest(2L, false, mockRequest);
         List<Integer> depthShouldBe = createdModel.getComments()
                 .stream()
                 .map(model -> model.getId().toString().length() - 1)

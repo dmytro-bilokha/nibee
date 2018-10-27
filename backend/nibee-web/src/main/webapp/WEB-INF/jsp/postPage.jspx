@@ -15,7 +15,7 @@
 		<h1 id="firstHeader">${postModel.title}</h1>
         <cnt:postDates post="${postModel}"/>
         <c:import url="${postModel.entryFileUrl}"/>
-        <c:if test="${postModel.postSharable}">
+        <c:if test="${postModel.shareable}">
             <p class="shareicons">
                 <c:set var="pageUrl" scope="request">
                     <c:out value="${pageContext.request.scheme}://${pageContext.request.serverName}"/>

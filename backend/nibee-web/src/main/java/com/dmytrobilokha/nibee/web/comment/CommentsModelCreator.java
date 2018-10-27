@@ -25,9 +25,9 @@ public class CommentsModelCreator {
         this.commentService = commentService;
     }
 
-    public void createAndPutInRequest(Long postId, HttpServletRequest req) {
+    public void createAndPutInRequest(Long postId, boolean showNewCommentForm, HttpServletRequest req) {
         List<CommentModel> comments = createCommentModels(commentService.fetchPostComments(postId));
-        CommentsModel model = new CommentsModel(postId, comments);
+        CommentsModel model = new CommentsModel(postId, showNewCommentForm, comments);
         model.putInRequest(req);
     }
 

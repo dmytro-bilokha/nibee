@@ -16,10 +16,6 @@ public class PostModel extends HeadlinePostModel {
         this.contentBase = contentBase;
     }
 
-    public boolean isPostSharable() {
-        return !getTags().isEmpty();
-    }
-
     public Long getId() {
         return id;
     }

@@ -14,6 +14,7 @@ public class HeadlinePostModel implements InRequestPuttable {
 
     private final String name;
     private final String title;
+    private final boolean shareable;
     private final Collection<Tag> tags;
     private final String createdOn;
     private final String modifiedOn;
@@ -21,6 +22,7 @@ public class HeadlinePostModel implements InRequestPuttable {
     public HeadlinePostModel(Post post) {
         this.name = post.getName();
         this.title = post.getTitle();
+        this.shareable = post.isShareable();
         this.tags = post.getTags();
         this.createdOn = DATE_TIME_FORMATTER.format(post.getCreatedOn());
         if (post.getModifiedOn() == null) {
@@ -36,6 +38,10 @@ public class HeadlinePostModel implements InRequestPuttable {
 
     public String getTitle() {
         return title;
+    }
+
+    public boolean isShareable() {
+        return shareable;
     }
 
     public Collection<Tag> getTags() {

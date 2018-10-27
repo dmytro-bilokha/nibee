@@ -49,7 +49,7 @@ public class CommentResource {
     public void fetch(@Context HttpServletRequest request
                       , @Context HttpServletResponse response
                       , @PathParam("postId") Long postId) {
-        commentsModelCreator.createAndPutInRequest(postId, request);
+        commentsModelCreator.createAndPutInRequest(postId, true, request);
         NavigablePage.COMMENTS.forwardTo(request, response);
     }
 

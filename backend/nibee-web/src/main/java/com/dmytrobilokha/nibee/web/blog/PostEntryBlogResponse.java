@@ -49,7 +49,7 @@ class PostEntryBlogResponse extends BlogResponse {
         String contentBase = req.getRequestURI().endsWith("/") ? req.getRequestURI() : (req.getRequestURI() + '/');
         PostModel postModel = new PostModel("file://localhost" + postEntryPath.toString(), contentBase, post);
         postModel.putInRequest(req);
-        commentsModelCreator.createAndPutInRequest(post.getId(), req);
+        commentsModelCreator.createAndPutInRequest(post.getId(), post.isCommentAllowed(), req);
         NavigablePage.POST.forwardTo(req, resp);
     }
 

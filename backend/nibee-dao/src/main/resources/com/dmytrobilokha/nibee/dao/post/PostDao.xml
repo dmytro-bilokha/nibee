@@ -9,6 +9,8 @@
         <result property="name" column="name"/>
         <result property="title" column="title"/>
         <result property="path" column="path"/>
+        <result property="shareable" column="shareable"/>
+        <result property="commentAllowed" column="comment_allowed"/>
         <result property="createdOn" column="created_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
         <result property="modifiedOn" column="modified_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
         <collection property="tagList" resultMap="tag"/>
@@ -27,7 +29,16 @@
 
     <select id="findPostByName" resultMap="post" parameterType="java.lang.String">
         SELECT
-            p.id, p.name, p.title, p.path, p.created_on, p.modified_on, t.id as tag_id, t.name as tag_name
+            p.id
+            , p.name
+            , p.title
+            , p.path
+            , p.shareable
+            , p.comment_allowed
+            , p.created_on
+            , p.modified_on
+            , t.id as tag_id
+            , t.name as tag_name
         FROM post p
         LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
         LEFT OUTER JOIN tag t ON pt.tag_id=t.id
