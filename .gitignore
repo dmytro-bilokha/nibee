@@ -19,6 +19,8 @@ target/
 #Intellij files
 .idea/
 *.iml
+#Codelite workspace files
+codelite.workspace
 #Gradle files
 .gradle/
 #Grade builds
