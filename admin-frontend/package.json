@@ -9,24 +9,22 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.7",
-    "@fortawesome/free-solid-svg-icons": "5.4.2",
-    "@fortawesome/vue-fontawesome": "0.1.1",
-    "bulma": "0.7.2",
-    "vue": "^2.5.17",
-    "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "@fortawesome/fontawesome-free": "5.5.0",
+    "buefy": "0.7.0",
+    "vue": "2.5.17",
+    "vue-router": "3.0.1",
+    "vuex": "3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.5",
-    "@vue/cli-plugin-eslint": "^3.0.5",
-    "@vue/cli-plugin-unit-mocha": "^3.0.5",
-    "@vue/cli-service": "^3.0.5",
-    "@vue/eslint-config-standard": "^3.0.5",
-    "@vue/test-utils": "^1.0.0-beta.20",
-    "chai": "^4.1.2",
-    "node-sass": "^4.9.0",
-    "sass-loader": "^7.0.1",
-    "vue-template-compiler": "^2.5.17"
+    "@vue/cli-plugin-babel": "3.0.5",
+    "@vue/cli-plugin-eslint": "3.0.5",
+    "@vue/cli-plugin-unit-mocha": "3.0.5",
+    "@vue/cli-service": "3.0.5",
+    "@vue/eslint-config-standard": "3.0.5",
+    "@vue/test-utils": "1.0.0-beta.20",
+    "chai": "4.1.2",
+    "node-sass": "4.9.0",
+    "sass-loader": "7.0.1",
+    "vue-template-compiler": "2.5.17"
   }
 }
