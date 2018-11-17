@@ -51,9 +51,9 @@ public class ConfigServiceImpl implements ConfigService, ConfigServiceMXBean {
     }
 
     @Inject
-    public ConfigServiceImpl(EnvironmentServicesProvider environmentServicesProvider) {
-        this.namingContext = environmentServicesProvider.getNamingContext();
+    public ConfigServiceImpl(EnvironmentServicesProvider environmentServicesProvider, Context namingContext) {
         this.environmentServicesProvider = environmentServicesProvider;
+        this.namingContext = namingContext;
     }
 
     @PostConstruct

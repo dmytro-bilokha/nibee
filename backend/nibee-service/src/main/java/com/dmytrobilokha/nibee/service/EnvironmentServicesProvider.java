@@ -15,10 +15,9 @@ import java.lang.management.ManagementFactory;
 @ApplicationScoped
 public class EnvironmentServicesProvider {
 
-    //TODO why this method is public?
     @Produces
     @Dependent
-    public Context getNamingContext() {
+    Context getNamingContext() {
         try {
             return new InitialContext();
         } catch (NamingException ex) {
@@ -26,17 +25,15 @@ public class EnvironmentServicesProvider {
         }
     }
 
-    //TODO why this method is public?
     @Produces
     @Dependent
-    public MBeanServer getMBeanServer() {
+    MBeanServer getMBeanServer() {
         return  ManagementFactory.getPlatformMBeanServer();
     }
 
-    //TODO why this method is public?
     @Produces
     @ApplicationScoped
-    public Jsonb getJsonb() {
+    Jsonb getJsonb() {
         return JsonbBuilder.create();
     }
 

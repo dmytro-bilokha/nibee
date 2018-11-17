@@ -45,10 +45,9 @@ public class ConfigServiceTest {
     @BeforeMethod
     public void setupMockDefaults() throws NamingException {
         when(mockNamingContext.lookup(PROPERTIES_JNDI_NAME)).thenReturn(properties);
-        when(mockProvider.getNamingContext()).thenReturn(mockNamingContext);
         when(mockProvider.getResourceAsStream(anyString()))
                 .thenReturn(new ByteArrayInputStream(BUILD_PROPERTIES.getBytes()));
-        configService = new ConfigServiceImpl(mockProvider);
+        configService = new ConfigServiceImpl(mockProvider, mockNamingContext);
     }
 
     @AfterMethod

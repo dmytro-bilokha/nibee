@@ -47,7 +47,7 @@ public class PostUploadServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType(MediaType.APPLICATION_JSON);
         PostMetadata postMetadata = new PostMetadata(
-                "fileName"
+                "fileNameOnServer"
                 , "dir"
                 , "Title"
                 , "webpath"
