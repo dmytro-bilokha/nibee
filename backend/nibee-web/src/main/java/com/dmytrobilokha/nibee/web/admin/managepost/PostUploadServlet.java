@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.ws.rs.core.MediaType;
-import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 
 @WebServlet("/admin/post-upload")
 @MultipartConfig(
@@ -36,16 +37,17 @@ public class PostUploadServlet extends HttpServlet {
         this.jsonb = jsonb;
     }
 
+    //TODO: add parameters handling, validation (one file only, filetype, form fields, etc)
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String blogBaseDir = configService.getAsString(ConfigProperty.POSTS_ROOT);
-        String uploadPath = blogBaseDir + File.separator + UPLOAD_DIR;
         for (Part part : req.getParts()) {
             String fileName = part.getSubmittedFileName();
-            part.write(uploadPath + File.separator + fileName);
+            part.write(Paths.get(blogBaseDir, UPLOAD_DIR, fileName).toString());
         }
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType(MediaType.APPLICATION_JSON);
+        resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         PostMetadata postMetadata = new PostMetadata(
                 "fileNameOnServer"
                 , "dir"
