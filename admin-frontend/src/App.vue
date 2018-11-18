@@ -1,10 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="columns">
+      <div class="column is-1 is-pulled-left right-line">
+        <aside
+          id="main-menu"
+          class="menu"
+        >
+          <p class="menu-label">Post</p>
+          <ul class="menu-list">
+            <li><router-link to="/create">Create</router-link></li>
+            <li><a>Delete</a></li>
+            <li><a>Modify</a></li>
+          </ul>
+        </aside>
+      </div>
+      <div class="column">
+          <router-view/>
+      </div>
     </div>
-    <router-view/>
   </div>
 </template>
 
@@ -15,15 +28,10 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+};
+
+#main-menu {
+  padding-top: 1em;
+  padding-left: 0.5em;
+};
 </style>
