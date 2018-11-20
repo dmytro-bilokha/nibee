@@ -32,11 +32,13 @@
               placeholder="Set date..."
               icon="calendar"
               editable
+              v-model="creationDate"
             />
             <b-timepicker
               placeholder="Set time..."
               icon="clock"
               editable
+              v-model="creationTime"
             />
           </b-field>
           <b-field
@@ -72,6 +74,7 @@
             horizontal
             label="Flags"
           >
+            <p class="control">
             <b-checkbox
             >
               Shareable
@@ -79,6 +82,31 @@
             <b-checkbox>
               Comment allowed
             </b-checkbox>
+            </p>
+          </b-field>
+          <b-field
+            horizontal
+            label="Post tags"
+          >
+            <b-taginput
+                v-model="tags"
+                :data="filteredTags"
+                autocomplete
+                :allow-new="false"
+                field="name"
+                icon="terminal"
+                placeholder="Add a tag"
+                @typing="updateFilteredTags">
+            </b-taginput>
+          </b-field>
+          <b-field
+            horizontal
+            grouped
+          >
+            <p class="control">
+              <button class="button is-primary with-right-space-margin">Submit</button>
+              <button class="button is-primary with-right-space-margin">Clear</button>
+            </p>
           </b-field>
         </div>
       </section>
@@ -86,12 +114,38 @@
 </template>
 
 <script>
+const hardcodedTags =
+      [ { id: 1
+        , name: 'FreeBSD'
+        }
+      , { id: 2
+        , name: 'Linux'
+        }
+      , { id: 3
+        , name: 'Java'
+        }
+      ];
+      
 export default {
   data() {
-    return {
-      file: null
-      , availableTags: []
-    };
+    return { file: null
+           , creationDate: new Date()
+           , creationTime: new Date()
+           , filteredTags: hardcodedTags
+           , tags: []
+           };
+  }
+  , methods: {
+    updateFilteredTags(text) {
+        this.filteredTags = hardcodedTags
+          .filter(tag => tag.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
+    }
   }
 }
 </script>
+
+<style scoped lang="scss">
+.with-right-space-margin {
+  margin-right: 1.5em;
+};
+</style>
