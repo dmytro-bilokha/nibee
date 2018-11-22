@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div>
       <section class="section">
         <div class="container has-text-left">
           <b-field
