@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
     <div class="columns">
       <div class="column is-1 is-pulled-left right-line">
         <aside
@@ -20,6 +21,16 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    isLoading() {
+      return this.$store.getters.loadingCounter > 0;
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
