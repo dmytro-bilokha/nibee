@@ -5,20 +5,3 @@
     </div>
   </section>
 </template>
-
-<script>
-    export default {
-        created() {
-          this.openLoading();
-          this.$store.dispatch('fetchAvailableTags');
-        },
-        methods: {
-            openLoading() {
-                this.$store.dispatch('incrementLoadingCount');
-                setTimeout(() => {
-                  this.$store.dispatch('decrementLoadingCount');
-                }, 10 * 1000)
-            }
-        }
-    }
-</script>

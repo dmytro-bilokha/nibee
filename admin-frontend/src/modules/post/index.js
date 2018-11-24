@@ -2,18 +2,28 @@ import axios from 'axios';
 
 const state = 
   { availableTags: []
+  , availableTagsStatus: 0
   };
 
 const mutations = {
-  UPDATE_AVAILABLE_TAGS(state, payload) {
+  updateAvailableTags(state, payload) {
       state.availableTags = payload;
+      state.availableTagsStatus = 1;
   }
 };
 
 const actions = {
-    fetchAvailableTags({commit}) {
+    fetchAvailableTags({ commit, dispatch, state }) {
+      if (state.availableTagsStatus !== 0) {
+        return;
+      }
+      dispatch('incrementLoadingCount');
       axios.get('/blog/api/tags')
-        .then(response => commit('UPDATE_AVAILABLE_TAGS', response.data));
+        .then(response => {
+          commit('updateAvailableTags', response.data);
+          dispatch('decrementLoadingCount');
+        }
+      );
     }
 };
 

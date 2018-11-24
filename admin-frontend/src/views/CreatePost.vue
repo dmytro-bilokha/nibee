@@ -114,30 +114,26 @@
 </template>
 
 <script>
-const hardcodedTags =
-      [ { id: 1
-        , name: 'FreeBSD'
-        }
-      , { id: 2
-        , name: 'Linux'
-        }
-      , { id: 3
-        , name: 'Java'
-        }
-      ];
-      
 export default {
   data() {
     return { file: null
            , creationDate: new Date()
            , creationTime: new Date()
-           , filteredTags: hardcodedTags
+           , filteredTags: []
            , tags: []
            };
   }
+  , computed: {
+    availableTags() {
+      return this.$store.getters.availableTags;
+    }
+  }
+  , created() {
+    this.$store.dispatch('fetchAvailableTags');
+  }
   , methods: {
     updateFilteredTags(text) {
-        this.filteredTags = hardcodedTags
+        this.filteredTags = this.availableTags
           .filter(tag => tag.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
     }
   }

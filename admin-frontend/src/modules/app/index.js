@@ -4,20 +4,20 @@ const state =
   };
 
 const mutations = {
-  INCREMENT_LOADING_COUNT(state) {
+  incrementLoadingCount(state) {
     state.loadingCounter = state.loadingCounter + 1;
   }
-  , DECREMENT_LOADING_COUNT(state) {
+  , decrementLoadingCount(state) {
     state.loadingCounter = (state.loadingCounter <= 0) ? 0 : state.loadingCounter - 1;
   }
 };
 
 const actions = {
   incrementLoadingCount({commit}) {
-    commit('INCREMENT_LOADING_COUNT');
+    commit('incrementLoadingCount');
   }
   , decrementLoadingCount({commit}) {
-    commit('DECREMENT_LOADING_COUNT');
+    commit('decrementLoadingCount');
   }
 };
 
