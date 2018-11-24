@@ -26,23 +26,6 @@
           </b-field>
           <b-field
             horizontal
-            label="Creation date/time"
-          >
-            <b-datepicker
-              placeholder="Set date..."
-              icon="calendar"
-              editable
-              v-model="creationDate"
-            />
-            <b-timepicker
-              placeholder="Set time..."
-              icon="clock"
-              editable
-              v-model="creationTime"
-            />
-          </b-field>
-          <b-field
-            horizontal
             label="Title"
             type="is-danger"
             message="Please enter a title"
@@ -117,8 +100,6 @@
 export default {
   data() {
     return { file: null
-           , creationDate: new Date()
-           , creationTime: new Date()
            , filteredTags: []
            , tags: []
            };
