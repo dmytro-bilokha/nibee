@@ -7,7 +7,11 @@
             label="Post file"
             class="file"
           >
-            <b-upload v-model="file">
+            <b-upload
+              name="File"
+              :value="file"
+              @input="onFileChoosen"
+            >
               <a
                 class="button is-primary"
                 v-if="!file"
@@ -31,8 +35,10 @@
             message="Please enter a title"
           >
             <b-input
-              name="title"
+              name="Title"
               expanded
+              :value="title"
+              @input.native="onInputChange"
             />
           </b-field>
           <b-field
@@ -40,8 +46,10 @@
             label="Web path"
           >
             <b-input
-              name="web-path"
+              name="WebPath"
               expanded
+              :value="webPath"
+              @input.native="onInputChange"
             />
           </b-field>
           <b-field
@@ -49,8 +57,10 @@
             label="FS path"
           >
             <b-input
-              name="fs-path"
+              name="FsPath"
               expanded
+              :value="fsPath"
+              @input.native="onInputChange"
             />
           </b-field>
           <b-field
@@ -59,10 +69,17 @@
           >
             <p class="control">
             <b-checkbox
+              name="Shareable"
+              :value="shareable"
+              @change.native="onCheckBoxChange"
             >
               Shareable
             </b-checkbox>
-            <b-checkbox>
+            <b-checkbox
+              name="CommentAllowed"
+              :value="commentAllowed"
+              @change.native="onCheckBoxChange"
+            >
               Comment allowed
             </b-checkbox>
             </p>
@@ -72,7 +89,9 @@
             label="Post tags"
           >
             <b-taginput
-                v-model="tags"
+                name="Tags"
+                :value="tags"
+                @input="onTagsChange"
                 :data="filteredTags"
                 autocomplete
                 :allow-new="false"
@@ -97,15 +116,23 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
-    return { file: null
-           , filteredTags: []
-           , tags: []
-           };
+    return { filteredTags: [] };
   }
   , computed: {
-    availableTags() {
+    ...mapGetters('createPost', [
+      'file'
+      , 'title'
+      , 'webPath'
+      , 'fsPath'
+      , 'shareable'
+      , 'commentAllowed'
+      , 'tags'
+    ])
+    , availableTags() {
       return this.$store.getters['post/availableTags'];
     }
   }
@@ -116,6 +143,20 @@ export default {
     updateFilteredTags(text) {
         this.filteredTags = this.availableTags
           .filter(tag => tag.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
+    }
+    , onInputChange(evt) {
+      const element = evt.target;
+      this.$store.commit(`createPost/set${element.name}`, element.value);
+    }
+    , onCheckBoxChange(evt) {
+      const element = evt.target;
+      this.$store.commit(`createPost/set${element.name}`, element.checked)
+    }
+    , onFileChoosen(file) {
+      this.$store.commit('createPost/setFile', file);
+    }
+    , onTagsChange(tags) {
+      this.$store.commit('createPost/setTags', tags);
     }
   }
 }
