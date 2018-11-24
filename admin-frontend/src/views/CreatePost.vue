@@ -125,11 +125,11 @@ export default {
   }
   , computed: {
     availableTags() {
-      return this.$store.getters.availableTags;
+      return this.$store.getters['post/availableTags'];
     }
   }
   , created() {
-    this.$store.dispatch('fetchAvailableTags');
+    this.$store.dispatch('post/fetchAvailableTags');
   }
   , methods: {
     updateFilteredTags(text) {

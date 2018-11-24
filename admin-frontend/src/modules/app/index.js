@@ -26,7 +26,8 @@ const getters = {
 };
 
 const appModule =
-  { state
+  { namespaced: true
+  , state
   , mutations
   , actions
   , getters

@@ -17,11 +17,11 @@ const actions = {
       if (state.availableTagsStatus !== 0) {
         return;
       }
-      dispatch('incrementLoadingCount');
+      dispatch('app/incrementLoadingCount', null, { root: true });
       axios.get('/blog/api/tags')
         .then(response => {
           commit('updateAvailableTags', response.data);
-          dispatch('decrementLoadingCount');
+          dispatch('app/decrementLoadingCount', null, { root: true });
         }
       );
     }
@@ -32,7 +32,8 @@ const getters = {
 };
 
 const postModule =
-  { state
+  { namespaced: true
+  , state
   , mutations
   , actions
   , getters
