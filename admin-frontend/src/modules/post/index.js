@@ -1,20 +1,24 @@
 import axios from 'axios';
+import { INIT
+       , REQUESTED
+       , REQUEST_SUCCESS
+       } from '@/modules/constants.js';
 
 const state = 
   { availableTags: []
-  , availableTagsStatus: 0
+  , availableTagsStatus: INIT
   };
 
 const mutations = {
   updateAvailableTags(state, payload) {
       state.availableTags = payload;
-      state.availableTagsStatus = 1;
+      state.availableTagsStatus = REQUEST_SUCCESS;
   }
 };
 
 const actions = {
     fetchAvailableTags({ commit, dispatch, state }) {
-      if (state.availableTagsStatus !== 0) {
+      if (state.availableTagsStatus === REQUESTED || state.availabelTagsStatus == REQUEST_SUCCESS) {
         return;
       }
       dispatch('app/incrementLoadingCount', null, { root: true });

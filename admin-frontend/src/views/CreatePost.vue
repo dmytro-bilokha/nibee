@@ -56,6 +56,7 @@
               expanded
               :value="webPath"
               @input.native="onInputChange"
+              @blur="onInputBlur"
             />
           </b-field>
           <b-field
@@ -69,6 +70,7 @@
               expanded
               :value="fsPath"
               @input.native="onInputChange"
+              @blur="onInputBlur"
             />
           </b-field>
           <b-field
@@ -135,7 +137,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { capitalizeString } from '../utils';
+import { capitalizeString
+       , hasAllUndefined
+       } from '@/utils';
 import { quickCheckField
        , quickCheckFields
        , fullCheckField
@@ -217,7 +221,7 @@ export default {
     }
     , validateForm() {
       Object.assign(this.fieldErrors, fullCheckFields(this.$store.state.createPost));
-      return !(this.fieldErrors.title || this.fieldErrors.webPath || this.fieldErrors.fsPath || this.fieldErrors.file);
+      return hasAllUndefined(this.fieldErrors);
     }
     , getType(fieldName) {
       return this.fieldErrors[fieldName] ? 'is-danger' : '';
