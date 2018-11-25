@@ -6,9 +6,12 @@
             horizontal
             label="Post file"
             class="file"
+            :type="getType('file')"
+            :message="fieldErrors.file"
           >
             <b-upload
-              name="File"
+              name="file"
+              accept=".zip,application/zip,application/octet-stream,application/x-zip-compressed,multipart/x-zip"
               :value="file"
               @input="onFileChoosen"
             >
@@ -31,22 +34,25 @@
           <b-field
             horizontal
             label="Title"
-            type="is-danger"
-            message="Please enter a title"
+            :type="getType('title')"
+            :message="fieldErrors.title"
           >
             <b-input
-              name="Title"
+              name="title"
               expanded
               :value="title"
               @input.native="onInputChange"
+              @blur="onInputBlur"
             />
           </b-field>
           <b-field
             horizontal
             label="Web path"
+            :type="getType('webPath')"
+            :message="fieldErrors.webPath"
           >
             <b-input
-              name="WebPath"
+              name="webPath"
               expanded
               :value="webPath"
               @input.native="onInputChange"
@@ -55,9 +61,11 @@
           <b-field
             horizontal
             label="FS path"
+            :type="getType('fsPath')"
+            :message="fieldErrors.fsPath"
           >
             <b-input
-              name="FsPath"
+              name="fsPath"
               expanded
               :value="fsPath"
               @input.native="onInputChange"
@@ -69,14 +77,14 @@
           >
             <p class="control">
             <b-checkbox
-              name="Shareable"
+              name="shareable"
               :value="shareable"
               @change.native="onCheckBoxChange"
             >
               Shareable
             </b-checkbox>
             <b-checkbox
-              name="CommentAllowed"
+              name="commentAllowed"
               :value="commentAllowed"
               @change.native="onCheckBoxChange"
             >
@@ -89,7 +97,7 @@
             label="Post tags"
           >
             <b-taginput
-                name="Tags"
+                name="tags"
                 :value="tags"
                 @input="onTagsChange"
                 :data="filteredTags"
@@ -108,6 +116,7 @@
             <p class="control">
               <button
                 class="button is-primary with-right-space-margin"
+                @click="submitForm"
               >
                 Submit
               </button>
@@ -126,10 +135,26 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { capitalizeString } from '../utils';
+import { quickCheckField
+       , quickCheckFields
+       , fullCheckField
+       , fullCheckFields
+       } from './CreatePostValidator.js';
+
+const initialFieldErrors = () => (
+  { title: undefined
+  , file: undefined
+  , webPath: undefined
+  , fsPath: undefined
+  }
+);
 
 export default {
   data() {
-    return { filteredTags: [] };
+    return { filteredTags: []
+           , fieldErrors: initialFieldErrors()
+           };
   }
   , computed: {
     ...mapGetters('createPost', [
@@ -147,6 +172,7 @@ export default {
   }
   , created() {
     this.$store.dispatch('post/fetchAvailableTags');
+    Object.assign(this.fieldErrors, quickCheckFields(this.$store.state.createPost));
   }
   , methods: {
     updateFilteredTags(text) {
@@ -155,20 +181,46 @@ export default {
     }
     , onInputChange(evt) {
       const element = evt.target;
-      this.$store.commit(`createPost/set${element.name}`, element.value);
+      const fieldName = element.name;
+      const setter = 'set' + capitalizeString(fieldName);
+      const value = element.value;
+      this.$store.commit(`createPost/${setter}`, value);
+      this.fieldErrors[fieldName] = quickCheckField(fieldName, value);
+    }
+    , onInputBlur(evt) {
+      const element = evt.target;
+      const fieldName = element.name;
+      this.fieldErrors[fieldName] = fullCheckField(fieldName, element.value);
     }
     , onCheckBoxChange(evt) {
       const element = evt.target;
-      this.$store.commit(`createPost/set${element.name}`, element.checked)
+      const setter = 'set' + capitalizeString(element.name);
+      this.$store.commit(`createPost/${setter}`, element.checked)
     }
     , onFileChoosen(file) {
       this.$store.commit('createPost/setFile', file);
+      this.fieldErrors.file = quickCheckField('file', file);
     }
     , onTagsChange(tags) {
       this.$store.commit('createPost/setTags', tags);
     }
     , onFormClear() {
       this.$store.commit('createPost/clearForm');
+      this.fieldErrors = initialFieldErrors();
+    }
+    , submitForm(evt) {
+      if (!this.validateForm()) {
+        console.log('The form is crap');
+        return;
+      }
+      console.log('The form is OK');
+    }
+    , validateForm() {
+      Object.assign(this.fieldErrors, fullCheckFields(this.$store.state.createPost));
+      return !(this.fieldErrors.title || this.fieldErrors.webPath || this.fieldErrors.fsPath || this.fieldErrors.file);
+    }
+    , getType(fieldName) {
+      return this.fieldErrors[fieldName] ? 'is-danger' : '';
     }
   }
 }
