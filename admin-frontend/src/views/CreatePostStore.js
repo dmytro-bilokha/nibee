@@ -1,5 +1,5 @@
 
-const state =
+const getInitialState = () => (
   { file: null
   , title: ''
   , webPath: ''
@@ -7,7 +7,10 @@ const state =
   , shareable: true
   , commentAllowed: true
   , tags: []
-  };
+  }
+);
+
+const state = { ...getInitialState() };
 
 const mutations = 
   { setFile(state, file) {
@@ -30,6 +33,9 @@ const mutations =
     }
   , setTags(state, tags) {
       state.tags = tags;
+    }
+  , clearForm(state) {
+      Object.assign(state, getInitialState()); 
     }
   };
 

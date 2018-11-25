@@ -106,8 +106,17 @@
             grouped
           >
             <p class="control">
-              <button class="button is-primary with-right-space-margin">Submit</button>
-              <button class="button is-primary with-right-space-margin">Clear</button>
+              <button
+                class="button is-primary with-right-space-margin"
+              >
+                Submit
+              </button>
+              <button
+                class="button is-primary with-right-space-margin"
+                @click="onFormClear"
+              >
+                Clear
+              </button>
             </p>
           </b-field>
         </div>
@@ -157,6 +166,9 @@ export default {
     }
     , onTagsChange(tags) {
       this.$store.commit('createPost/setTags', tags);
+    }
+    , onFormClear() {
+      this.$store.commit('createPost/clearForm');
     }
   }
 }
