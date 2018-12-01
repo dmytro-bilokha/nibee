@@ -1,5 +1,7 @@
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 export const capitalizeString = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
 export const hasAllUndefined = (obj) => {
   for (let key in obj) {
     if (obj[key] !== undefined) {
@@ -7,4 +9,14 @@ export const hasAllUndefined = (obj) => {
     }
   }
   return true;
+};
+
+export const showError = (errorMessage) => {
+  Snackbar.open(
+    { indefinite: true
+    , type: 'is-danger'
+    , position: 'is-top-right'
+    , message: errorMessage
+    }
+  );
 };

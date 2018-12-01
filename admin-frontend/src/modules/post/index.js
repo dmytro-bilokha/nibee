@@ -2,19 +2,27 @@ import axios from 'axios';
 import { INIT
        , REQUESTED
        , REQUEST_SUCCESS
+       , REQUEST_FAIL
        } from '@/modules/constants.js';
+import { showError } from '@/utils';
 
 const state = 
   { availableTags: []
   , availableTagsStatus: INIT
   };
 
-const mutations = {
-  updateAvailableTags(state, payload) {
+const mutations =
+  { updateAvailableTags(state, payload) {
       state.availableTags = payload;
       state.availableTagsStatus = REQUEST_SUCCESS;
+    }
+  , setTagsRequestFailed(state) {
+      state.availableTagsStatus = REQUEST_FAIL;
+    }
+  , setTagsRequested(state) {
+      state.availableTagsStatus = REQUESTED;
   }
-};
+  };
 
 const actions = {
     fetchAvailableTags({ commit, dispatch, state }) {
@@ -22,10 +30,17 @@ const actions = {
         return;
       }
       dispatch('app/incrementLoadingCount', null, { root: true });
+      commit('setTagsRequested');
       axios.get('/blog/api/tags')
         .then(response => {
           commit('updateAvailableTags', response.data);
           dispatch('app/decrementLoadingCount', null, { root: true });
+        }
+        , error => {
+          console.log(error);
+          commit('setTagsRequestFailed');
+          dispatch('app/decrementLoadingCount', null, { root: true });
+          showError('Failed to get available tags list from the backend');
         }
       );
     }
