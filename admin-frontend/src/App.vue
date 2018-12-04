@@ -26,7 +26,7 @@
 export default {
   computed: {
     isLoading() {
-      return this.$store.getters.loadingCounter > 0;
+      return this.$store.getters['app/loadingCounter'] > 0;
     }
   }
 }

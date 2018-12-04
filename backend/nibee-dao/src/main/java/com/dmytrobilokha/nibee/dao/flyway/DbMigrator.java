@@ -15,7 +15,7 @@ public class DbMigrator {
 
     private DataSource dataSource;
 
-    public DbMigrator() {
+    DbMigrator() {
         //Constructor required to make DbMigrator proxable
     }
 

@@ -2,6 +2,7 @@ package com.dmytrobilokha.nibee.service.file;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
@@ -11,6 +12,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 @ApplicationScoped
 public class FileService {
@@ -85,6 +88,35 @@ public class FileService {
             for (int length = 0; (length = channel.read(byteBuffer)) != -1;) {
                 out.write(buffer, 0, length);
                 byteBuffer.clear();
+            }
+        }
+    }
+
+    public void dumpStreamToFile(InputStream inputStream, Path filePath) throws IOException {
+        byte[] buffer = new byte[8 * 1024];
+        try (SeekableByteChannel channel = Files
+                .newByteChannel(filePath, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE)) {
+            for (int length; (length = inputStream.read(buffer)) > 0;) {
+                channel.write(ByteBuffer.wrap(buffer, 0, length));
+            }
+        }
+    }
+
+    public void unzipStreamToDir(InputStream inputStream, Path destinationDir) throws IOException {
+        Files.createDirectory(destinationDir);
+        Path destinationDirPath = destinationDir.toRealPath();
+        ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+        for (ZipEntry zipEntry; (zipEntry  = zipInputStream.getNextEntry()) != null;) {
+            Path absoluteEntryPath = destinationDirPath.resolve(zipEntry.getName()).toAbsolutePath();
+            if (!absoluteEntryPath.startsWith(destinationDirPath)) {
+                throw new IOException("Zip entry path '" + absoluteEntryPath
+                        + "' is not inside destination dir '" + destinationDirPath + '\'');
+            }
+            if (zipEntry.isDirectory()) {
+                Files.createDirectories(absoluteEntryPath);
+            } else {
+                Files.createDirectories(absoluteEntryPath.getParent());
+                dumpStreamToFile(zipInputStream, absoluteEntryPath);
             }
         }
     }

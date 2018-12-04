@@ -21,6 +21,10 @@
         <error-code>400</error-code>
         <location>/WEB-INF/jsp/error/400_Bad_Request.jspx</location>
     </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/error/500_Internal_Server_Error.jspx</location>
+    </error-page>
 
     <jsp-config>
         <jsp-property-group>

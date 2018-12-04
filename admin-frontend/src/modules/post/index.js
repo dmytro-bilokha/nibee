@@ -29,8 +29,8 @@ const actions = {
       if (state.availableTagsStatus === REQUESTED || state.availabelTagsStatus == REQUEST_SUCCESS) {
         return;
       }
-      dispatch('app/incrementLoadingCount', null, { root: true });
       commit('setTagsRequested');
+      dispatch('app/incrementLoadingCount', null, { root: true });
       axios.get('/blog/api/tags')
         .then(response => {
           commit('updateAvailableTags', response.data);

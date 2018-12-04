@@ -103,7 +103,7 @@
 
         <!-- No need to instantiate classes with factory methods -->
         <module name="IllegalInstantiation">
-            <property name="classes" value="java.lang.Boolean,java.lang.Integer,java.lang.Long,java.lang.String,java.math.BigDecimal,java.math.BigInteger"/>
+            <property name="classes" value="java.lang.Boolean,java.lang.Integer,java.lang.Long,java.math.BigDecimal,java.math.BigInteger"/>
         </module>
 
         <!-- No throws of too general exceptions, errors, etc -->

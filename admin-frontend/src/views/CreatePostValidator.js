@@ -2,24 +2,28 @@
 const fieldsValidationData =
   { title: 
       { quickCheck: (value) => 
-          /^[A-Za-z0-9]*$/.test(value) ? undefined : 'Title must contain only ASCII characters'
+          /^[\x00-\x7F]*$/.test(value) ? undefined : 'Must contain only ASCII characters'
       , fullCheck: (value) =>
-          /^[A-Za-z0-9]{5,}$/.test(value) ? undefined : 
-            'Title must contain only ASCII characters and be at least 5 characters long'
+          /^[\x00-\x7F]{5,}$/.test(value) ? undefined : 
+            'Must contain only ASCII characters and be at least 5 characters long'
       }
   , webPath:
       { quickCheck: (value) => 
-          /^[A-Za-z0-9]*$/.test(value) ? undefined : 'Title must contain only ASCII characters'
+          /^[._a-zA-Z0-9-]*$/.test(value) ? undefined : 
+            'Must contain only numbers, latin letters and minus sign'
       , fullCheck: (value) =>
-          /^[A-Za-z0-9]{5,}$/.test(value) ? undefined : 
-            'Title must contain only ASCII characters and be at least 5 characters long'
+          /^[._a-zA-Z0-9-]{5,}$/.test(value) ? undefined : 
+            'Should be at least 5 characters long and must contain only numbers,'
+                    + ' latin letters and minus sign'
       }
   , fsPath:
       { quickCheck: (value) => 
-          /^[A-Za-z0-9]*$/.test(value) ? undefined : 'Title must contain only ASCII characters'
+          /^[._a-zA-Z0-9-]*$/.test(value) ? undefined : 
+            'Must contain only numbers, latin letters, dot, underscore and minus sign'
       , fullCheck: (value) =>
-          /^[A-Za-z0-9]{5,}$/.test(value) ? undefined : 
-            'Title must contain only ASCII characters and be at least 5 characters long'
+          /^[._a-zA-Z0-9-]{5,}$/.test(value) ? undefined : 
+            'Should be at least 5 characters long and must contain only numbers,'
+                            + ' latin letters, dot, underscore and minus sign'
       }
   , file:
       { quickCheck: (value) => undefined

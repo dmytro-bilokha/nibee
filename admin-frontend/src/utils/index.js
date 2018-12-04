@@ -20,3 +20,12 @@ export const showError = (errorMessage) => {
     }
   );
 };
+
+export const showMessage = (textMessage) => {
+  Snackbar.open(
+    { indefinite: true
+    , position: 'is-top-right'
+    , message: textMessage
+    }
+  );
+};

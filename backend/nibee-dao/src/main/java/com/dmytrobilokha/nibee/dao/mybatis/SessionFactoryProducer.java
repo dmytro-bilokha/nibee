@@ -27,7 +27,11 @@ public class SessionFactoryProducer {
         , "com.dmytrobilokha.nibee.dao.comment"
     };
 
-    private final DataSource dataSource;
+    private DataSource dataSource;
+
+    SessionFactoryProducer() {
+        //No-args counstructor required by the CDI spec
+    }
 
     @Inject
     public SessionFactoryProducer(DataSource dataSource) {

@@ -214,10 +214,9 @@ export default {
     }
     , submitForm(evt) {
       if (!this.validateForm()) {
-        console.log('The form is crap');
         return;
       }
-      console.log('The form is OK');
+      this.$store.dispatch('createPost/submitNewPost');
     }
     , validateForm() {
       Object.assign(this.fieldErrors, fullCheckFields(this.$store.state.createPost));
