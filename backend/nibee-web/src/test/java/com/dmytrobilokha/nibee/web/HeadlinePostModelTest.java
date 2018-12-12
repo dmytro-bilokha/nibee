@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web;
 
-import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.PostWithTags;
 import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,8 @@ import static org.testng.Assert.assertEquals;
 public class HeadlinePostModelTest {
 
     public void formatsCreationDate() {
-        Post post = new Post("bla", "blah", Collections.emptySet(), LocalDateTime.of(2018, 4, 17, 6, 30));
+        PostWithTags post =
+                new PostWithTags("bla", "blah", Collections.emptySet(), LocalDateTime.of(2018, 4, 17, 6, 30));
         HeadlinePostModel model = new HeadlinePostModel(post);
         assertEquals("17 Apr 2018", model.getCreatedOn());
     }

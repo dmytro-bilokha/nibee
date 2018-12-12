@@ -1,6 +1,7 @@
 package com.dmytrobilokha.nibee.dao.post;
 
 import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.PostWithTags;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.cdi.Mapper;
 
@@ -10,16 +11,20 @@ import java.util.List;
 @Mapper
 public interface PostDao {
 
-    Post findPostByName(String name);
+    PostWithTags findPostByName(String name);
 
     String findPostPathByName(String name);
 
-    List<Post> findPostAfter(@Param("dateTime") LocalDateTime dateTime, @Param("tagId") Long tagId
+    List<PostWithTags> findPostAfter(@Param("dateTime") LocalDateTime dateTime, @Param("tagId") Long tagId
             , @Param("limit") int limit);
 
-    List<Post> findPostBefore(@Param("dateTime") LocalDateTime dateTime, @Param("tagId") Long tagId
+    List<PostWithTags> findPostBefore(@Param("dateTime") LocalDateTime dateTime, @Param("tagId") Long tagId
             , @Param("limit") int limit);
 
     int countPostsById(Long id);
+
+    List<Post> findPostDuplicates(Post post);
+
+    int createPost(Post post);
 
 }

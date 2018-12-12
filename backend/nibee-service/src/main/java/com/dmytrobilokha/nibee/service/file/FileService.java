@@ -8,6 +8,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 import java.util.HashMap;
@@ -81,6 +82,10 @@ public class FileService {
         return Files.isReadable(filePath) && Files.isRegularFile(filePath);
     }
 
+    public void renameAtomically(Path from, Path to) throws IOException {
+        Files.move(from, to, StandardCopyOption.ATOMIC_MOVE);
+    }
+
     public void dumpFileToStream(Path filePath, OutputStream out) throws IOException {
         byte[] buffer = new byte[8 * 1024];
         ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
@@ -103,7 +108,7 @@ public class FileService {
     }
 
     public void unzipStreamToDir(InputStream inputStream, Path destinationDir) throws IOException {
-        Files.createDirectory(destinationDir);
+        Files.createDirectories(destinationDir);
         Path destinationDirPath = destinationDir.toRealPath();
         ZipInputStream zipInputStream = new ZipInputStream(inputStream);
         for (ZipEntry zipEntry; (zipEntry  = zipInputStream.getNextEntry()) != null;) {

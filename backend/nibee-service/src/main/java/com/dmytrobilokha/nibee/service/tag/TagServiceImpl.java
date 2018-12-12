@@ -6,6 +6,7 @@ import com.dmytrobilokha.nibee.data.Tag;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
 
 @Stateless
 public class TagServiceImpl implements TagService {
@@ -24,6 +25,13 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<Tag> getAll() {
         return tagDao.getAll();
+    }
+
+    @Override
+    public void assignTagsToPost(Long postId, Set<Long> tagIds) {
+        for (Long tagId : tagIds) {
+            tagDao.assignTagToPost(postId, tagId);
+        }
     }
 
 }

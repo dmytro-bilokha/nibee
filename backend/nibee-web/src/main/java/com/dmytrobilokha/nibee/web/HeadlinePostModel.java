@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web;
 
-import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.PostWithTags;
 import com.dmytrobilokha.nibee.data.Tag;
 
 import java.time.format.DateTimeFormatter;
@@ -19,7 +19,7 @@ public class HeadlinePostModel implements InRequestPuttable {
     private final String createdOn;
     private final String modifiedOn;
 
-    public HeadlinePostModel(Post post) {
+    public HeadlinePostModel(PostWithTags post) {
         this.name = post.getName();
         this.title = post.getTitle();
         this.shareable = post.isShareable();

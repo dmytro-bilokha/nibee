@@ -1,11 +1,7 @@
 package com.dmytrobilokha.nibee.data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class Post {
 
@@ -17,16 +13,23 @@ public class Post {
     private boolean commentAllowed;
     private LocalDateTime createdOn;
     private LocalDateTime modifiedOn;
-    private List<Tag> tagList;
 
     Post() {
-        //This constructor is required for MyBatis
+        //Constructor for myBatis
     }
 
-    public Post(String name, String path, Set<Tag> tagSet, LocalDateTime createdOn) {
+    public Post(String name, String title, String path, boolean shareable, boolean commentAllowed) {
+        this.name = name;
+        this.title = title;
+        this.path = path;
+        this.shareable = shareable;
+        this.commentAllowed = commentAllowed;
+        this.createdOn = LocalDateTime.MAX;
+    }
+
+    public Post(String name, String path, LocalDateTime createdOn) {
         this.name = name;
         this.path = path;
-        this.tagList = new ArrayList<>(tagSet);
         this.createdOn = createdOn;
     }
 
@@ -66,22 +69,15 @@ public class Post {
         return modifiedOn == null ? createdOn : modifiedOn;
     }
 
-    public List<Tag> getTags() {
-        if (tagList == null) {
-            return Collections.emptyList();
-        }
-        return Collections.unmodifiableList(tagList);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
         return Objects.equals(id, post.id)
-            && Objects.equals(name, post.name)
-            && Objects.equals(title, post.title)
-            && Objects.equals(path, post.path);
+                && Objects.equals(name, post.name)
+                && Objects.equals(title, post.title)
+                && Objects.equals(path, post.path);
     }
 
     @Override
@@ -100,7 +96,6 @@ public class Post {
                 + ", commentAllowed=" + commentAllowed
                 + ", createdOn=" + createdOn
                 + ", modifiedOn=" + modifiedOn
-                + ", tagList=" + tagList
                 + '}';
     }
 

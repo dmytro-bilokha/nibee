@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web.blog;
 
-import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.PostWithTags;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
 import com.dmytrobilokha.nibee.service.post.PostService;
@@ -32,7 +32,7 @@ class PostEntryBlogResponse extends BlogResponse {
 
     @Override
     void respond(HttpServletRequest req, HttpServletResponse resp) {
-        Post post = postService.findPostByName(postName);
+        PostWithTags post = postService.findPostByName(postName);
         if (post == null) {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
             return;
@@ -40,7 +40,7 @@ class PostEntryBlogResponse extends BlogResponse {
         servePost(req, resp, post);
     }
 
-    private void servePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
+    private void servePost(HttpServletRequest req, HttpServletResponse resp, PostWithTags post) {
         Path postEntryPath = getPostFilePath(configService, post.getPath(), POST_ENTRY_FILE);
         if (!fileService.isFileRegularAndReadable(postEntryPath)) {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);

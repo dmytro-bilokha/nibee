@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web.home;
 
-import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.PostWithTags;
 import com.dmytrobilokha.nibee.data.Tag;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.web.home.BrowsePostsModel.NavigationType;
@@ -60,7 +60,7 @@ class BrowsePostsModelBuilder {
     }
 
     private MainModelData fetchMainModelDataForBeforeCase(LocalDateTime beforeParam, Long tagIdParam) {
-        List<Post> posts;
+        List<PostWithTags> posts;
         NavigationType navigationType;
         if (tagIdParam != null) {
             posts = postService.findPostBeforeFilteredByTag(beforeParam, tagIdParam, headlinersPerPage + 1);
@@ -77,7 +77,7 @@ class BrowsePostsModelBuilder {
     }
 
     private MainModelData fetchMainModelDataForAfterCase(LocalDateTime afterParam, Long tagIdParam) {
-        List<Post> posts;
+        List<PostWithTags> posts;
         NavigationType navigationType;
         if (tagIdParam != null) {
             posts = postService.findPostAfterFilteredByTag(afterParam, tagIdParam, headlinersPerPage + 1);
@@ -93,7 +93,7 @@ class BrowsePostsModelBuilder {
         return new MainModelData(posts, navigationType);
     }
 
-    private Tag findTagById(Post post, Long id) {
+    private Tag findTagById(PostWithTags post, Long id) {
         return post.getTags()
                 .stream()
                 .filter(t -> id.equals(t.getId()))
@@ -102,10 +102,10 @@ class BrowsePostsModelBuilder {
     }
 
     private static class MainModelData {
-        private final List<Post> posts;
+        private final List<PostWithTags> posts;
         private final NavigationType navigationType;
 
-        private MainModelData(List<Post> posts, NavigationType navigationType) {
+        private MainModelData(List<PostWithTags> posts, NavigationType navigationType) {
             this.posts = posts;
             this.navigationType = navigationType;
         }

@@ -17,4 +17,8 @@
             ORDER BY t.name ASC
     </select>
 
+    <insert id="assignTagToPost">
+        INSERT INTO post_tag (post_id, tag_id) VALUES (#{postId}, #{tagId})
+    </insert>
+
 </mapper>

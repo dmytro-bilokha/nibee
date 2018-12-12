@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web.home;
 
-import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.PostWithTags;
 import com.dmytrobilokha.nibee.data.Tag;
 import com.dmytrobilokha.nibee.service.post.PostService;
 import org.testng.annotations.BeforeMethod;
@@ -44,7 +44,7 @@ public class BrowsePostsModelBuilderTest {
     }
 
     public void setsModelPropertiesForFirstPageShort() {
-        List<Post> postList = Arrays.asList(createPost(1), createPost(2));
+        List<PostWithTags> postList = Arrays.asList(createPost(1), createPost(2));
         when(mockPostService.findPostBefore(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder.build();
         assertNotNull(model);
@@ -55,7 +55,7 @@ public class BrowsePostsModelBuilderTest {
     }
 
     public void setsModelPropertiesForFirstPageLong() {
-        List<Post> postList = Arrays.asList(createPost(1), createPost(2), createPost(3));
+        List<PostWithTags> postList = Arrays.asList(createPost(1), createPost(2), createPost(3));
         when(mockPostService.findPostBefore(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder.build();
         assertNotNull(model);
@@ -66,7 +66,7 @@ public class BrowsePostsModelBuilderTest {
     }
 
     public void setsTagForFirstPage() {
-        List<Post> postList = Arrays.asList(createPostWithTags(1), createPostWithTags(2));
+        List<PostWithTags> postList = Arrays.asList(createPostWithTags(1), createPostWithTags(2));
         when(mockPostService.findPostBeforeFilteredByTag(any(), eq(1L), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder
                 .tagId(1L)
@@ -79,7 +79,7 @@ public class BrowsePostsModelBuilderTest {
     }
 
     public void setsModelPropertiesForAfterShort() {
-        List<Post> postList = Arrays.asList(createPost(1), createPost(2));
+        List<PostWithTags> postList = Arrays.asList(createPost(1), createPost(2));
         when(mockPostService.findPostAfter(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder
                 .after(LocalDateTime.of(2009, 10, 1, 1, 1))
@@ -92,7 +92,7 @@ public class BrowsePostsModelBuilderTest {
     }
 
     public void setsModelPropertiesForAfterPageLong() {
-        List<Post> postList = Arrays.asList(createPost(1), createPost(2), createPost(3));
+        List<PostWithTags> postList = Arrays.asList(createPost(1), createPost(2), createPost(3));
         when(mockPostService.findPostAfter(any(), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder
                 .after(LocalDateTime.of(2009, 10, 1, 1, 1))
@@ -105,7 +105,7 @@ public class BrowsePostsModelBuilderTest {
     }
 
     public void setsTagForAfter() {
-        List<Post> postList = Arrays.asList(createPostWithTags(1), createPostWithTags(2));
+        List<PostWithTags> postList = Arrays.asList(createPostWithTags(1), createPostWithTags(2));
         when(mockPostService.findPostAfterFilteredByTag(any(), eq(1L), eq(SEARCH_LIMIT))).thenReturn(postList);
         BrowsePostsModel model = modelBuilder
                 .tagId(1L)
@@ -118,13 +118,13 @@ public class BrowsePostsModelBuilderTest {
         assertEquals(Long.valueOf(1L), tag.getId());
     }
 
-    private Post createPost(int seconds) {
-        return new Post("Name", "path", Collections.emptySet(), LocalDateTime.of(2018, 4, 17, 6, seconds));
+    private PostWithTags createPost(int seconds) {
+        return new PostWithTags("Name", "path", Collections.emptySet(), LocalDateTime.of(2018, 4, 17, 6, seconds));
     }
 
-    private Post createPostWithTags(int seconds) {
+    private PostWithTags createPostWithTags(int seconds) {
         List<Tag> tags = Arrays.asList(new Tag(1L, "First"), new Tag(2L, "Second"));
-        return new Post("Name", "path", new HashSet<>(tags), LocalDateTime.of(2018, 4, 17, 6, seconds));
+        return new PostWithTags("Name", "path", new HashSet<>(tags), LocalDateTime.of(2018, 4, 17, 6, seconds));
     }
 
 }

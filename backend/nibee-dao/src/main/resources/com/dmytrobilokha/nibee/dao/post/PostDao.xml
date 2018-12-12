@@ -13,6 +13,9 @@
         <result property="commentAllowed" column="comment_allowed"/>
         <result property="createdOn" column="created_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
         <result property="modifiedOn" column="modified_on" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="postWithTags" extends="post" type="com.dmytrobilokha.nibee.data.PostWithTags">
         <collection property="tagList" resultMap="tag"/>
     </resultMap>
 
@@ -27,7 +30,26 @@
         SELECT path FROM post WHERE name=#{name}
     </select>
 
-    <select id="findPostByName" resultMap="post" parameterType="java.lang.String">
+    <select id="findPostByName" resultMap="postWithTags" parameterType="java.lang.String">
+        <include refid="selectPostWithTags"/>
+        WHERE p.name=#{name}
+    </select>
+
+
+    <sql id="selectPost">
+        SELECT
+            p.id
+            , p.name
+            , p.title
+            , p.path
+            , p.shareable
+            , p.comment_allowed
+            , p.created_on
+            , p.modified_on
+        FROM post p
+    </sql>
+
+    <sql id="selectPostWithTags">
         SELECT
             p.id
             , p.name
@@ -42,19 +64,9 @@
         FROM post p
         LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
         LEFT OUTER JOIN tag t ON pt.tag_id=t.id
-        WHERE p.name=#{name}
-    </select>
-
-    <sql id="selectPostWithTags">
-        SELECT
-        p.id, p.name, p.title, p.path, p.created_on, p.modified_on
-        , t.id as tag_id, t.name as tag_name
-        FROM post p
-        LEFT OUTER JOIN post_tag pt ON p.id=pt.post_id
-        LEFT OUTER JOIN tag t ON pt.tag_id=t.id
     </sql>
 
-    <select id="findPostAfter" resultMap="post">
+    <select id="findPostAfter" resultMap="postWithTags">
         <include refid="selectPostWithTags"/>
         INNER JOIN (
           SELECT id FROM post
@@ -71,7 +83,7 @@
         ORDER BY COALESCE(p.modified_on, p.created_on) DESC, p.id DESC, tag_name ASC
     </select>
 
-    <select id="findPostBefore" resultMap="post">
+    <select id="findPostBefore" resultMap="postWithTags">
         <include refid="selectPostWithTags"/>
         INNER JOIN (
             SELECT id FROM post
@@ -91,6 +103,38 @@
     <select id="countPostsById" resultType="int" parameterType="java.lang.Long">
         SELECT COUNT(id) FROM post WHERE id=#{id}
     </select>
+
+    <select
+        id="findPostDuplicates"
+        resultMap="post"
+        parameterType="com.dmytrobilokha.nibee.data.Post"
+    >
+        <include refid="selectPost"/>
+        WHERE p.name=#{name} OR p.path=#{path}
+    </select>
+
+    <insert
+        id="createPost"
+        useGeneratedKeys="true"
+        keyColumn="id"
+        keyProperty="id"
+        parameterType="com.dmytrobilokha.nibee.data.Post"
+    >
+        INSERT INTO post
+            ( name
+            , path
+            , title
+            , shareable
+            , comment_allowed
+            )
+            VALUES
+            ( #{name}
+            , #{path}
+            , #{title}
+            , #{shareable}
+            , #{commentAllowed}
+            )
+    </insert>
 
 </mapper>
 

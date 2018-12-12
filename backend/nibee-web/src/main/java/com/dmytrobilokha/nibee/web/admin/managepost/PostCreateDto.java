@@ -1,5 +1,6 @@
 package com.dmytrobilokha.nibee.web.admin.managepost;
 
+import com.dmytrobilokha.nibee.data.Post;
 import com.dmytrobilokha.nibee.web.errorhandling.InvalidClientDataException;
 
 import javax.json.bind.annotation.JsonbCreator;
@@ -7,8 +8,10 @@ import javax.json.bind.annotation.JsonbProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class PostCreateDto {
 
@@ -86,15 +89,15 @@ public class PostCreateDto {
             errorMessageAdder.accept("Tag ids must not be null");
             return;
         }
-        long dedupLenth = Arrays.stream(tagIds)
+        long dedupLength = Arrays.stream(tagIds)
                 .distinct()
                 .count();
-        if (dedupLenth < tagIds.length) {
+        if (dedupLength < tagIds.length) {
             errorMessageAdder.accept("Tag ids must not contain duplicates, but got: '"
                 + Arrays.toString(tagIds) + '\'');
         }
         if (tagIds.length > MAX_TAGS) {
-            errorMessageAdder.accept("Maximum " + MAX_TAGS + "tags is allowed, but got " + tagIds.length);
+            errorMessageAdder.accept("Maximum " + MAX_TAGS + " tags is allowed, but got " + tagIds.length);
         }
     }
 
@@ -120,6 +123,16 @@ public class PostCreateDto {
 
     public long[] getTagIds() {
         return tagIds;
+    }
+
+    public Post toPost() {
+        return new Post(webPath, title, fsPath, shareable, commentAllowed);
+    }
+
+    public Set<Long> tagIdSet() {
+        return Arrays.stream(tagIds)
+                .mapToObj(Long::valueOf)
+                .collect(Collectors.toSet());
     }
 
     @Override

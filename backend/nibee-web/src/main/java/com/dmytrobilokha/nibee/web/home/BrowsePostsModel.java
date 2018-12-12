@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web.home;
 
-import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.PostWithTags;
 import com.dmytrobilokha.nibee.data.Tag;
 import com.dmytrobilokha.nibee.web.HeadlinePostModel;
 import com.dmytrobilokha.nibee.web.InRequestPuttable;
@@ -26,11 +26,11 @@ public class BrowsePostsModel implements InRequestPuttable {
     private final String forwardParam;
     private final Tag tag;
 
-    BrowsePostsModel(List<Post> posts, NavigationType navigationType) {
+    BrowsePostsModel(List<PostWithTags> posts, NavigationType navigationType) {
         this(posts, navigationType, null);
     }
 
-    BrowsePostsModel(List<Post> posts, NavigationType navigationType, Tag tag) {
+    BrowsePostsModel(List<PostWithTags> posts, NavigationType navigationType, Tag tag) {
         validate(posts, navigationType);
         this.navigationType = navigationType;
         this.headlines = Collections.unmodifiableList(
@@ -55,7 +55,7 @@ public class BrowsePostsModel implements InRequestPuttable {
         return ParamParser.parseLong(request, "tagId");
     }
 
-    private void validate(List<Post> posts, NavigationType navigationType) {
+    private void validate(List<PostWithTags> posts, NavigationType navigationType) {
         if (posts.isEmpty()) {
             throw new IllegalStateException("Unable to have navigation possible for empty posts list");
         }
@@ -65,7 +65,7 @@ public class BrowsePostsModel implements InRequestPuttable {
         }
     }
 
-    private String convertLastTouch(Post post) {
+    private String convertLastTouch(PostWithTags post) {
         return DATE_TIME_FORMATTER.format(post.getLastTouch());
     }
 

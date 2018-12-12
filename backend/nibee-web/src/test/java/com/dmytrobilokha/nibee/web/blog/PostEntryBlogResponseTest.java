@@ -1,6 +1,6 @@
 package com.dmytrobilokha.nibee.web.blog;
 
-import com.dmytrobilokha.nibee.data.Post;
+import com.dmytrobilokha.nibee.data.PostWithTags;
 import com.dmytrobilokha.nibee.service.config.ConfigProperty;
 import com.dmytrobilokha.nibee.service.config.ConfigService;
 import com.dmytrobilokha.nibee.service.file.FileService;
@@ -64,14 +64,14 @@ public class PostEntryBlogResponseTest {
     }
 
     public void sends404WhenFileIsNotReadable() throws IOException {
-        Post post = createPost();
+        PostWithTags post = createPost();
         when(mockPostService.findPostByName(anyString())).thenReturn(post);
         blogResponse.respond(mockRequest, mockResponse);
         verify(mockResponse).sendError(404);
     }
 
     public void forwardsToJsp() {
-        Post post = createPost();
+        PostWithTags post = createPost();
         when(mockPostService.findPostByName(POST_NAME)).thenReturn(post);
         when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html")))
                 .thenReturn(true);
@@ -80,7 +80,7 @@ public class PostEntryBlogResponseTest {
     }
 
     public void setsModelAttribute() {
-        Post post = createPost();
+        PostWithTags post = createPost();
         when(mockPostService.findPostByName(POST_NAME)).thenReturn(post);
         when(mockFileService.isFileRegularAndReadable(Paths.get("/home/nibee/path/_post_.html")))
                 .thenReturn(true);
@@ -94,8 +94,8 @@ public class PostEntryBlogResponseTest {
         assertEquals("/blog/" + POST_NAME + '/', postModel.getContentBase());
     }
 
-    private Post createPost() {
-        return new Post(POST_NAME, "path", Collections.emptySet(), LocalDateTime.of(2018, 4, 17, 6, 30));
+    private PostWithTags createPost() {
+        return new PostWithTags(POST_NAME, "path", Collections.emptySet(), LocalDateTime.of(2018, 4, 17, 6, 30));
     }
 
 }

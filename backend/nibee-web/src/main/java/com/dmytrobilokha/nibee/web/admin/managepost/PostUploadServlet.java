@@ -1,8 +1,7 @@
 package com.dmytrobilokha.nibee.web.admin.managepost;
 
-import com.dmytrobilokha.nibee.service.config.ConfigProperty;
-import com.dmytrobilokha.nibee.service.config.ConfigService;
-import com.dmytrobilokha.nibee.service.file.FileService;
+import com.dmytrobilokha.nibee.service.post.IllegalPostDataException;
+import com.dmytrobilokha.nibee.service.post.PostService;
 import com.dmytrobilokha.nibee.web.errorhandling.InvalidClientDataException;
 import com.dmytrobilokha.nibee.web.errorhandling.StatusMessageSender;
 import org.slf4j.Logger;
@@ -20,9 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 @WebServlet("/admin/post-upload")
 @MultipartConfig(
@@ -32,24 +28,20 @@ import java.util.UUID;
 )
 public class PostUploadServlet extends HttpServlet {
 
-    private static final String UPLOAD_DIR = "_UPLOADS_";
     private static final Logger LOGGER = LoggerFactory.getLogger(PostUploadServlet.class);
 
-    private final ConfigService configService;
     private final Jsonb jsonb;
-    private final FileService fileService;
+    private final PostService postService;
     private final StatusMessageSender statusMessageSender;
 
     @Inject
     public PostUploadServlet(
-            ConfigService configService
-            , Jsonb jsonb
-            , FileService fileService
+            Jsonb jsonb
+            , PostService postService
             , StatusMessageSender statusMessageSender
     ) {
-        this.configService = configService;
         this.jsonb = jsonb;
-        this.fileService = fileService;
+        this.postService = postService;
         this.statusMessageSender = statusMessageSender;
     }
 
@@ -63,8 +55,15 @@ public class PostUploadServlet extends HttpServlet {
         if (postData == null) {
             return;
         }
-        Path postUploadDir = unzipPostFileToUploadDir(streamsContainer.fileStream, postData.getFsPath(), resp);
-        if (postUploadDir == null) {
+        try {
+            postService.createPost(streamsContainer.fileStream, postData.toPost(), postData.tagIdSet());
+        } catch (IllegalPostDataException ex) {
+            LOGGER.warn("Failed to create a post because of invalid data provided: {}", postData, ex);
+            statusMessageSender.sendClientErrorStatus(ex.getMessage(), resp);
+            return;
+        } catch (Exception ex) {
+            //No need to log exception from the EJB, it will be logged by the EJB container
+            statusMessageSender.sendServerProblemStatus("Internal server error", resp);
             return;
         }
         statusMessageSender.sendOkStatus("New post has been created", resp);
@@ -94,12 +93,12 @@ public class PostUploadServlet extends HttpServlet {
         }
         if (filePart == null) {
             LOGGER.warn("Got request without post zip file part, rejecting it");
-            statusMessageSender.sendClientErrorStatus("Post file part is mandatory, but got none", resp);
+            statusMessageSender.sendClientErrorStatus("PostWithTags file part is mandatory, but got none", resp);
             return null;
         }
         if (postDataPart == null) {
             LOGGER.warn("Got request without post data part, rejecting it");
-            statusMessageSender.sendClientErrorStatus("Post data part is mandatory, but got none", resp);
+            statusMessageSender.sendClientErrorStatus("PostWithTags data part is mandatory, but got none", resp);
             return null;
         }
         InputStream postDataInputStream;
@@ -136,24 +135,6 @@ public class PostUploadServlet extends HttpServlet {
             return null;
         }
         return postData;
-    }
-
-    private Path unzipPostFileToUploadDir(InputStream postFileInputStream, String fsPath, HttpServletResponse resp) {
-        Path uploadPostDir = Paths.get(
-                configService.getAsString(ConfigProperty.POSTS_ROOT)
-                , UPLOAD_DIR
-                , fsPath + '_' + UUID.randomUUID());
-        try {
-            fileService.unzipStreamToDir(postFileInputStream, uploadPostDir);
-        } catch (IOException ex) {
-            LOGGER.warn("Failed to unzip post content file, rejecting request", ex);
-            statusMessageSender.sendClientErrorStatus(
-                    "Failed to unpack post content zip file. Check if it is valid and try again"
-                    , resp
-            );
-            return null;
-        }
-        return uploadPostDir;
     }
 
     private static class PostFormStreamsContainer {
