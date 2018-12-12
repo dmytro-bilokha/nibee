@@ -26,6 +26,7 @@ public class FileService {
         contentTypeMap.put("css", "text/css");
         contentTypeMap.put("js", "application/javascript");
         contentTypeMap.put("txt", "text/plain");
+        contentTypeMap.put("html", "text/html");
         contentTypeMap.put("md", "text/markdown");
         contentTypeMap.put("eot", "application/vnd.ms-fontobject");
         contentTypeMap.put("otf", "application/font-sfnt");
