@@ -6,10 +6,13 @@ import { INIT
        } from '@/modules/constants.js';
 import { showError } from '@/utils';
 
-const state = 
+const getInitialState = () => (
   { availableTags: []
   , availableTagsStatus: INIT
-  };
+  }
+);
+
+const state = { ...getInitialState() };
 
 const mutations =
   { updateAvailableTags(state, payload) {
@@ -21,7 +24,10 @@ const mutations =
     }
   , setTagsRequested(state) {
       state.availableTagsStatus = REQUESTED;
-  }
+    }
+  , reset(state) {
+      Object.assign(state, getInitialState());
+    }
   };
 
 const actions = {

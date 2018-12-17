@@ -117,12 +117,14 @@
           >
             <p class="control">
               <button
+                name="submit"
                 class="button is-primary with-right-space-margin"
                 @click="submitForm"
               >
                 Submit
               </button>
               <button
+                name="clear"
                 class="button is-primary with-right-space-margin"
                 @click="onFormClear"
               >

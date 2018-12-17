@@ -12,7 +12,9 @@ import CreatePost from '@/views/CreatePost.vue';
 import postStore from '@/modules/post';
 import createPostStore from '@/views/CreatePostStore.js';
 import { capitalizeString } from '@/utils';
-import mockStoreModuleActions from '../utils/mockStoreModuleActions.js';
+import { mockStoreModuleActions
+       , getTagsMock
+       } from '../utils';
 
 //This suppresses warnings about $listener is read only, should be fixed in the next Vue version
 Vue.config.silent = true;
@@ -42,11 +44,12 @@ describe('CreatePost.vue', () => {
                , createPost: mockCreatePostStore
                }
     });
-    store.commit('createPost/clearForm');
   });
   
   afterEach(() => {
     sinon.restore();
+    store.commit('createPost/clearForm');
+    store.commit('post/reset');
   });
   
   const checkStoreToInputFlow = (fieldName, fieldValue) => {
@@ -123,5 +126,16 @@ describe('CreatePost.vue', () => {
   it('propagates shareable input change to the store', () => {
     checkBoxToStoreFlow('shareable');
   });
+    
+  it('clears title on button click', () => {
+    const wrapper = mount(CreatePost, { store, localVue });
+    const titleInput = wrapper.find('input[name="title"]');
+    titleInput.setValue('The new blog post title');
+    expect(titleInput.element.value).to.not.be.empty;
+    wrapper.find('button[name="clear"]').trigger('click');
+    expect(titleInput.element.value).to.be.empty;
+  });
+  
+  //TODO: add checks validator is called and error message shown
     
 });
