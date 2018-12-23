@@ -1,4 +1,3 @@
-
 const fieldsValidationData =
   { title: 
       { quickCheck: (value) => 
@@ -9,10 +8,10 @@ const fieldsValidationData =
       }
   , webPath:
       { quickCheck: (value) => 
-          /^[._a-zA-Z0-9-]*$/.test(value) ? undefined : 
+          /^[a-zA-Z0-9-]*$/.test(value) ? undefined : 
             'Must contain only numbers, latin letters and minus sign'
       , fullCheck: (value) =>
-          /^[._a-zA-Z0-9-]{5,}$/.test(value) ? undefined : 
+          /^[a-zA-Z0-9-]{5,}$/.test(value) ? undefined : 
             'Should be at least 5 characters long and must contain only numbers,'
                     + ' latin letters and minus sign'
       }
