@@ -10,11 +10,11 @@ export default new Router({
     [ { path: '/create'
       , name: 'create'
       , component: CreatePost
-      }
-    , { path: '/'
+    }
+      , { path: '/'
       , name: 'entry-point'
       , component: EntryPoint
-      }
+    }
     ]
   , linkActiveClass: 'is-active'
 });

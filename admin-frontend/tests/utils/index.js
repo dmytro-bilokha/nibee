@@ -6,19 +6,19 @@ export const mockStoreModuleActions = (storeModule) => {
     mockActions[action] = sinon.fake();
   }
   return { ...storeModule
-         , actions: mockActions
-         };
+    , actions: mockActions
+  };
 };
 
 export const getTagsMock = () => {
   return [ { id: 1
-           , name: 'FreeBSD'
-           }
-         , { id: 2
-           , name: 'Linux'
-           }
-         , { id: 3
-           , name: 'Windows'
-           }
-         ];
+    , name: 'FreeBSD'
+  }
+    , { id: 2
+    , name: 'Linux'
+  }
+    , { id: 3
+    , name: 'Windows'
+  }
+  ];
 };

@@ -140,27 +140,27 @@
 <script>
 import { mapGetters } from 'vuex';
 import { capitalizeString
-       , hasAllUndefined
-       } from '@/utils';
+  , hasAllUndefined
+} from '@/utils';
 import { quickCheckField
-       , quickCheckFields
-       , fullCheckField
-       , fullCheckFields
-       } from './CreatePostValidator.js';
+  , quickCheckFields
+  , fullCheckField
+  , fullCheckFields
+} from './CreatePostValidator.js';
 
 const initialFieldErrors = () => (
   { title: undefined
-  , file: undefined
-  , webPath: undefined
-  , fsPath: undefined
+    , file: undefined
+    , webPath: undefined
+    , fsPath: undefined
   }
 );
 
 export default {
   data() {
     return { filteredTags: []
-           , fieldErrors: initialFieldErrors()
-           };
+      , fieldErrors: initialFieldErrors()
+    };
   }
   , computed: {
     ...mapGetters('createPost', [
@@ -182,8 +182,8 @@ export default {
   }
   , methods: {
     updateFilteredTags(text) {
-        this.filteredTags = this.availableTags
-          .filter(tag => tag.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
+      this.filteredTags = this.availableTags
+        .filter(tag => tag.name.toLowerCase().indexOf(text.toLowerCase()) >= 0);
     }
     , onInputChange(evt) {
       const element = evt.target;

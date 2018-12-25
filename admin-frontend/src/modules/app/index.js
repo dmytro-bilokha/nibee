@@ -1,5 +1,5 @@
 const state = { loadingCounter: 0
-              };
+};
 
 const mutations = {
   incrementLoadingCount(state) {
@@ -24,10 +24,10 @@ const getters = {
 };
 
 const appModule = { namespaced: true
-                  , state
-                  , mutations
-                  , actions
-                  , getters
-                  };
+  , state
+  , mutations
+  , actions
+  , getters
+};
 
 export default appModule;

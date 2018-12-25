@@ -14,9 +14,9 @@ export const hasAllUndefined = (obj) => {
 export const showError = (errorMessage) => {
   Snackbar.open(
     { indefinite: true
-    , type: 'is-danger'
-    , position: 'is-top-right'
-    , message: errorMessage
+      , type: 'is-danger'
+      , position: 'is-top-right'
+      , message: errorMessage
     }
   );
 };
@@ -24,8 +24,8 @@ export const showError = (errorMessage) => {
 export const showMessage = (textMessage) => {
   Snackbar.open(
     { indefinite: true
-    , position: 'is-top-right'
-    , message: textMessage
+      , position: 'is-top-right'
+      , message: textMessage
     }
   );
 };

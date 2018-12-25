@@ -1,8 +1,8 @@
 module.exports = {
   presets: [
     '@vue/app'
-  ],
-  env: {
+  ]
+  , env: {
     test: {
       plugins: ['rewire']
     }
