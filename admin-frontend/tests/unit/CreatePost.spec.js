@@ -1,3 +1,4 @@
+/*eslint-disable no-unused-expressions*/
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount
@@ -5,15 +6,13 @@ import { mount
        , createLocalVue
        } from '@vue/test-utils';
 import Vue from 'vue';
-import Vuex from 'vuex'
+import Vuex from 'vuex';
 import Buefy from 'buefy';
 import CreatePost from '@/views/CreatePost.vue';
 import postStore from '@/modules/post';
 import createPostStore from '@/views/CreatePostStore.js';
 import { capitalizeString } from '@/utils';
-import { mockStoreModuleActions
-       , getTagsMock
-       } from '../utils';
+import { mockStoreModuleActions } from '../utils';
 
 //This suppresses warnings about $listener is read only, should be fixed in the next Vue version
 Vue.config.silent = true;
@@ -46,7 +45,6 @@ const controlNames = { file: 'file'
 describe('CreatePost.vue', () => {
   let store;
   let postActions;
-  let createPostActions;
   let mockValidator;
   
   beforeEach(() => {
@@ -62,7 +60,6 @@ describe('CreatePost.vue', () => {
     CreatePost.__Rewire__('fullCheckFields', mockValidator.fullCheckFields);
     postActions = mockPostStore.actions;
     const mockCreatePostStore = mockStoreModuleActions(createPostStore);
-    createPostActions = mockCreatePostStore.actions;
     store = new Vuex.Store({
       modules: { post: mockPostStore
                , createPost: mockCreatePostStore
@@ -133,7 +130,7 @@ describe('CreatePost.vue', () => {
   };
   
   it('triggers fetching available tags', () => {
-    const wrapper = shallowMount(CreatePost, { store, localVue });
+    shallowMount(CreatePost, { store, localVue });
     sinon.assert.calledOnce(postActions.fetchAvailableTags);
   });
   
@@ -190,7 +187,7 @@ describe('CreatePost.vue', () => {
   });
   
   it('calls quick check fields on form opened', () => {
-    const wrapper = shallowMount(CreatePost, { store, localVue });
+    shallowMount(CreatePost, { store, localVue });
     sinon.assert.calledOnce(mockValidator.quickCheckFields);
   });
     
@@ -227,5 +224,4 @@ describe('CreatePost.vue', () => {
   it('shows validation error for file field', () => {
     checkShowsError(controlNames.file);
   });
-    
 });

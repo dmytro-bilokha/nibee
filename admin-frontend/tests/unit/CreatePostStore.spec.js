@@ -12,7 +12,6 @@ import { getTagsMock } from '../utils';
 const getFailPromise = () => SynchronousPromise.reject({ response: { data: { messages: [ 'FAIL' ] } } });
 
 describe('CreatePostStore.js', () => {
-  
   let mockAxios;
   let mockCommit;
   let mockDispatch;
@@ -155,5 +154,4 @@ describe('CreatePostStore.js', () => {
                                           });
     sinon.assert.calledWith(mockCommit, 'setPostSubmitStatus', REQUEST_FAIL);
   });
-
 });

@@ -1,7 +1,5 @@
-
-const state = 
-  { loadingCounter: 0
-  };
+const state = { loadingCounter: 0
+              };
 
 const mutations = {
   incrementLoadingCount(state) {
@@ -13,10 +11,10 @@ const mutations = {
 };
 
 const actions = {
-  incrementLoadingCount({commit}) {
+  incrementLoadingCount({ commit }) {
     commit('incrementLoadingCount');
   }
-  , decrementLoadingCount({commit}) {
+  , decrementLoadingCount({ commit }) {
     commit('decrementLoadingCount');
   }
 };
@@ -25,12 +23,11 @@ const getters = {
   loadingCounter: state => state.loadingCounter
 };
 
-const appModule =
-  { namespaced: true
-  , state
-  , mutations
-  , actions
-  , getters
-  };
+const appModule = { namespaced: true
+                  , state
+                  , mutations
+                  , actions
+                  , getters
+                  };
 
 export default appModule;

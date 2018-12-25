@@ -29,7 +29,7 @@ export default {
       return this.$store.getters['app/loadingCounter'] > 0;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

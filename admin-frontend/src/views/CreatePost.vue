@@ -201,7 +201,7 @@ export default {
     , onCheckBoxChange(evt) {
       const element = evt.target;
       const setter = 'set' + capitalizeString(element.name);
-      this.$store.commit(`createPost/${setter}`, element.checked)
+      this.$store.commit(`createPost/${setter}`, element.checked);
     }
     , onFileChoosen(file) {
       this.$store.commit('createPost/setFile', file);
@@ -228,7 +228,7 @@ export default {
       return this.fieldErrors[fieldName] ? 'is-danger' : '';
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

@@ -32,7 +32,7 @@ const mutations =
 
 const actions = {
     fetchAvailableTags({ commit, dispatch, state }) {
-      if (state.availableTagsStatus === REQUESTED || state.availabelTagsStatus == REQUEST_SUCCESS) {
+      if (state.availableTagsStatus === REQUESTED || state.availabelTagsStatus === REQUEST_SUCCESS) {
         return;
       }
       commit('setTagsRequested');
@@ -63,5 +63,5 @@ const postModule =
   , actions
   , getters
   };
-  
+
 export default postModule;
