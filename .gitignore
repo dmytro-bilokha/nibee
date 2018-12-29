@@ -19,7 +19,8 @@ target/
 *.iml
 #Codelite workspace files
 .codelite/
-**/codelite.workspace
+**/*.workspace
+**/.tern-project
 #Gradle files
 .gradle/
 #Grade builds
