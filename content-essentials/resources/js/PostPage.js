@@ -1,5 +1,29 @@
 'use strict';
+//Utility objects
+var EventUtil = { addClickHandler: function(element, handler) {
+                    element.addEventListener('click', handler, false);
+                  }
+                , addWindowLoadHandler: function(handler) {
+                    window.addEventListener('load', handler, false);
+                  }
+                };
 
+var AjaxUtil = { xhrState: { UNINITIALIZED: '0'
+                           , OPEN: '1'
+                           , SENT: '2'
+                           , RECEIVING: '3'
+                           , COMPLETE: '4'
+                           }
+               , httpCode: { OK: '200'
+                           , BAD_REQUEST: '400'
+                           }
+  
+               , createXhr: function() {
+                   return new XMLHttpRequest();
+                 }
+               };
+               
+//Comment form handler related code
 var commentFormHandler = {};
 
 function CommentFormHandler() {
@@ -9,77 +33,92 @@ function CommentFormHandler() {
     this.commentsApiUrl = '../api/comments';
     this.authorNicknamePattern = /^[a-zA-Z0-9]+$/;
     var formElementIds = { form: 'newCommentForm'
-                       , postIdInput: 'postIdInput'
-                       , commentIdInput: 'commentIdInput'
-                       , submitButton: 'submitCommentButton'
-                       , cancelButton: 'cancelCommentButton'
-                       , closeButton: 'closeCommentFormButton'
-                       , headerDiv: 'commentFormHeaderText'
-                       , clientErrorDiv: 'commentFormClientError'
-                       , serverErrorDiv: 'commentFormServerError'
-                       , authorNicknameInput: 'authorNicknameInput'
-                       , authorNicknameError: 'authorNicknameError'
-                       , contentInput: 'contentInput'
-                       , contentError: 'contentError'
-                       };
+                         , postIdInput: 'postIdInput'
+                         , commentIdInput: 'commentIdInput'
+                         , authorNicknameInput: 'authorNicknameInput'
+                         , captchaInput: 'captchaInput'
+                         , contentInput: 'contentInput'
+                         , submitButton: 'submitCommentButton'
+                         , cancelButton: 'cancelCommentButton'
+                         , closeButton: 'closeCommentFormButton'
+                         , headerDiv: 'commentFormHeaderText'
+                         , clientErrorDiv: 'commentFormClientError'
+                         , serverErrorDiv: 'commentFormServerError'
+                         , authorNicknameError: 'authorNicknameError'
+                         , contentError: 'contentError'
+                         };
+    this.formElements = {};
     for (var element in formElementIds) {
-      this[element] = document.getElementById(formElementIds[element]);
+      this.formElements[element] = document.getElementById(formElementIds[element]);
     }
     this.attachToForm();
     this.attachToReplies();
   };
   
   this.disableButtons = function() {
-    this.submitButton.disabled = true;
-    this.cancelButton.disabled = true;
-    this.closeButton.disabled = true;
+    this.formElements.submitButton.disabled = true;
+    this.formElements.cancelButton.disabled = true;
+    this.formElements.closeButton.disabled = true;
   };
 
   this.enableButtons = function() {
-    this.submitButton.disabled = false;
-    this.cancelButton.disabled = false;
-    this.closeButton.disabled = false;
+    this.formElements.submitButton.disabled = false;
+    this.formElements.cancelButton.disabled = false;
+    this.formElements.closeButton.disabled = false;
   };
 
   this.showError = function(clientMessage, statusCode, serverResponse) {
-	this.clientErrorDiv.innerHTML = clientMessage;
+	this.formElements.clientErrorDiv.innerHTML = clientMessage;
     if (statusCode == AjaxUtil.httpCode.BAD_REQUEST) {
 	    var serverErrorsObject = JSON.parse(serverResponse);
 	    var serverErrorsUnrolled = '';
 	    for (var i = 0; i < serverErrorsObject.length; i++) {
         serverErrorsUnrolled += '<p>' + serverErrorsObject[i] + '</p>';
 	    }
-	    this.serverErrorDiv.innerHTML = serverErrorsUnrolled;
+	    this.formElements.serverErrorDiv.innerHTML = serverErrorsUnrolled;
     } else {
-	    this.serverErrorDiv.innerHTML = serverMessage;
+	    this.formElements.serverErrorDiv.innerHTML = serverMessage;
     }
   };
 
   this.resetError = function() {
-    this.clientErrorDiv.innerHTML = '';
-    this.serverErrorDiv.innerHTML = '';
-    this.authorNicknameError.className = 'hidden';
-    this.contentError.className = 'hidden';
+    this.formElements.clientErrorDiv.innerHTML = '';
+    this.formElements.serverErrorDiv.innerHTML = '';
+    this.formElements.authorNicknameError.className = 'hidden';
+    this.formElements.contentError.className = 'hidden';
   };
 
   this.insertFormAfter = function(domNode) {
     var commentsBlock = document.getElementById('commentsBlock');
     if (domNode) {
-	    commentsBlock.insertBefore(this.form, domNode.nextSibling);
-	    this.form.style.marginLeft = parseFloat(domNode.style.marginLeft) + 1.5 + 'em';
+	    commentsBlock.insertBefore(this.formElements.form, domNode.nextSibling);
+	    this.formElements.form.style.marginLeft = parseFloat(domNode.style.marginLeft) + 1.5 + 'em';
     } else {
-	    commentsBlock.insertBefore(this.form, null);
-	    this.form.style.marginLeft = 0;
+	    commentsBlock.insertBefore(this.formElements.form, null);
+	    this.formElements.form.style.marginLeft = 0;
     }
+  };
+  
+  this.serializeCommentForm = function() {
+    var parts = [];
+    var field = null;
+    for (var formElement in this.formElements) {
+      field = this.formElements[formElement];
+      if (field.tagName === 'input' || field.tagName === 'textarea') {
+        parts.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(field.value));
+      }
+    }
+    return parts.join('&');
   };
 
   this.submit = function(event) {
+    event.preventDefault();
     cfh.resetError();
     if (!cfh.checkAuthorNickname() | !cfh.checkContent()) {
 	    return;
     }
     cfh.disableButtons();
-    var serializedForm = AjaxUtil.serializeForm(commentFormHandler.form);
+    var serializedForm = cfh.serializeCommentForm();
     var xhr = AjaxUtil.createXhr();
     xhr.onreadystatechange = function() {
 	    if (xhr.readyState == AjaxUtil.xhrState.COMPLETE) {
@@ -111,64 +150,64 @@ function CommentFormHandler() {
         }
 	    }
     };
-    xhr.open('get', cfh.commentsApiUrl + '/' + cfh.postIdInput.value, true);
+    xhr.open('get', cfh.commentsApiUrl + '/' + cfh.formElements.postIdInput.value, true);
     xhr.send(null);
   };
 
   this.attachToReplies = function() {
     var replyButtons = document.getElementsByClassName('replyToCommentButton');
     for (var i = 0; i < replyButtons.length; i++) {
-	    EventUtil.addHandler(replyButtons[i], 'click', this.moveFormToComment);
+	    EventUtil.addClickHandler(replyButtons[i], this.moveFormToComment);
 	    replyButtons[i].disabled = false;
     }
   };
 
   this.moveFormToComment = function(event) {
     cfh.resetError();
-    cfh.form.reset();
-    var commentButton = EventUtil.getTarget(event);
+    cfh.formElements.form.reset();
+    var commentButton = event.target;
     var buttonId = commentButton.id;
     var commentId = buttonId.split('-')[1];
     var commentDivId = 'comment-' + commentId;
     var commentDiv = document.getElementById(commentDivId);
     cfh.insertFormAfter(commentDiv);
-    cfh.commentIdInput.value = commentId;
-    cfh.headerDiv.innerHTML = 'Reply';
+    cfh.formElements.commentIdInput.value = commentId;
+    cfh.formElements.headerDiv.innerHTML = 'Reply';
   };
 
   this.moveFormToPost = function(event) {
     cfh.resetError();
-    cfh.form.reset();
+    cfh.formElements.form.reset();
     cfh.insertFormAfter(null);
-    cfh.commentIdInput.value = '';
-    cfh.headerDiv.innerHTML = 'Comment';
+    cfh.formElements.commentIdInput.value = '';
+    cfh.formElements.headerDiv.innerHTML = 'Comment';
   };
 
   this.attachToForm = function() {
-    EventUtil.addHandler(this.submitButton, 'click', this.submit);
-    EventUtil.addHandler(this.cancelButton, 'click', this.moveFormToPost);
-    EventUtil.addHandler(this.closeButton, 'click', this.moveFormToPost);
+    EventUtil.addClickHandler(this.formElements.submitButton, this.submit);
+    EventUtil.addClickHandler(this.formElements.cancelButton, this.moveFormToPost);
+    EventUtil.addClickHandler(this.formElements.closeButton, this.moveFormToPost);
     this.enableButtons();
   };
 
   this.checkAuthorNickname = function() {
-    if (!this.authorNicknameInput.value) {
-	    this.authorNicknameError.children[1].innerHTML = 'Nickname should not be empty';
-	    this.authorNicknameError.className = 'errorRow';
+    if (!this.formElements.authorNicknameInput.value) {
+	    this.formElements.authorNicknameError.children[1].innerHTML = 'Nickname should not be empty';
+	    this.formElements.authorNicknameError.className = 'errorRow';
 	    return false;
     }
-    if (!this.authorNicknamePattern.test(this.authorNicknameInput.value)) {
-	    this.authorNicknameError.children[1].innerHTML =
+    if (!this.authorNicknamePattern.test(this.formElements.authorNicknameInput.value)) {
+	    this.formElements.authorNicknameError.children[1].innerHTML =
         'Nickname should contain only latin letters (a-z, A-Z) and digits (0-9)';
-	    this.authorNicknameError.className = 'errorRow';
+	    this.formElements.authorNicknameError.className = 'errorRow';
 	    return false;
     }
     return true;
   };
 
   this.checkContent = function() {
-    if (!this.contentInput.value) {
-	    this.contentError.className = 'fieldErrorMessage';
+    if (!this.formElements.contentInput.value) {
+	    this.formElements.contentError.className = 'fieldErrorMessage';
 	    return false;
     }
     return true;
@@ -176,7 +215,8 @@ function CommentFormHandler() {
   
 }
 
-EventUtil.addHandler(window, 'load', function(event) {
+//Initialization of the form handler
+EventUtil.addWindowLoadHandler(function(event) {
     commentFormHandler = new CommentFormHandler();
     commentFormHandler.init();
 });
