@@ -17,8 +17,8 @@ public class Initializator implements ServletContextListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Initializator.class);
 
-    private InitializationService initializationService;
-    private ConfigService configService;
+    private final InitializationService initializationService;
+    private final ConfigService configService;
 
     @Inject
     public Initializator(InitializationService initializationService, ConfigService configService) {

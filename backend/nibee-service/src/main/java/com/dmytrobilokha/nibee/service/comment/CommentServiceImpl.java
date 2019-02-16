@@ -72,15 +72,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private List<String> checkParentsId(Long postId, Long parentCommentId) {
-        if (parentCommentId != null) {
-            if (!doesPostCommentExist(postId, parentCommentId)) {
-                return Collections.singletonList("Unable to create replay for the comment with id '"
-                + parentCommentId + "' under the post with id '" + postId
-                        + "', because such comment/post doesn't exist");
+        if (parentCommentId == null) {
+            if (!postService.doesPostExist(postId)) {
+                return Collections.singletonList("Unable to create comment for the post with id '" + postId
+                        + "', because such post doesn't exist");
             }
-        } else if (!postService.doesPostExist(postId)) {
-            return Collections.singletonList("Unable to create comment for the post with id '" + postId
-                    + "', because such post doesn't exist");
+        } else if (!doesPostCommentExist(postId, parentCommentId)) {
+            return Collections.singletonList("Unable to create replay for the comment with id '"
+                    + parentCommentId + "' under the post with id '" + postId
+                    + "', because such comment/post doesn't exist");
         }
         return Collections.emptyList();
     }

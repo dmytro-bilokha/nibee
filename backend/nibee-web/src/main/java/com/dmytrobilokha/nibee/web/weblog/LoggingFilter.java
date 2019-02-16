@@ -61,8 +61,8 @@ public class LoggingFilter implements Filter {
         BOT_USER_AGENTS = Collections.unmodifiableSet(botUserAgents);
     }
 
-    private WebLogService webLogService;
-    private CookieHelper cookieHelper;
+    private final WebLogService webLogService;
+    private final CookieHelper cookieHelper;
 
     @Inject
     public LoggingFilter(WebLogService webLogService, CookieHelper cookieHelper) {

@@ -122,7 +122,7 @@ public class PostCreateDto {
     }
 
     public long[] getTagIds() {
-        return tagIds;
+        return Arrays.copyOf(tagIds, tagIds.length);
     }
 
     public Post toPost() {

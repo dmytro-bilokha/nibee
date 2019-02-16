@@ -46,7 +46,7 @@ class PostEntryBlogResponse extends BlogResponse {
             respondWithError(resp, HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        String contentBase = req.getRequestURI().endsWith("/") ? req.getRequestURI() : (req.getRequestURI() + '/');
+        String contentBase = req.getRequestURI().endsWith("/") ? req.getRequestURI() : req.getRequestURI() + '/';
         PostModel postModel = new PostModel("file://localhost" + postEntryPath.toString(), contentBase, post);
         postModel.putInRequest(req);
         commentsModelCreator.createAndPutInRequest(post.getId(), post.isCommentAllowed(), req);

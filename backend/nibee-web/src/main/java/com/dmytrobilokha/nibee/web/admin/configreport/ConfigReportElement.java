@@ -30,11 +30,13 @@ public class ConfigReportElement implements Comparable<ConfigReportElement> {
     public int compareTo(ConfigReportElement o) {
         int compResult;
         compResult = propertyName.compareTo(o.propertyName);
-        if (compResult != 0)
+        if (compResult != 0) {
             return compResult;
+        }
         compResult = enumName.compareTo(o.enumName);
-        if (compResult != 0)
+        if (compResult != 0) {
             return compResult;
+        }
         return value.compareTo(o.value);
     }
 

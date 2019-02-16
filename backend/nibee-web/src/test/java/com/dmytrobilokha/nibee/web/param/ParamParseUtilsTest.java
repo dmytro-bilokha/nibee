@@ -20,7 +20,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
 @Test(groups = "web.unit")
-public class ParamParserTest {
+public class ParamParseUtilsTest {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern("uu-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
@@ -47,50 +47,50 @@ public class ParamParserTest {
     }
 
     public void returnsEmptyLongWhenNoParam() throws InvalidParamException {
-        Long paramValue = ParamParser.parseLong(mockRequest, "longParam");
+        Long paramValue = ParamParseUtils.parseLong(mockRequest, "longParam");
         assertNull(paramValue);
     }
 
     public void returnsEmptyLongWhenParamIsNull() throws InvalidParamException {
         setRequestParam("longParam", null);
-        Long paramValue = ParamParser.parseLong(mockRequest, "longParam");
+        Long paramValue = ParamParseUtils.parseLong(mockRequest, "longParam");
         assertNull(paramValue);
     }
 
     @Test(expectedExceptions = InvalidParamException.class)
     public void checkThrowsOnInvalidLong() throws InvalidParamException {
         setRequestParam("longParam", "43A");
-        Long paramValue = ParamParser.parseLong(mockRequest, "longParam");
+        Long paramValue = ParamParseUtils.parseLong(mockRequest, "longParam");
     }
 
     public void parsesLong() throws InvalidParamException {
         setRequestParam("longParam", "43");
-        Long paramValue = ParamParser.parseLong(mockRequest, "longParam");
+        Long paramValue = ParamParseUtils.parseLong(mockRequest, "longParam");
         assertNotNull(paramValue);
         assertEquals(Long.valueOf(43L), paramValue);
     }
 
     public void returnsEmptyDateTimeWhenNoParam() throws InvalidParamException {
-        LocalDateTime paramValue = ParamParser.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
+        LocalDateTime paramValue = ParamParseUtils.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
         assertNull(paramValue);
     }
 
     public void returnsEmptyDateTimeWhenParamIsNull() throws InvalidParamException {
         setRequestParam("dateTime", null);
-        LocalDateTime paramValue = ParamParser.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
+        LocalDateTime paramValue = ParamParseUtils.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
         assertNull(paramValue);
     }
 
     @Test(expectedExceptions = InvalidParamException.class)
     public void throwsOnInvalidDateTime() throws InvalidParamException {
         setRequestParam("dateTime", "2012-02-01TXX:23:00.000");
-        LocalDateTime paramValue = ParamParser.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
+        LocalDateTime paramValue = ParamParseUtils.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
     }
 
     public void parsesDateTime() throws InvalidParamException {
         final String dateTimeString = "14-02-12T12:34:09.123";
         setRequestParam("dateTime", dateTimeString);
-        LocalDateTime paramValue = ParamParser.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
+        LocalDateTime paramValue = ParamParseUtils.parseDateTime(mockRequest, "dateTime", DATE_TIME_FORMATTER);
         assertNotNull(paramValue);
         assertEquals(LocalDateTime.of(2014, 02, 12, 12, 34, 9, 123000000), paramValue);
     }

@@ -15,6 +15,8 @@ public class BlogResponseFactory {
 
     private static final Pattern REMOVE_SLASHES_PATTERN = Pattern.compile("(^/+)|(/+$)");
     private static final Pattern CHECK_PATTERN = Pattern.compile("(/{2,})|(\\.{2,})|([^0-9a-zA-Z\\./-])");
+    private static final int POST_ENTRY_REQUEST_LENGTH = 1;
+    private static final int RESOURCE_MIN_REQUEST_LENGTH = 2;
 
     private final ConfigService configService;
     private final PostService postService;
@@ -40,10 +42,11 @@ public class BlogResponseFactory {
             return new WelcomeBlogResponse();
         }
         String postName = postNameResourceArray[0];
-        if (postNameResourceArray.length == 1) {
+        if (postNameResourceArray.length == POST_ENTRY_REQUEST_LENGTH) {
             return new PostEntryBlogResponse(configService, postService, fileService, commentsModelCreator, postName);
         }
-        if (postNameResourceArray.length >= 2 && !postNameResourceArray[1].isEmpty()) {
+        if (postNameResourceArray.length >= RESOURCE_MIN_REQUEST_LENGTH
+                && !postNameResourceArray[1].isEmpty()) {
             String postResource = postNameResourceArray[1];
             return new PostResourceBlogResponse(configService, postService, fileService, postName, postResource);
         }

@@ -19,6 +19,7 @@ import java.util.zip.ZipInputStream;
 @ApplicationScoped
 public class FileService {
 
+    private static final int MINIMUM_FILE_NAME_LENGTH = 3;
     private static final Map<String, String> CONTENT_TYPE_MAP;
 
     static {
@@ -64,7 +65,7 @@ public class FileService {
             return "";
         }
         String fileName = filePath.toString();
-        if (fileName.length() < 3) {
+        if (fileName.length() < MINIMUM_FILE_NAME_LENGTH) {
             return "";
         }
         int lastDotIndex = fileName.lastIndexOf('.');

@@ -5,7 +5,7 @@ import com.dmytrobilokha.nibee.data.Tag;
 import com.dmytrobilokha.nibee.web.HeadlinePostModel;
 import com.dmytrobilokha.nibee.web.InRequestPuttable;
 import com.dmytrobilokha.nibee.web.param.InvalidParamException;
-import com.dmytrobilokha.nibee.web.param.ParamParser;
+import com.dmytrobilokha.nibee.web.param.ParamParseUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -44,15 +44,15 @@ public class BrowsePostsModel implements InRequestPuttable {
     }
 
     static LocalDateTime extractBeforeParam(HttpServletRequest request) throws InvalidParamException {
-        return ParamParser.parseDateTime(request, "before", DATE_TIME_FORMATTER);
+        return ParamParseUtils.parseDateTime(request, "before", DATE_TIME_FORMATTER);
     }
 
     static LocalDateTime extractAfterParam(HttpServletRequest request) throws InvalidParamException {
-        return ParamParser.parseDateTime(request, "after", DATE_TIME_FORMATTER);
+        return ParamParseUtils.parseDateTime(request, "after", DATE_TIME_FORMATTER);
     }
 
     static Long extractTagIdParam(HttpServletRequest request) throws InvalidParamException {
-        return ParamParser.parseLong(request, "tagId");
+        return ParamParseUtils.parseLong(request, "tagId");
     }
 
     private void validate(List<PostWithTags> posts, NavigationType navigationType) {

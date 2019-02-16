@@ -25,36 +25,36 @@ public class StatusMessageSender {
     }
 
     public void sendClientErrorStatus(String message, HttpServletResponse resp) {
-        PrintWriter responseWriter = setResponseToSendClientErrorStatus(resp);
+        PrintWriter responseWriter = setupResponseToSendClientErrorStatus(resp);
         jsonb.toJson(new StatusMessage(StatusMessage.Code.CLIENT_ERROR, Collections.singletonList(message))
                 , responseWriter);
     }
 
     public void sendClientErrorStatus(InvalidClientDataException ex, HttpServletResponse resp) {
-        PrintWriter responseWriter = setResponseToSendClientErrorStatus(resp);
+        PrintWriter responseWriter = setupResponseToSendClientErrorStatus(resp);
         jsonb.toJson(ex.getStatusMessage(), responseWriter);
     }
 
     public void sendServerProblemStatus(String message, HttpServletResponse resp) {
-        PrintWriter responseWriter = setResponseToSendServerProblemStatus(resp);
+        PrintWriter responseWriter = setupResponseToSendServerProblemStatus(resp);
         jsonb.toJson(new StatusMessage(StatusMessage.Code.SERVER_PROBLEM, Collections.singletonList(message))
                 , responseWriter);
     }
 
     public void sendOkStatus(String message, HttpServletResponse resp) {
-        PrintWriter responseWriter = setResponseToSendStatusMessage(HttpServletResponse.SC_OK, resp);
+        PrintWriter responseWriter = setupResponseToSendStatusMessage(HttpServletResponse.SC_OK, resp);
         jsonb.toJson(new StatusMessage(StatusMessage.Code.OK, Collections.singletonList(message)), responseWriter);
     }
 
-    private PrintWriter setResponseToSendClientErrorStatus(HttpServletResponse resp) {
-        return setResponseToSendStatusMessage(HttpServletResponse.SC_BAD_REQUEST, resp);
+    private PrintWriter setupResponseToSendClientErrorStatus(HttpServletResponse resp) {
+        return setupResponseToSendStatusMessage(HttpServletResponse.SC_BAD_REQUEST, resp);
     }
 
-    private PrintWriter setResponseToSendServerProblemStatus(HttpServletResponse resp) {
-        return setResponseToSendStatusMessage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, resp);
+    private PrintWriter setupResponseToSendServerProblemStatus(HttpServletResponse resp) {
+        return setupResponseToSendStatusMessage(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, resp);
     }
 
-    private PrintWriter setResponseToSendStatusMessage(int httpStatus, HttpServletResponse resp) {
+    private PrintWriter setupResponseToSendStatusMessage(int httpStatus, HttpServletResponse resp) {
         resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
         resp.setContentType(MediaType.APPLICATION_JSON);
         resp.setStatus(httpStatus);
@@ -62,7 +62,7 @@ public class StatusMessageSender {
             return resp.getWriter();
         } catch (IOException ex) {
             throw new IllegalStateException("Failed to get PrintWriter from HttpServletResponse"
-                    + " to send client error status message");
+                    + " to send client error status message", ex);
         }
     }
 

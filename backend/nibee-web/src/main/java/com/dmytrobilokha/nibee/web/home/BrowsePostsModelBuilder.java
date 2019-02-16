@@ -43,10 +43,10 @@ class BrowsePostsModelBuilder {
             before = THE_END_OF_TIME;
         }
         MainModelData modelSeed;
-        if (before != null) {
-            modelSeed = fetchMainModelDataForBeforeCase(before, tagId);
-        } else {
+        if (before == null) {
             modelSeed = fetchMainModelDataForAfterCase(after, tagId);
+        } else {
+            modelSeed = fetchMainModelDataForBeforeCase(before, tagId);
         }
         if (modelSeed.posts.isEmpty()) {
             return null;
@@ -62,16 +62,17 @@ class BrowsePostsModelBuilder {
     private MainModelData fetchMainModelDataForBeforeCase(LocalDateTime beforeParam, Long tagIdParam) {
         List<PostWithTags> posts;
         NavigationType navigationType;
-        if (tagIdParam != null) {
-            posts = postService.findPostBeforeFilteredByTag(beforeParam, tagIdParam, headlinersPerPage + 1);
-        } else {
+        if (tagIdParam == null) {
             posts = postService.findPostBefore(beforeParam, headlinersPerPage + 1);
+        } else {
+            posts = postService.findPostBeforeFilteredByTag(beforeParam, tagIdParam, headlinersPerPage + 1);
         }
         if (posts.size() > headlinersPerPage) {
-            navigationType = beforeParam == THE_END_OF_TIME ? NavigationType.FORWARD : NavigationType.BACK_AND_FORWARD;
+            navigationType = THE_END_OF_TIME.equals(beforeParam)
+                    ? NavigationType.FORWARD : NavigationType.BACK_AND_FORWARD;
             posts = posts.subList(0, headlinersPerPage);
         } else {
-            navigationType = beforeParam == THE_END_OF_TIME ? NavigationType.NO : NavigationType.BACK;
+            navigationType = THE_END_OF_TIME.equals(beforeParam) ? NavigationType.NO : NavigationType.BACK;
         }
         return new MainModelData(posts, navigationType);
     }
@@ -79,10 +80,10 @@ class BrowsePostsModelBuilder {
     private MainModelData fetchMainModelDataForAfterCase(LocalDateTime afterParam, Long tagIdParam) {
         List<PostWithTags> posts;
         NavigationType navigationType;
-        if (tagIdParam != null) {
-            posts = postService.findPostAfterFilteredByTag(afterParam, tagIdParam, headlinersPerPage + 1);
-        } else {
+        if (tagIdParam == null) {
             posts = postService.findPostAfter(afterParam, headlinersPerPage + 1);
+        } else {
+            posts = postService.findPostAfterFilteredByTag(afterParam, tagIdParam, headlinersPerPage + 1);
         }
         if (posts.size() > headlinersPerPage) {
             navigationType = NavigationType.BACK_AND_FORWARD;

@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class ParamParser {
+public final class ParamParseUtils {
 
-    private ParamParser() {
+    private ParamParseUtils() {
         //Not going to instantiate the class
     }
 
@@ -19,7 +19,7 @@ public class ParamParser {
         try {
             return Long.valueOf(longValueString, 10);
         } catch (NumberFormatException ex) {
-            throw new InvalidParamException(paramName, longValueString, "Should be an integer number.");
+            throw new InvalidParamException(paramName, longValueString, "Should be an integer number.", ex);
         }
     }
 
@@ -33,7 +33,7 @@ public class ParamParser {
             return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException ex) {
             throw new InvalidParamException(paramName, dateTimeString
-                    , "Should be a date time in the format: " + formatter.toString());
+                    , "Should be a date time in the format: " + formatter.toString(), ex);
         }
 
     }
